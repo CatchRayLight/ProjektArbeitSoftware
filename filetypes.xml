@@ -5,6 +5,7 @@
       <mapping pattern="images" type="AUTO_DETECTED" />
       <mapping pattern="idkmen3" type="CLASS" />
       <mapping pattern="idkemn2" type="JAVA" />
+      <mapping ext="space.kts" type="Kotlin" />
       <mapping ext="gradle.kts" type="Kotlin" />
       <mapping ext="main.kts" type="Kotlin" />
       <mapping ext="lnk" type="PLAIN_TEXT" />
