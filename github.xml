@@ -1,0 +1,7 @@
+<application>
+  <component name="GithubAccounts">
+    <account id="2be08b9c-a911-4042-9b5f-9d6a52f29fb9" name="CatchRayLight">
+      <server host="github.com" />
+    </account>
+  </component>
+</application>
