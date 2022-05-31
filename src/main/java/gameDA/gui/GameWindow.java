@@ -1,4 +1,4 @@
-package GUI;
+package gameDA.gui;
 
 
 import javax.swing.*;

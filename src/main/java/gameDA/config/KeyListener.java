@@ -1,6 +1,6 @@
-package config;
+package gameDA.config;
 
-import Object.*;
+import gameDA.objects.*;
 
 import java.awt.event.*;
 

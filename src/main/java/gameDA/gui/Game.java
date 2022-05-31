@@ -1,10 +1,9 @@
-package GUI;
+package gameDA.gui;
 
 
-import Object.*;
-import Object.Objects.SpaceShip;
-import config.KeyListener;
-
+import gameDA.objects.*;
+import gameDA.objects.model.SpaceShip;
+import gameDA.config.KeyListener;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;

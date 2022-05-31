@@ -1,8 +1,10 @@
-package Object.Objects;
+package gameDA.objects.model;
 
-import Object.GameObject;
-import Object.ObjectHandler;
-import Object.ObjectID;
+
+import gameDA.objects.GameObject;
+import gameDA.objects.ObjectHandler;
+import gameDA.objects.ObjectID;
+
 
 import java.awt.*;
 

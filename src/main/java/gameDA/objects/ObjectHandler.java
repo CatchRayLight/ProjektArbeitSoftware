@@ -1,4 +1,4 @@
-package Object;
+package gameDA.objects;
 
 import java.awt.*;
 import java.util.LinkedList;
