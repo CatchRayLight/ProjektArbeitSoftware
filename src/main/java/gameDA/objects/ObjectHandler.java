@@ -4,6 +4,7 @@ import java.awt.*;
 import java.util.LinkedList;
 
 public class ObjectHandler {
+
     public LinkedList<GameObject> gameObjects = new LinkedList<GameObject>();
     private boolean up = false, down = false, right = false, left = false;
 

@@ -1,6 +1,5 @@
 package gameDA.objects;
 
-import gameDA.objects.ObjectID;
 import java.awt.*;
 
 public abstract class GameObject {

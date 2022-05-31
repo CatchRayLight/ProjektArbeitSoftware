@@ -20,6 +20,7 @@ public class SpaceShip extends GameObject {
         x += velocityX;
         y += velocityY;
 
+        //player movement
         if(objectHandler.isUp()) velocityY = -5;
         else if(!objectHandler.isDown()) velocityY = 0;
 

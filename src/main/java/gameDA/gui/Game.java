@@ -10,11 +10,13 @@ import java.awt.image.BufferStrategy;
 
 public class Game extends Canvas implements Runnable {
 
-    private final int SCREEN_WIDTH  = 1224;
-    private final int SCREEN_HEIGHT = 924;
+    private final int SCREEN_WIDTH  = 1216;
+    private final int SCREEN_HEIGHT = 928;
     private boolean isRunning = false;
     private Thread thread;
-    private ObjectHandler objectHandler;
+    private final ObjectHandler objectHandler;
+    private int tick = 0;
+    private int frame = 0;
 
 
     public Game(){
@@ -22,9 +24,9 @@ public class Game extends Canvas implements Runnable {
         start();
 
         objectHandler = new ObjectHandler();
-        //new objects
         this.addKeyListener(new KeyListener(objectHandler));
-        objectHandler.addObj(new SpaceShip(100,100,ObjectID.Player,objectHandler));
+        //Add new obj
+        objectHandler.addObj(new SpaceShip(100,100,ObjectID.PLAYER,objectHandler));
     }
 
     private void stop() throws InterruptedException {
@@ -76,8 +78,8 @@ public class Game extends Canvas implements Runnable {
 
             if (System.currentTimeMillis() - lastTimer >= 1000) {
                 lastTimer += 1000;
-                System.out.println(ticks + " ticks, " + frames + " frames");
-                System.out.println(objectHandler.gameObjects.get(0).getVelocityX());
+                tick = ticks;
+                frame = frames;
                 frames = 0;
                 ticks = 0;
             }
@@ -99,12 +101,17 @@ public class Game extends Canvas implements Runnable {
         }
         Graphics g =  bufferStrategy.getDrawGraphics();
         //----------Ab hier wird auf den Canvas gezeichet
-        //background
+        //background & FPS, Tickrate
         g.setColor(Color.white);
         g.fillRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
+
         //objects
         objectHandler.render(g);
         //----------bis hier
+        g.setColor(Color.black);
+        g.setFont(new Font("Courier New", Font.BOLD, 10));
+        g.drawString("Frames: " + frame,10,20);
+        g.drawString("Ticks: " + tick,10,10);
         g.dispose();
         bufferStrategy.show();
 

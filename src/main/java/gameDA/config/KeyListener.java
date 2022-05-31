@@ -6,7 +6,7 @@ import java.awt.event.*;
 
 public class KeyListener extends KeyAdapter {
 
-    private ObjectHandler objectHandler;
+    private final ObjectHandler objectHandler;
 
     public KeyListener(ObjectHandler objectHandler){
         this.objectHandler = objectHandler;
@@ -21,7 +21,7 @@ public class KeyListener extends KeyAdapter {
         for (int i = 0; i < objectHandler.gameObjects.size(); i++) {
             GameObject tempObj = objectHandler.gameObjects.get(i);
 
-            if (tempObj.getId() == ObjectID.Player) {
+            if (tempObj.getId() == ObjectID.PLAYER) {
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_LEFT:
                         objectHandler.setLeft(true);
@@ -43,7 +43,7 @@ public class KeyListener extends KeyAdapter {
     public void keyReleased(KeyEvent e) {
         for (int i = 0; i < objectHandler.gameObjects.size(); i++) {
             GameObject tempObj = objectHandler.gameObjects.get(i);
-            if (tempObj.getId() == ObjectID.Player) {
+            if (tempObj.getId() == ObjectID.PLAYER) {
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_LEFT:
                         objectHandler.setLeft(false);
