@@ -1,7 +1,7 @@
 package gameDA.gui;
 
 
-import gameDA.config.output.BufferedImageLoad;
+import gameDA.config.output.BufferedImageLoader;
 import gameDA.config.output.Camera;
 import gameDA.objects.*;
 import gameDA.objects.model.Block;
@@ -32,10 +32,12 @@ public class Game extends Canvas implements Runnable {
         camera = new Camera(0, 0);
         this.addKeyListener(new KeyListener(objectHandler));
         //
-        BufferedImageLoad loader = new BufferedImageLoad();
+        BufferedImageLoader loader = new BufferedImageLoader();
         testLvL = loader.loadImage("/TestLVL.png");
         //aufräumen
+
         loadLevel(testLvL);
+
         //Add new obj
 
     }
@@ -148,10 +150,13 @@ public class Game extends Canvas implements Runnable {
                 int blue  = (pixel) & 0xff;
 
                 if(red == 255){
-                    objectHandler.addObj(new Block(xAxis *32, yAxis * 32, ObjectID.BLOCK));
+                    objectHandler.addObj(new Block(xAxis *32, yAxis*32 , ObjectID.BLOCK));
                 }
                 if(blue == 255){
-                    objectHandler.addObj(new Player(xAxis * 32, yAxis * 32, ObjectID.PLAYER,objectHandler));
+                    objectHandler.addObj(new Player(xAxis *32, yAxis *32 , ObjectID.PLAYER,objectHandler));
+                }
+                if(green == 255){
+
                 }
             }
         }

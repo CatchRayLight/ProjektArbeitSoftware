@@ -26,6 +26,6 @@ public class Block extends GameObject {
 
     @Override
     public Rectangle getBounds() {
-        return new Rectangle(y,x,32,32);
+        return new Rectangle(x,y,32,32);
     }
 }
