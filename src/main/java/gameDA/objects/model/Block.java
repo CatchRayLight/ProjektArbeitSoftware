@@ -14,7 +14,7 @@ public class Block extends GameObject {
     }
 
     @Override
-    public void tick() {
+    public void update() {
 
     }
 

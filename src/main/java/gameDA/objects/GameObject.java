@@ -52,7 +52,7 @@ public abstract class GameObject {
         this.id = id;
     }
 
-    public abstract void tick();
+    public abstract void update();
     public abstract void render(Graphics g);
     public abstract Rectangle getBounds();
 

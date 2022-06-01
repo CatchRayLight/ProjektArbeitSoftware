@@ -8,10 +8,10 @@ public class ObjectHandler {
     public LinkedList<GameObject> gameObjects = new LinkedList<GameObject>();
     private boolean up = false, down = false, right = false, left = false;
 
-    public void tick(){
+    public void update(){
         for(int i = 0; i < gameObjects.size(); i++){
             GameObject tempObj = gameObjects.get(i);
-            tempObj.tick();
+            tempObj.update();
         }
     }
     public void render(Graphics g){
