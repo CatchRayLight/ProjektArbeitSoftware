@@ -1,9 +1,7 @@
 package gameDA.config.output;
 
-import gameDA.gui.Game;
 import gameDA.objects.GameObject;
 
-import javax.naming.Reference;
 
 public class Camera {
     private float x,y;

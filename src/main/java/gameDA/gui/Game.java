@@ -27,7 +27,6 @@ public class Game extends Canvas implements Runnable {
     public Game() {
         new GameWindow(SCREEN_HEIGHT, SCREEN_WIDTH, "Space Plugg", this);
         start();
-
         objectHandler = new ObjectHandler();
         camera = new Camera(0, 0);
         this.addKeyListener(new KeyListener(objectHandler));
@@ -57,19 +56,14 @@ public class Game extends Canvas implements Runnable {
 
     @Override
     public void run() {
-        /*
-        lastime: Time since the last iteration of the loop. Helps compute delta.
-
-        AmountOfTicks: The max FPS for the game.
-
-        ns: The number of nanoseconds per frame.
-
-        delta: The 'progress' that must be elapsed until the next frame.
-
-        frames: The number of frames elapsed since the last time we displayed the FPS.
-
-        time: The current time. Used to know when to display next the FPS.
-         */
+        /**
+         * lastime: Time since the last iteration of the loop. Helps compute delta.
+         * AmountOfTicks: The max FPS for the game.
+         * ns: The number of nanoseconds per frame.
+         * delta: The 'progress' that must be elapsed until the next frame.
+         * frames: The number of frames elapsed since the last time we displayed the FPS.
+         * time: The current time. Used to know when to display next the FPS.
+         **/
         long lastime = System.nanoTime();
         double amountOfTicks = 60;
         double ns = 1000000000 / amountOfTicks;
@@ -120,17 +114,21 @@ public class Game extends Canvas implements Runnable {
         }
         Graphics g =  bufferStrategy.getDrawGraphics();
         //----------Ab hier wird auf den Canvas gezeichet
-        //background & FPS, Tickrate
+        //background
         g.setColor(Color.white);
         g.fillRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
+
+        //camera follow
         Graphics2D graphics2D = (Graphics2D) g;
-        //
         graphics2D.translate(-camera.getX(),-camera.getY());
         //objects
         objectHandler.render(g);
         //----------bis hier
         graphics2D.translate(camera.getX(),camera.getY());
-        //
+        //camera follow
+
+
+        // FPS
         g.setColor(Color.black);
         g.setFont(new Font("Courier New", Font.BOLD, 10));
         g.drawString("Frames: " + frame,10,10);

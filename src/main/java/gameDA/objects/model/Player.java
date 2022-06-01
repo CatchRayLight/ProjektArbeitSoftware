@@ -48,7 +48,8 @@ public class Player extends GameObject {
     public Rectangle getBounds() {
         return new Rectangle(x,y,32,32);
     }
-    private void collision(){
+    @Override
+    public void collision(){
         for (int i = 0; i < objectHandler.gameObjects.size(); i++) {
             GameObject tempObj = objectHandler.gameObjects.get(i);
             if(tempObj.getId() == ObjectID.BLOCK){

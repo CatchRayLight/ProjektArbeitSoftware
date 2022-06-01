@@ -5,9 +5,6 @@ import gameDA.objects.ObjectID;
 
 import java.awt.*;
 
-/**
- * @author Atilla Ipek
- */
 public class Block extends GameObject {
     public Block(int x, int y, ObjectID id) {
         super(x, y, id);
@@ -27,5 +24,10 @@ public class Block extends GameObject {
     @Override
     public Rectangle getBounds() {
         return new Rectangle(x,y,32,32);
+    }
+
+    @Override
+    public void collision() {
+
     }
 }
