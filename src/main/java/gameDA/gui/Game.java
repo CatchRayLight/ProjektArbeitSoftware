@@ -51,11 +51,26 @@ public class Game extends Canvas implements Runnable {
         thread.start();
     }
 
+    //game-Loop
+
     @Override
     public void run() {
+        /*
+        lastime: Time since the last iteration of the loop. Helps compute delta.
+
+        AmountOfTicks: The max FPS for the game.
+
+        ns: The number of nanoseconds per frame.
+
+        delta: The 'progress' that must be elapsed until the next frame.
+
+        frames: The number of frames elapsed since the last time we displayed the FPS.
+
+        time: The current time. Used to know when to display next the FPS.
+         */
         long lastime = System.nanoTime();
-        double AmountOfTicks = 60;
-        double ns = 1000000000 / AmountOfTicks;
+        double amountOfTicks = 60;
+        double ns = 1000000000 / amountOfTicks;
         double delta = 0;
         int frames = 0;
         double time = System.currentTimeMillis();
@@ -120,7 +135,8 @@ public class Game extends Canvas implements Runnable {
         bufferStrategy.show();
 
     }
-    //aufräumen
+    //irgendwie mal aufräumen
+    // level loader
     private void loadLevel(BufferedImage image){
         int width = image.getWidth();
         int height = image.getHeight();
