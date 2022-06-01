@@ -8,9 +8,9 @@ import gameDA.objects.ObjectID;
 
 import java.awt.*;
 
-public class SpaceShip extends GameObject {
+public class Player extends GameObject {
     ObjectHandler objectHandler;
-    public SpaceShip(int x, int y, ObjectID id, ObjectHandler objectHandler) {
+    public Player(int x, int y, ObjectID id, ObjectHandler objectHandler) {
         super(x, y, id);
         this.objectHandler = objectHandler;
     }

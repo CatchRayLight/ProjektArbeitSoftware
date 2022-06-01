@@ -1,4 +1,4 @@
-package gameDA.config;
+package gameDA.config.input;
 
 import gameDA.objects.*;
 

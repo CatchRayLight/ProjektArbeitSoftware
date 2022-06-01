@@ -1,32 +1,43 @@
 package gameDA.gui;
 
 
+import gameDA.config.output.BufferedImageLoad;
+import gameDA.config.output.Camera;
 import gameDA.objects.*;
-import gameDA.objects.model.SpaceShip;
-import gameDA.config.KeyListener;
+import gameDA.objects.model.Block;
+import gameDA.objects.model.Player;
+import gameDA.config.input.KeyListener;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
 
 public class Game extends Canvas implements Runnable {
 
-    private final int SCREEN_WIDTH  = 1216;
+    private final int SCREEN_WIDTH = 1216;
     private final int SCREEN_HEIGHT = 928;
     private boolean isRunning = false;
     private Thread thread;
     private final ObjectHandler objectHandler;
-    private int tick = 0;
     private int frame = 0;
+    private BufferedImage testLvL = null;
+    private Camera camera;
 
 
-    public Game(){
-        new GameWindow(SCREEN_HEIGHT,SCREEN_WIDTH,"Space Plugg",this);
+    public Game() {
+        new GameWindow(SCREEN_HEIGHT, SCREEN_WIDTH, "Space Plugg", this);
         start();
 
         objectHandler = new ObjectHandler();
+        camera = new Camera(0, 0);
         this.addKeyListener(new KeyListener(objectHandler));
+        //
+        BufferedImageLoad loader = new BufferedImageLoad();
+        testLvL = loader.loadImage("/TestLVL.png");
+        //aufräumen
+        loadLevel(testLvL);
         //Add new obj
-        objectHandler.addObj(new SpaceShip(100,100,ObjectID.PLAYER,objectHandler));
+
     }
 
     private void stop() throws InterruptedException {
@@ -34,7 +45,7 @@ public class Game extends Canvas implements Runnable {
         thread.join();
     }
 
-    private void start(){
+    private void start() {
         isRunning = true;
         thread = new Thread(this);
         thread.start();
@@ -42,51 +53,40 @@ public class Game extends Canvas implements Runnable {
 
     @Override
     public void run() {
-        long lastTime = System.nanoTime();
-        //auf 64ticks beschränken
-        double nsPerTick = 1000000000D / 64;
-        //die Ticks & Frames initialisieren
-        int ticks = 0;
-        int frames = 0;
-
-        long lastTimer = System.currentTimeMillis();
+        long lastime = System.nanoTime();
+        double AmountOfTicks = 60;
+        double ns = 1000000000 / AmountOfTicks;
         double delta = 0;
+        int frames = 0;
+        double time = System.currentTimeMillis();
 
-        while (isRunning) {
+        while(isRunning) {
             long now = System.nanoTime();
-            delta += (now - lastTime) / nsPerTick;
-            lastTime = now;
-            boolean shouldRender = true;
+            delta += (now - lastime) / ns;
+            lastime = now;
 
-            while (delta >= 1) {
-                ticks++;
+            if(delta >= 1) {
                 tick();
-                delta -= 1;
-                shouldRender = true;
-            }
-
-            try {
-                Thread.sleep(2);
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
-            }
-
-            if (shouldRender) {
-                frames++;
                 render();
-            }
-
-            if (System.currentTimeMillis() - lastTimer >= 1000) {
-                lastTimer += 1000;
-                tick = ticks;
-                frame = frames;
-                frames = 0;
-                ticks = 0;
+                frames++;
+                delta--;
+                if(System.currentTimeMillis() - time >= 1000) {
+                    frame = frames;
+                    System.out.println("fps:" + frames);
+                    time += 1000;
+                    frames = 0;
+                }
             }
         }
     }
 
+
     public void tick() {
+        for (int i = 0; i < objectHandler.gameObjects.size(); i++) {
+            if(objectHandler.gameObjects.get(i).getId() == ObjectID.PLAYER){
+                camera.tick(objectHandler.gameObjects.get(i));
+            }
+        }
         objectHandler.tick();
     }
 
@@ -104,18 +104,43 @@ public class Game extends Canvas implements Runnable {
         //background & FPS, Tickrate
         g.setColor(Color.white);
         g.fillRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
-
+        Graphics2D graphics2D = (Graphics2D) g;
+        //
+        graphics2D.translate(-camera.getX(),-camera.getY());
         //objects
         objectHandler.render(g);
         //----------bis hier
+        graphics2D.translate(camera.getX(),camera.getY());
+        //
         g.setColor(Color.black);
         g.setFont(new Font("Courier New", Font.BOLD, 10));
-        g.drawString("Frames: " + frame,10,20);
-        g.drawString("Ticks: " + tick,10,10);
+        g.drawString("Frames: " + frame,10,10);
+
         g.dispose();
         bufferStrategy.show();
 
     }
+    //aufräumen
+    private void loadLevel(BufferedImage image){
+        int width = image.getWidth();
+        int height = image.getHeight();
+        for (int xAxis = 0; xAxis < width ; xAxis++) {
+            for (int yAxis = 0; yAxis < height; yAxis++) {
+                int pixel = image.getRGB(xAxis,yAxis);
+                int red   = (pixel >> 16) & 0xff;
+                int green = (pixel >> 8) & 0xff;
+                int blue  = (pixel) & 0xff;
+
+                if(red == 255){
+                    objectHandler.addObj(new Block(xAxis *32, yAxis * 32, ObjectID.BLOCK));
+                }
+                if(blue == 255){
+                    objectHandler.addObj(new Player(xAxis * 32, yAxis * 32, ObjectID.PLAYER,objectHandler));
+                }
+            }
+        }
+    }
+
 
 
 
