@@ -74,7 +74,12 @@ public class Game extends Canvas implements Runnable {
         gamestate = Gamestate.INMENU;
         MenuOption[] menuOptions = {new MenuOption(() -> {
             updateGamestate(Gamestate.INGAME);
-        })};
+        }, "Play", 100, 100), new MenuOption(() -> {
+            updateGamestate(Gamestate.INGAME);
+        }, "Options",250,100), new MenuOption(() -> {
+            updateGamestate(Gamestate.INGAME);
+        }, "Exit",400,100)
+        };
         menuHandler = new MenuHandler(new StartMenu(menuOptions));
         isRunning = true;
         thread = new Thread(this);

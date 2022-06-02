@@ -10,10 +10,13 @@ public class StartMenu extends Menu {
 
     @Override
     public void render(Graphics g) {
-        //test
-        g.setColor(Color.red);
-        g.drawString("Play",100,100);
-        g.drawRect(100,100,200,200);
+        for(int i = 0; i < getMenuOptions().length; i++) {
+            MenuOption op = getMenuOptions()[i];
+            if(i == getCurrentOption()){
+                op.setSelected(true);
+            } else op.setSelected(false);
+            op.render(g);
+        }
     }
 
 

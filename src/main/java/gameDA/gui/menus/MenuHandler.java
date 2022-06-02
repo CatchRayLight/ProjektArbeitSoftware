@@ -8,6 +8,7 @@ public class MenuHandler {
 
     private Menu currentMenu;
     private boolean up = false, down = false, enter = false;
+    private int renderCooldown = 0;
 
     public MenuHandler(Menu startMenu) {
         this.currentMenu = startMenu;
