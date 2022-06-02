@@ -79,7 +79,7 @@ public class Game extends Canvas implements Runnable {
             lastime = now;
 
             if (delta >= 1) {
-                tick();
+                update();
                 render();
                 frames++;
                 delta--;
@@ -94,16 +94,16 @@ public class Game extends Canvas implements Runnable {
     }
 
 
-    public void tick() {
+    public void update() {
         if (gamestate.equals(Gamestate.INGAME)) {
             for (int i = 0; i < objectHandler.gameObjects.size(); i++) {
                 if (objectHandler.gameObjects.get(i).getId() == ObjectID.PLAYER) {
-                    camera.tick(objectHandler.gameObjects.get(i));
+                    camera.update(objectHandler.gameObjects.get(i));
                 }
             }
-            objectHandler.tick();
+            objectHandler.update();
         }
-        objectHandler.tick();
+        objectHandler.update();
     }
 
     public void render() {
