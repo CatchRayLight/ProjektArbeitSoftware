@@ -3,6 +3,7 @@ package gameDA;
 
 import gameDA.config.output.BufferedImageLoader;
 import gameDA.config.output.Camera;
+import gameDA.config.output.SpriteSheet;
 import gameDA.gui.GameWindow;
 import gameDA.gui.Gamestate;
 import gameDA.gui.menus.MenuHandler;
@@ -17,6 +18,7 @@ import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 
+
 public class Game extends Canvas implements Runnable {
 
     private final int SCREEN_WIDTH = 1216;
@@ -26,10 +28,14 @@ public class Game extends Canvas implements Runnable {
     private final ObjectHandler objectHandler;
     private int frame = 0;
     private BufferedImage testLvL = null;
+    private BufferedImage spriteSheet = null;
+    private BufferedImage background = null;
     private Camera camera;
     private Gamestate gamestate;
     private MenuHandler menuHandler;
     private KeyListener keyListener;
+    private SpriteSheet spriteS;
+
 
 
     public Game() {
@@ -42,9 +48,14 @@ public class Game extends Canvas implements Runnable {
 
         BufferedImageLoader loader = new BufferedImageLoader();
         testLvL = loader.loadImage("/TestLVL.png");
+        spriteSheet = loader.loadImage("/SpriteSheet.png");
+        spriteS = new SpriteSheet(spriteSheet);
+        background = spriteS.getImage(5,1,32,32);
+
+
+
 
         loadLevel(testLvL);
-
         //Add new obj
 
     }
@@ -140,18 +151,25 @@ public class Game extends Canvas implements Runnable {
             return;
         }
         Graphics g = bufferStrategy.getDrawGraphics();
-
         //----------Ab hier wird auf den Canvas gezeichet
         //background
+
         g.setColor(Color.white);
         g.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         //
         //ab hier werden die Objecte, Player, Walls etc auf den canvas gerendert
         Graphics2D graphics2D = (Graphics2D) g;
         graphics2D.translate(-camera.getX(), -camera.getY());
+
         //only render ingame == true
         if(gamestate.equals(Gamestate.INGAME)) {
             //objects
+            for (int i = 0; i < SCREEN_WIDTH*3; i+=32) {
+                for (int j = 0; j < SCREEN_HEIGHT * 3; j += 32) {
+                    g.drawImage(background, i, j, null);
+
+                }
+            }
             objectHandler.render(g);
             //----------bis hier
         }
@@ -183,10 +201,10 @@ public class Game extends Canvas implements Runnable {
                 int blue = (pixel) & 0xff;
 
                 if (red == 255) {
-                    objectHandler.addObj(new Block(xAxis * 32, yAxis * 32, ObjectID.BLOCK));
+                    objectHandler.addObj(new Block(xAxis * 32, yAxis * 32, ObjectID.BLOCK,spriteS));
                 }
                 if (blue == 255) {
-                    objectHandler.addObj(new Player(xAxis * 32, yAxis * 32, ObjectID.PLAYER, objectHandler));
+                    objectHandler.addObj(new Player(xAxis * 32, yAxis * 32, ObjectID.PLAYER, spriteS, objectHandler));
                 }
                 if(green == 255){
 

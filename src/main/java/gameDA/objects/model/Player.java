@@ -1,18 +1,33 @@
 package gameDA.objects.model;
 
 
+import gameDA.config.output.SpriteSheet;
 import gameDA.objects.GameObject;
 import gameDA.objects.ObjectHandler;
 import gameDA.objects.ObjectID;
+import gameDA.objects.Physics;
 
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class Player extends GameObject {
     ObjectHandler objectHandler;
-    public Player(int x, int y, ObjectID id, ObjectHandler objectHandler) {
-        super(x, y, id);
+    Physics physics = new Physics();
+    private BufferedImage playerSpriteR;
+    private BufferedImage playerSpriteL;
+    private BufferedImage playerSpriteU;
+    private BufferedImage playerSpriteD;
+
+
+    public Player(int x, int y, ObjectID id, SpriteSheet spriteSheet, ObjectHandler objectHandler) {
+        super(x, y, id,spriteSheet);
         this.objectHandler = objectHandler;
+        //78
+        playerSpriteR = spriteSheet.getImage(7,8,32,32);
+        playerSpriteL = spriteSheet.getImage(8,8,32,32);
+        playerSpriteU = spriteSheet.getImage(7,7,32,32);
+        playerSpriteD = spriteSheet.getImage(8,7,32,32);
     }
 
     @Override
@@ -20,44 +35,35 @@ public class Player extends GameObject {
         x += velocityX;
         y += velocityY;
 
-        collision();
-        //player movement
-        if(objectHandler.isUp()) velocityY = -5;
-        else if(!objectHandler.isDown()) velocityY = 0;
 
-        if(objectHandler.isDown()) velocityY = 5;
-        else if(!objectHandler.isUp()) velocityY = 0;
-
-        if(objectHandler.isLeft()) velocityX = -5;
-        else if(!objectHandler.isRight()) velocityX = 0;
-
-        if(objectHandler.isRight()) velocityX = 5;
-        else if(!objectHandler.isLeft()) velocityX = 0;
-
+        if(physics.collision(objectHandler,getBounds())){
+            x += velocityX * -1;
+            y += velocityY * -1;
+        }
+        velocityY = physics.playerMovementY(objectHandler,velocityY);
+        velocityX = physics.playerMovementX(objectHandler,velocityX);
     }
 
 
     @Override
     public void render(Graphics g) {
-        g.setColor(Color.cyan);
-        g.fillRect(x,y,32,32);
+
+        if(objectHandler.isLeft()){
+            g.drawImage(playerSpriteL,x,y,null);
+        }else if(objectHandler.isRight()){
+            g.drawImage(playerSpriteR,x,y,null);
+        }else if(objectHandler.isUp()){
+            g.drawImage(playerSpriteU,x,y,null);
+        }else{
+            g.drawImage(playerSpriteD,x,y,null);
+        }
+
 
     }
 
     @Override
     public Rectangle getBounds() {
-        return new Rectangle(x,y,32,32);
-    }
-    @Override
-    public void collision(){
-        for (int i = 0; i < objectHandler.gameObjects.size(); i++) {
-            GameObject tempObj = objectHandler.gameObjects.get(i);
-            if(tempObj.getId() == ObjectID.BLOCK){
-                if(getBounds().intersects(tempObj.getBounds())){
-                    x += velocityX * -1;
-                    y += velocityY * -1;
-                }
-            }
-        }
+        return new Rectangle(x+8,y+8,16,16);
     }
 }
+

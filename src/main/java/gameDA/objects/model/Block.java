@@ -1,13 +1,17 @@
 package gameDA.objects.model;
 
+import gameDA.config.output.SpriteSheet;
 import gameDA.objects.GameObject;
 import gameDA.objects.ObjectID;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class Block extends GameObject {
-    public Block(int x, int y, ObjectID id) {
-        super(x, y, id);
+    private BufferedImage sprite;
+    public Block(int x, int y, ObjectID id, SpriteSheet spriteSheet) {
+        super(x, y, id,spriteSheet);
+        sprite = spriteSheet.getImage(1,1,32,32);
     }
 
     @Override
@@ -17,8 +21,7 @@ public class Block extends GameObject {
 
     @Override
     public void render(Graphics g) {
-        g.setColor(Color.red);
-        g.fillRect(x,y,32,32);
+        g.drawImage(sprite,x,y,null);
     }
 
     @Override
@@ -26,8 +29,4 @@ public class Block extends GameObject {
         return new Rectangle(x,y,32,32);
     }
 
-    @Override
-    public void collision() {
-
-    }
 }

@@ -1,16 +1,20 @@
 package gameDA.objects;
 
+import gameDA.config.output.SpriteSheet;
+
 import java.awt.*;
 
 public abstract class GameObject {
     protected int x,y;
     protected float velocityX = 0,velocityY = 0;
     protected ObjectID id;
+    protected SpriteSheet spriteSheet;
 
-    public GameObject(int x, int y, ObjectID id){
+    public GameObject(int x, int y, ObjectID id, SpriteSheet spriteSheet){
         this.x = x;
         this.y = y;
         this.id = id;
+        this.spriteSheet = spriteSheet;
     }
     public int getX() {
         return x;
@@ -55,6 +59,5 @@ public abstract class GameObject {
     public abstract void update();
     public abstract void render(Graphics g);
     public abstract Rectangle getBounds();
-    public abstract void collision();
 
 }

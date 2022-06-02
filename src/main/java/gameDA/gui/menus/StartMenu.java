@@ -12,6 +12,7 @@ public class StartMenu extends Menu {
     public void render(Graphics g) {
         //test
         g.setColor(Color.red);
+        g.drawString("Play",100,100);
         g.drawRect(100,100,200,200);
     }
 
