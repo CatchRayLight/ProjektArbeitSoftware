@@ -1,6 +1,7 @@
 package gameDA;
 
 import gameDA.gui.Game;
+import gameDA.gui.menus.MenuOption;
 
 /**
  * @author Atilla Ipek & David Damm

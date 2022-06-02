@@ -22,10 +22,12 @@ public class Game extends Canvas implements Runnable {
     private int frame = 0;
     private BufferedImage testLvL = null;
     private Camera camera;
+    private Gamestate gamestate;
 
 
     public Game() {
         new GameWindow(SCREEN_HEIGHT, SCREEN_WIDTH, "Space Plugg", this);
+        gamestate = Gamestate.INMENU;
         start();
 
         objectHandler = new ObjectHandler();
@@ -75,17 +77,17 @@ public class Game extends Canvas implements Runnable {
         int frames = 0;
         double time = System.currentTimeMillis();
 
-        while(isRunning) {
+        while (isRunning) {
             long now = System.nanoTime();
             delta += (now - lastime) / ns;
             lastime = now;
 
-            if(delta >= 1) {
+            if (delta >= 1) {
                 tick();
                 render();
                 frames++;
                 delta--;
-                if(System.currentTimeMillis() - time >= 1000) {
+                if (System.currentTimeMillis() - time >= 1000) {
                     frame = frames;
                     System.out.println("fps:" + frames);
                     time += 1000;
@@ -97,12 +99,14 @@ public class Game extends Canvas implements Runnable {
 
 
     public void tick() {
-        for (int i = 0; i < objectHandler.gameObjects.size(); i++) {
-            if(objectHandler.gameObjects.get(i).getId() == ObjectID.PLAYER){
-                camera.tick(objectHandler.gameObjects.get(i));
+        if (gamestate.equals(Gamestate.INGAME)) {
+            for (int i = 0; i < objectHandler.gameObjects.size(); i++) {
+                if (objectHandler.gameObjects.get(i).getId() == ObjectID.PLAYER) {
+                    camera.tick(objectHandler.gameObjects.get(i));
+                }
             }
+            objectHandler.tick();
         }
-        objectHandler.tick();
     }
 
     public void render() {
@@ -110,54 +114,55 @@ public class Game extends Canvas implements Runnable {
         BufferStrategy bufferStrategy = this.getBufferStrategy();
         //die tatsächlichen Frames sind schon vor dem Anzeigen da, "Preloaded", also bswp. 1ster Frame wird gezeigt
         // 2 andere sind schon in der Warteschlange dahinter zum zeigen
-        if(bufferStrategy == null){
+        if (bufferStrategy == null) {
             this.createBufferStrategy(3);
             return;
         }
-        Graphics g =  bufferStrategy.getDrawGraphics();
+        Graphics g = bufferStrategy.getDrawGraphics();
+
         //----------Ab hier wird auf den Canvas gezeichet
         //background & FPS, Tickrate
         g.setColor(Color.white);
-        g.fillRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
+        g.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         Graphics2D graphics2D = (Graphics2D) g;
-        //
-        graphics2D.translate(-camera.getX(),-camera.getY());
-        //objects
-        objectHandler.render(g);
-        //----------bis hier
-        graphics2D.translate(camera.getX(),camera.getY());
+        graphics2D.translate(-camera.getX(), -camera.getY());
+        if(gamestate.equals(Gamestate.INGAME)) {
+            //objects
+            objectHandler.render(g);
+            //----------bis hier
+        }
+        graphics2D.translate(camera.getX(), camera.getY());
         //
         g.setColor(Color.black);
         g.setFont(new Font("Courier New", Font.BOLD, 10));
-        g.drawString("Frames: " + frame,10,10);
+        g.drawString("Frames: " + frame, 10, 10);
 
         g.dispose();
         bufferStrategy.show();
 
     }
-    //irgendwie mal aufräumen
+
+    //irgendwie mal aufräumen (yes pls)
     // level loader
-    private void loadLevel(BufferedImage image){
+    private void loadLevel(BufferedImage image) {
         int width = image.getWidth();
         int height = image.getHeight();
-        for (int xAxis = 0; xAxis < width ; xAxis++) {
+        for (int xAxis = 0; xAxis < width; xAxis++) {
             for (int yAxis = 0; yAxis < height; yAxis++) {
-                int pixel = image.getRGB(xAxis,yAxis);
-                int red   = (pixel >> 16) & 0xff;
+                int pixel = image.getRGB(xAxis, yAxis);
+                int red = (pixel >> 16) & 0xff;
                 int green = (pixel >> 8) & 0xff;
-                int blue  = (pixel) & 0xff;
+                int blue = (pixel) & 0xff;
 
-                if(red == 255){
-                    objectHandler.addObj(new Block(xAxis *32, yAxis * 32, ObjectID.BLOCK));
+                if (red == 255) {
+                    objectHandler.addObj(new Block(xAxis * 32, yAxis * 32, ObjectID.BLOCK));
                 }
-                if(blue == 255){
-                    objectHandler.addObj(new Player(xAxis * 32, yAxis * 32, ObjectID.PLAYER,objectHandler));
+                if (blue == 255) {
+                    objectHandler.addObj(new Player(xAxis * 32, yAxis * 32, ObjectID.PLAYER, objectHandler));
                 }
             }
         }
     }
-
-
 
 
 }
