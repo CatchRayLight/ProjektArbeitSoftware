@@ -3,6 +3,9 @@ package gameDA.gui;
 
 import gameDA.config.output.BufferedImageLoader;
 import gameDA.config.output.Camera;
+import gameDA.gui.menus.MenuHandler;
+import gameDA.gui.menus.MenuOption;
+import gameDA.gui.menus.StartMenu;
 import gameDA.objects.*;
 import gameDA.objects.model.Block;
 import gameDA.objects.model.Player;
@@ -23,15 +26,17 @@ public class Game extends Canvas implements Runnable {
     private BufferedImage testLvL = null;
     private Camera camera;
     private Gamestate gamestate;
+    private MenuHandler menuHandler;
+    private KeyListener keyListener;
 
 
     public Game() {
         new GameWindow(SCREEN_HEIGHT, SCREEN_WIDTH, "Space Plugg", this);
-        gamestate = Gamestate.INMENU;
         start();
         objectHandler = new ObjectHandler();
         camera = new Camera(0, 0);
-        this.addKeyListener(new KeyListener(objectHandler));
+        keyListener = new KeyListener(objectHandler,menuHandler,gamestate);
+        this.addKeyListener(keyListener);
         //
         BufferedImageLoader loader = new BufferedImageLoader();
         testLvL = loader.loadImage("/TestLVL.png");
@@ -43,12 +48,22 @@ public class Game extends Canvas implements Runnable {
 
     }
 
+    public void updateGamestate(Gamestate newgamestate) {
+        gamestate = newgamestate;
+        keyListener.setGamestate(gamestate);
+    }
+
     private void stop() throws InterruptedException {
         isRunning = false;
         thread.join();
     }
 
     private void start() {
+        gamestate = Gamestate.INMENU;
+        MenuOption[] menuOptions= {new MenuOption(() -> {
+            updateGamestate(Gamestate.INGAME);
+        })};
+        menuHandler = new MenuHandler(new StartMenu(menuOptions));
         isRunning = true;
         thread = new Thread(this);
         thread.start();
@@ -79,7 +94,7 @@ public class Game extends Canvas implements Runnable {
             lastime = now;
 
             if (delta >= 1) {
-                tick();
+                update();
                 render();
                 frames++;
                 delta--;
@@ -94,16 +109,18 @@ public class Game extends Canvas implements Runnable {
     }
 
 
-    public void tick() {
+    public void update() {
         if (gamestate.equals(Gamestate.INGAME)) {
             for (int i = 0; i < objectHandler.gameObjects.size(); i++) {
                 if (objectHandler.gameObjects.get(i).getId() == ObjectID.PLAYER) {
-                    camera.tick(objectHandler.gameObjects.get(i));
+                    camera.update(objectHandler.gameObjects.get(i));
                 }
             }
-            objectHandler.tick();
+            objectHandler.update();
         }
-        objectHandler.tick();
+        if (gamestate.equals(Gamestate.INMENU)) {
+            menuHandler.update(this);
+        }
     }
 
     public void render() {
@@ -163,6 +180,7 @@ public class Game extends Canvas implements Runnable {
             }
         }
     }
+
 
 
 }

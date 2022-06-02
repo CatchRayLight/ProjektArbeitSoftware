@@ -1,5 +1,8 @@
 package gameDA.gui.menus;
 
+import gameDA.gui.Game;
+import gameDA.objects.ObjectHandler;
+
 public abstract class Menu {
     private int currentOption;
     public final int maxOption;
@@ -8,18 +11,18 @@ public abstract class Menu {
 
     public Menu(MenuOption[] menuOptions) {
         this.currentOption = 0;
-        this.maxOption = menuOptions.length;
+        this.maxOption = menuOptions.length - 1;
         this.minOption = 0;
         this.menuOptions = menuOptions;
     }
-    public void nextOption() {
+    private void nextOption() {
         currentOption++;
         if(currentOption > maxOption) {
             currentOption = minOption;
         }
         render();
     }
-    public void previousOption() {
+    private void previousOption() {
         currentOption--;
         if(currentOption < minOption) {
             currentOption = minOption;
@@ -27,12 +30,24 @@ public abstract class Menu {
         render();
     }
 
+    public void update(MenuHandler menuHandler, Game game) {
+        if(menuHandler.isUp()) {
+            previousOption();
+        }
+        if(menuHandler.isDown()){
+            nextOption();
+        }
+        if(menuHandler.isEnter()) {
+            select(game);
+        }
+    }
+
     /**
      * Runs the code associated with the MenuOption currently selected through
      * the execute Method of MenuOption
      */
-    public void select() {
-        menuOptions[currentOption].execute();
+    public void select(Game game) {
+        menuOptions[currentOption].execute(game);
     }
 
     /**
