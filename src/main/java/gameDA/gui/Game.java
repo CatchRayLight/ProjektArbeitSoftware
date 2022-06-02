@@ -117,10 +117,15 @@ public class Game extends Canvas implements Runnable {
                 }
             }
             objectHandler.update();
+<<<<<<< HEAD
         }
         if (gamestate.equals(Gamestate.INMENU)) {
             menuHandler.update(this);
         }
+=======
+        }
+        objectHandler.update();
+>>>>>>> main
     }
 
     public void render() {
