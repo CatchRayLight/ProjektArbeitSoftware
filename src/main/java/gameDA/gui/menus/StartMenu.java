@@ -1,5 +1,7 @@
 package gameDA.gui.menus;
 
+import java.awt.*;
+
 public class StartMenu extends Menu {
 
     public StartMenu(MenuOption[] menuOptions) {
@@ -7,8 +9,10 @@ public class StartMenu extends Menu {
     }
 
     @Override
-    public void render() {
-        //IDK help me pls
+    public void render(Graphics g) {
+        //test
+        g.setColor(Color.red);
+        g.drawRect(100,100,200,200);
     }
 
 

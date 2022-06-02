@@ -1,6 +1,6 @@
 package gameDA.gui.menus;
 
-import gameDA.gui.Game;
+import gameDA.Game;
 
 public class MenuOption {
     private final Runnable runnable;

@@ -1,6 +1,8 @@
 package gameDA.gui;
 
 
+import gameDA.Game;
+
 import javax.swing.*;
 import java.awt.*;
 

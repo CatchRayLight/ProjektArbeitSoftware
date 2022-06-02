@@ -1,7 +1,8 @@
 package gameDA.gui.menus;
 
-import gameDA.gui.Game;
-import gameDA.objects.ObjectHandler;
+import gameDA.Game;
+
+import java.awt.*;
 
 public abstract class Menu {
     private int currentOption;
@@ -20,14 +21,12 @@ public abstract class Menu {
         if(currentOption > maxOption) {
             currentOption = minOption;
         }
-        render();
     }
     private void previousOption() {
         currentOption--;
         if(currentOption < minOption) {
             currentOption = minOption;
         }
-        render();
     }
 
     public void update(MenuHandler menuHandler, Game game) {
@@ -53,5 +52,5 @@ public abstract class Menu {
     /**
      * Renders the Menu
      */
-    public abstract void render();
+    public abstract void render(Graphics g);
 }

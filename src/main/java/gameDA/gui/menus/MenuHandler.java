@@ -1,7 +1,6 @@
 package gameDA.gui.menus;
 
-import gameDA.gui.Game;
-import gameDA.objects.GameObject;
+import gameDA.Game;
 
 import java.awt.*;
 
@@ -18,8 +17,8 @@ public class MenuHandler {
     public void update(Game game){
         currentMenu.update(this, game);
     }
-    public void render(){
-        currentMenu.render();
+    public void render(Graphics g){
+        currentMenu.render(g);
     }
 
     public boolean isUp() {

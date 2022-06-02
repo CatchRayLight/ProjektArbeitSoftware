@@ -1,8 +1,10 @@
-package gameDA.gui;
+package gameDA;
 
 
 import gameDA.config.output.BufferedImageLoader;
 import gameDA.config.output.Camera;
+import gameDA.gui.GameWindow;
+import gameDA.gui.Gamestate;
 import gameDA.gui.menus.MenuHandler;
 import gameDA.gui.menus.MenuOption;
 import gameDA.gui.menus.StartMenu;
@@ -35,12 +37,11 @@ public class Game extends Canvas implements Runnable {
         start();
         objectHandler = new ObjectHandler();
         camera = new Camera(0, 0);
-        keyListener = new KeyListener(objectHandler,menuHandler,gamestate);
+        keyListener = new KeyListener(objectHandler, menuHandler, gamestate);
         this.addKeyListener(keyListener);
-        //
+
         BufferedImageLoader loader = new BufferedImageLoader();
         testLvL = loader.loadImage("/TestLVL.png");
-        //aufräumen
 
         loadLevel(testLvL);
 
@@ -60,13 +61,14 @@ public class Game extends Canvas implements Runnable {
 
     private void start() {
         gamestate = Gamestate.INMENU;
-        MenuOption[] menuOptions= {new MenuOption(() -> {
+        MenuOption[] menuOptions = {new MenuOption(() -> {
             updateGamestate(Gamestate.INGAME);
         })};
         menuHandler = new MenuHandler(new StartMenu(menuOptions));
         isRunning = true;
         thread = new Thread(this);
         thread.start();
+
     }
 
     //game-Loop
@@ -117,16 +119,16 @@ public class Game extends Canvas implements Runnable {
                 }
             }
             objectHandler.update();
-<<<<<<< HEAD
+
         }
         if (gamestate.equals(Gamestate.INMENU)) {
             menuHandler.update(this);
+            objectHandler.update();
         }
-=======
-        }
-        objectHandler.update();
->>>>>>> main
     }
+
+
+
 
     public void render() {
         //starten bei null
@@ -143,15 +145,23 @@ public class Game extends Canvas implements Runnable {
         //background
         g.setColor(Color.white);
         g.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        //
+        //ab hier werden die Objecte, Player, Walls etc auf den canvas gerendert
         Graphics2D graphics2D = (Graphics2D) g;
         graphics2D.translate(-camera.getX(), -camera.getY());
+        //only render ingame == true
         if(gamestate.equals(Gamestate.INGAME)) {
             //objects
             objectHandler.render(g);
             //----------bis hier
         }
+        //only render in startmenu == true
+        if(gamestate.equals(Gamestate.INMENU)){
+            menuHandler.render(g);
+        }
         graphics2D.translate(camera.getX(), camera.getY());
         //
+        //in linke ecke die FPS
         g.setColor(Color.black);
         g.setFont(new Font("Courier New", Font.BOLD, 10));
         g.drawString("Frames: " + frame, 10, 10);
@@ -161,8 +171,7 @@ public class Game extends Canvas implements Runnable {
 
     }
 
-    //irgendwie mal aufräumen (yes pls)
-    // level loader
+    // level loader durch rbg differenzierung, png wird eingelesen und dann mit objecten verwiesen
     private void loadLevel(BufferedImage image) {
         int width = image.getWidth();
         int height = image.getHeight();
