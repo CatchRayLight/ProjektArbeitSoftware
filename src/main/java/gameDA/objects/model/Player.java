@@ -16,10 +16,11 @@ public class Player extends GameObject {
     }
 
     @Override
-    public void tick() {
+    public void update() {
         x += velocityX;
         y += velocityY;
 
+        collision();
         //player movement
         if(objectHandler.isUp()) velocityY = -5;
         else if(!objectHandler.isDown()) velocityY = 0;
@@ -46,5 +47,17 @@ public class Player extends GameObject {
     @Override
     public Rectangle getBounds() {
         return new Rectangle(x,y,32,32);
+    }
+    @Override
+    public void collision(){
+        for (int i = 0; i < objectHandler.gameObjects.size(); i++) {
+            GameObject tempObj = objectHandler.gameObjects.get(i);
+            if(tempObj.getId() == ObjectID.BLOCK){
+                if(getBounds().intersects(tempObj.getBounds())){
+                    x += velocityX * -1;
+                    y += velocityY * -1;
+                }
+            }
+        }
     }
 }

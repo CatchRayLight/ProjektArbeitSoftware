@@ -1,9 +1,7 @@
 package gameDA.config.output;
 
-import gameDA.gui.Game;
 import gameDA.objects.GameObject;
 
-import javax.naming.Reference;
 
 public class Camera {
     private float x,y;
@@ -13,7 +11,7 @@ public class Camera {
         this.y = y;
 
     }
-    public void tick(GameObject gameObject) {
+    public void update(GameObject gameObject) {
 
         x += ((gameObject.getX() - x) - 1216 / 2) * 0.05f;
         y += ((gameObject.getY() - y) - 928 / 2) * 0.05f;

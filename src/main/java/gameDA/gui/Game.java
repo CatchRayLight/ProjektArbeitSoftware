@@ -1,7 +1,7 @@
 package gameDA.gui;
 
 
-import gameDA.config.output.BufferedImageLoad;
+import gameDA.config.output.BufferedImageLoader;
 import gameDA.config.output.Camera;
 import gameDA.objects.*;
 import gameDA.objects.model.Block;
@@ -29,15 +29,16 @@ public class Game extends Canvas implements Runnable {
         new GameWindow(SCREEN_HEIGHT, SCREEN_WIDTH, "Space Plugg", this);
         gamestate = Gamestate.INMENU;
         start();
-
         objectHandler = new ObjectHandler();
         camera = new Camera(0, 0);
         this.addKeyListener(new KeyListener(objectHandler));
         //
-        BufferedImageLoad loader = new BufferedImageLoad();
+        BufferedImageLoader loader = new BufferedImageLoader();
         testLvL = loader.loadImage("/TestLVL.png");
         //aufräumen
+
         loadLevel(testLvL);
+
         //Add new obj
 
     }
@@ -57,19 +58,14 @@ public class Game extends Canvas implements Runnable {
 
     @Override
     public void run() {
-        /*
-        lastime: Time since the last iteration of the loop. Helps compute delta.
-
-        AmountOfTicks: The max FPS for the game.
-
-        ns: The number of nanoseconds per frame.
-
-        delta: The 'progress' that must be elapsed until the next frame.
-
-        frames: The number of frames elapsed since the last time we displayed the FPS.
-
-        time: The current time. Used to know when to display next the FPS.
-         */
+        /**
+         * lastime: Time since the last iteration of the loop. Helps compute delta.
+         * AmountOfTicks: The max FPS for the game.
+         * ns: The number of nanoseconds per frame.
+         * delta: The 'progress' that must be elapsed until the next frame.
+         * frames: The number of frames elapsed since the last time we displayed the FPS.
+         * time: The current time. Used to know when to display next the FPS.
+         **/
         long lastime = System.nanoTime();
         double amountOfTicks = 60;
         double ns = 1000000000 / amountOfTicks;
@@ -107,6 +103,7 @@ public class Game extends Canvas implements Runnable {
             }
             objectHandler.tick();
         }
+        objectHandler.tick();
     }
 
     public void render() {
@@ -121,7 +118,7 @@ public class Game extends Canvas implements Runnable {
         Graphics g = bufferStrategy.getDrawGraphics();
 
         //----------Ab hier wird auf den Canvas gezeichet
-        //background & FPS, Tickrate
+        //background
         g.setColor(Color.white);
         g.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         Graphics2D graphics2D = (Graphics2D) g;
@@ -159,6 +156,9 @@ public class Game extends Canvas implements Runnable {
                 }
                 if (blue == 255) {
                     objectHandler.addObj(new Player(xAxis * 32, yAxis * 32, ObjectID.PLAYER, objectHandler));
+                }
+                if(green == 255){
+
                 }
             }
         }

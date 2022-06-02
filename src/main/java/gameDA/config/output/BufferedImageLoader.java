@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
 
-public class BufferedImageLoad {
+public class BufferedImageLoader {
 
     private BufferedImage image;
 

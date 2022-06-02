@@ -5,16 +5,13 @@ import gameDA.objects.ObjectID;
 
 import java.awt.*;
 
-/**
- * @author Atilla Ipek
- */
 public class Block extends GameObject {
     public Block(int x, int y, ObjectID id) {
         super(x, y, id);
     }
 
     @Override
-    public void tick() {
+    public void update() {
 
     }
 
@@ -26,6 +23,11 @@ public class Block extends GameObject {
 
     @Override
     public Rectangle getBounds() {
-        return new Rectangle(y,x,32,32);
+        return new Rectangle(x,y,32,32);
+    }
+
+    @Override
+    public void collision() {
+
     }
 }
