@@ -8,6 +8,7 @@ import gameDA.gui.GameWindow;
 import gameDA.gui.Gamestate;
 import gameDA.gui.menus.MenuHandler;
 import gameDA.gui.menus.MenuOption;
+import gameDA.gui.menus.OptionsMenu;
 import gameDA.gui.menus.StartMenu;
 import gameDA.objects.*;
 import gameDA.objects.model.Block;
@@ -71,20 +72,43 @@ public class Game extends Canvas implements Runnable {
     }
 
     private void start() {
-        gamestate = Gamestate.INMENU;
-        MenuOption[] menuOptions = {new MenuOption(() -> {
-            updateGamestate(Gamestate.INGAME);
-        }, "Play", 100, 100), new MenuOption(() -> {
-            updateGamestate(Gamestate.INGAME);
-        }, "Options",250,100), new MenuOption(() -> {
-            updateGamestate(Gamestate.INGAME);
-        }, "Exit",400,100)
-        };
-        menuHandler = new MenuHandler(new StartMenu(menuOptions));
+        initMenus();
         isRunning = true;
         thread = new Thread(this);
         thread.start();
 
+    }
+
+    private void initMenus() {
+        gamestate = Gamestate.INMENU;
+        MenuOption[] empty = {};
+        //initinalize empty
+        OptionsMenu optionsMenu = new OptionsMenu(empty);
+        StartMenu startMenu = new StartMenu(empty);
+        //menuoptions
+        MenuOption[] menuOptionsStartmenu = {new MenuOption(() -> {
+            updateGamestate(Gamestate.INGAME);
+        }, "Play", 100, 100), new MenuOption(() -> {
+            menuHandler.setCurrentMenu(optionsMenu);
+            System.out.println(optionsMenu.toString());
+        }, "Options",250,100), new MenuOption(() -> {
+            updateGamestate(Gamestate.INGAME);
+        }, "Exit",400,100)
+        };
+
+        MenuOption[] menuOptionsOptionsMenu = {new MenuOption(() -> {
+            updateGamestate(Gamestate.INGAME);
+        }, "Option1", 100, 100), new MenuOption(() -> {
+            updateGamestate(Gamestate.INGAME);
+        }, "Option2",250,100), new MenuOption(() -> {
+            updateGamestate(Gamestate.INGAME);
+        }, "Option3",400,100)
+        };
+        //set new menuoptions
+        startMenu.setMenuOptions(menuOptionsStartmenu);
+        optionsMenu.setMenuOptions(menuOptionsOptionsMenu);
+
+        menuHandler = new MenuHandler(startMenu);
     }
 
     //game-Loop

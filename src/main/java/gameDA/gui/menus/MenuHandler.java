@@ -1,6 +1,7 @@
 package gameDA.gui.menus;
 
 import gameDA.Game;
+import gameDA.gui.Gamestate;
 
 import java.awt.*;
 
@@ -8,11 +9,10 @@ public class MenuHandler {
 
     private Menu currentMenu;
     private boolean up = false, down = false, enter = false;
-    private int renderCooldown = 0;
+
 
     public MenuHandler(Menu startMenu) {
         this.currentMenu = startMenu;
-
     }
 
     public void update(Game game){
@@ -46,4 +46,11 @@ public class MenuHandler {
         this.enter = enter;
     }
 
+    public Menu getCurrentMenu() {
+        return currentMenu;
+    }
+
+    public void setCurrentMenu(Menu currentMenu) {
+        this.currentMenu = currentMenu;
+    }
 }
