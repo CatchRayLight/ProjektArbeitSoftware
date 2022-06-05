@@ -5,19 +5,17 @@ import gameDA.config.output.SpriteSheet;
 import gameDA.objects.GameObject;
 import gameDA.objects.ObjectHandler;
 import gameDA.objects.ObjectID;
-import gameDA.objects.Physics;
-
-
 import java.awt.*;
+
 import java.awt.image.BufferedImage;
 
 public class Player extends GameObject {
     ObjectHandler objectHandler;
-    Physics physics = new Physics();
     private BufferedImage playerSpriteR;
     private BufferedImage playerSpriteL;
     private BufferedImage playerSpriteU;
     private BufferedImage playerSpriteD;
+    private int speed = 5;
 
 
     public Player(int x, int y, ObjectID id, SpriteSheet spriteSheet, ObjectHandler objectHandler) {
@@ -34,20 +32,13 @@ public class Player extends GameObject {
     public void update() {
         x += velocityX;
         y += velocityY;
-
-
-        if(physics.collision(objectHandler,getBounds())){
-            x += velocityX * -1;
-            y += velocityY * -1;
-        }
-        velocityY = physics.playerMovementY(objectHandler,velocityY);
-        velocityX = physics.playerMovementX(objectHandler,velocityX);
+        collisionWithWall();
+        playerMovement();
     }
 
 
     @Override
     public void render(Graphics g) {
-
         if(objectHandler.isLeft()){
             g.drawImage(playerSpriteL,x,y,null);
         }else if(objectHandler.isRight()){
@@ -57,13 +48,71 @@ public class Player extends GameObject {
         }else{
             g.drawImage(playerSpriteD,x,y,null);
         }
-
-
+//        //top
+//        g.setColor(Color.cyan);
+//        g.drawRect(x, y, 32, 5);
+//        //right
+//        g.setColor(Color.blue);
+//        g.drawRect(x+27, y, 5, 32);
+//        //left
+//        g.setColor(Color.orange);
+//        g.drawRect(x , y, 5, 32);
+//        //bot
+//        g.setColor(Color.pink);
+//        g.drawRect(x, y+27, 32, 5);
     }
 
     @Override
     public Rectangle getBounds() {
-        return new Rectangle(x+8,y+8,16,16);
+        return new Rectangle(x,y,32,32);
+    }
+    @Override
+    public Rectangle getTopBounds(int offset) {
+        return new Rectangle(x, y-offset, 32, 5);
+    }
+
+    @Override
+    public Rectangle getRightBounds(int offset) {
+        return new Rectangle(x+offset+27, y, 5, 32);
+    }
+
+    @Override
+    public Rectangle getLeftBounds(int offset) {
+        return new Rectangle(x - offset, y, 5, 32);
+    }
+
+    @Override
+    public Rectangle getBotBounds(int offset) {
+        return new Rectangle(x, y+27+ offset, 32, 5);
+    }
+
+    private void collisionWithWall() {
+        for (int i = 0; i < objectHandler.gameObjects.size(); i++) {
+            GameObject tempObject = objectHandler.gameObjects.get(i);
+            if (tempObject.getId() == ObjectID.BLOCK) {
+                if (getLeftBounds(1).intersects(tempObject.getRightBounds(0))) {
+                    x += velocityX *= -1;
+                }
+                if (getRightBounds(1).intersects(tempObject.getLeftBounds(0))) {
+                    x += velocityX *= -1;
+                }
+                if (getTopBounds(1).intersects(tempObject.getBotBounds(0))) {
+                    y += velocityY *= -1;
+                }
+                if (getBotBounds(1).intersects(tempObject.getTopBounds(0))) {
+                    y += velocityY *= -1;
+                }
+            }
+        }
+    }
+    private void playerMovement(){
+        if(objectHandler.isLeft())  velocityX = -speed;
+        if(objectHandler.isRight()) velocityX = speed;
+        else if(!(objectHandler.isLeft()|| objectHandler.isRight())) velocityX = 0;
+        if(objectHandler.isUp())  velocityY = -speed;
+        if(objectHandler.isDown())  velocityY = speed;
+        else if(!(objectHandler.isUp()||objectHandler.isDown())) velocityY = 0;
+
     }
 }
 

@@ -27,7 +27,6 @@ public class Game extends Canvas implements Runnable {
     private boolean isRunning = false;
     private Thread thread;
     private final ObjectHandler objectHandler;
-    private int frame = 0;
     private BufferedImage testLvL = null;
     private BufferedImage spriteSheet = null;
     private BufferedImage background = null;
@@ -36,6 +35,7 @@ public class Game extends Canvas implements Runnable {
     private MenuHandler menuHandler;
     private KeyListener keyListener;
     private SpriteSheet spriteS;
+    private int outputFrames;
 
 
 
@@ -123,30 +123,35 @@ public class Game extends Canvas implements Runnable {
          * frames: The number of frames elapsed since the last time we displayed the FPS.
          * time: The current time. Used to know when to display next the FPS.
          **/
-        long lastime = System.nanoTime();
-        double amountOfTicks = 60;
+        this.requestFocus();
+        long lastTime = System.nanoTime();
+        double amountOfTicks = 60.0;
         double ns = 1000000000 / amountOfTicks;
         double delta = 0;
+        long timer = System.currentTimeMillis();
         int frames = 0;
-        double time = System.currentTimeMillis();
-
         while (isRunning) {
             long now = System.nanoTime();
-            delta += (now - lastime) / ns;
-            lastime = now;
-
-            if (delta >= 1) {
+            delta += (now - lastTime) /ns;
+            lastTime = now;
+            while(delta >= 1) {
                 update();
+                //updates++;
+                delta--;
                 render();
                 frames++;
-                delta--;
-                if (System.currentTimeMillis() - time >= 1000) {
-                    frame = frames;
-                    System.out.println("fps:" + frames);
-                    time += 1000;
-                    frames = 0;
-                }
             }
+            if (System.currentTimeMillis() - timer > 1000) {
+                timer += 1000;
+                outputFrames = frames;
+                frames = 0;
+                //updates = 0;
+            }
+        }
+        try {
+            stop();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
@@ -180,39 +185,28 @@ public class Game extends Canvas implements Runnable {
             return;
         }
         Graphics g = bufferStrategy.getDrawGraphics();
-        //----------Ab hier wird auf den Canvas gezeichet
-        //background
-
         g.setColor(Color.white);
         g.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-        //
         //ab hier werden die Objecte, Player, Walls etc auf den canvas gerendert
         Graphics2D graphics2D = (Graphics2D) g;
         graphics2D.translate(-camera.getX(), -camera.getY());
-
-        //only render ingame == true
-        if(gamestate.equals(Gamestate.INGAME)) {
-            //objects
-            for (int i = 0; i < SCREEN_WIDTH*3; i+=32) {
-                for (int j = 0; j < SCREEN_HEIGHT * 3; j += 32) {
-                    g.drawImage(background, i, j, null);
-
+        switch (gamestate) {
+            case INGAME:
+                for (int i = 0; i < SCREEN_WIDTH+ 832; i+=32) {
+                    for (int j = 0; j < SCREEN_HEIGHT+ 1104; j+=32) {
+                        g.drawImage(background,i,j,null);
+                    }
                 }
-            }
-            objectHandler.render(g);
-            //----------bis hier
-        }
-        //only render in startmenu == true
-        if(gamestate.equals(Gamestate.INMENU)){
-            menuHandler.render(g);
+                objectHandler.render(g);
+                break;
+            case INMENU:
+                menuHandler.render(g);
+                break;
         }
         graphics2D.translate(camera.getX(), camera.getY());
-        //
-        //in linke ecke die FPS
-        g.setColor(Color.black);
-        g.setFont(new Font("Courier New", Font.BOLD, 10));
-        g.drawString("Frames: " + frame, 10, 10);
-
+        g.setColor(Color.yellow);
+        g.setFont(new Font("Courier New",Font.BOLD,10));
+        g.drawString("Frames :" + outputFrames,10,10);
         g.dispose();
         bufferStrategy.show();
 

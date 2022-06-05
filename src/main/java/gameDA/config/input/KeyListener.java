@@ -32,7 +32,6 @@ public class KeyListener extends KeyAdapter {
         if (gamestate.equals(Gamestate.INGAME)) {
             for (int i = 0; i < objectHandler.gameObjects.size(); i++) {
                 GameObject tempObj = objectHandler.gameObjects.get(i);
-
                 if (tempObj.getId() == ObjectID.PLAYER) {
                     switch (e.getKeyCode()) {
                         case KeyEvent.VK_LEFT:
