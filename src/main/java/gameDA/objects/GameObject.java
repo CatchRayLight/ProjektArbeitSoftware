@@ -3,6 +3,7 @@ package gameDA.objects;
 import gameDA.config.output.SpriteSheet;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 public abstract class GameObject {
     protected int x,y;
@@ -59,5 +60,8 @@ public abstract class GameObject {
     public abstract void update();
     public abstract void render(Graphics g);
     public abstract Rectangle getBounds();
-
+    public abstract Rectangle getTopBounds(int offset);
+    public abstract Rectangle getRightBounds(int offset);
+    public abstract Rectangle getLeftBounds(int offset);
+    public abstract Rectangle getBotBounds(int offset);
 }
