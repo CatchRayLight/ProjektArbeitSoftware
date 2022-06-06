@@ -29,15 +29,14 @@ public class Game extends Canvas implements Runnable {
     private final ObjectHandler objectHandler;
     private BufferedImage testLvL = null;
     private BufferedImage spriteSheet = null;
-    private BufferedImage background[] =new BufferedImage[4];
-    private Camera camera;
+    private final BufferedImage[] background =new BufferedImage[4];
+    private final Camera camera;
     private Gamestate gamestate;
     private MenuHandler menuHandler;
-    private KeyListener keyListener;
-    private SpriteSheet spriteS;
+    private final KeyListener keyListener;
+    private final SpriteSheet spriteS;
     private int outputFrames;
-    private boolean onPlanet;
-    private Animation animationBackGround;
+    private final boolean onPlanet;
 
 
 
@@ -94,7 +93,7 @@ public class Game extends Canvas implements Runnable {
             updateGamestate(Gamestate.INGAME);
         }, "Play", 100, 100), new MenuOption(() -> {
             menuHandler.setCurrentMenu(optionsMenu);
-            System.out.println(optionsMenu.toString());
+            System.out.println(optionsMenu);
         }, "Options",250,100), new MenuOption(() -> {
             updateGamestate(Gamestate.INGAME);
         }, "Exit",400,100)
