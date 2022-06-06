@@ -3,8 +3,6 @@ package gameDA.objects;
 import gameDA.config.output.SpriteSheet;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
-
 public abstract class GameObject {
     protected int x,y;
     protected float velocityX = 0,velocityY = 0;
