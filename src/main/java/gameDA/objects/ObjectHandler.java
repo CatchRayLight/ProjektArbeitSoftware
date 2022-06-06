@@ -6,7 +6,8 @@ import java.util.LinkedList;
 public class ObjectHandler {
 
     public LinkedList<GameObject> gameObjects = new LinkedList<GameObject>();
-    private boolean up = false, down = false, right = false, left = false;
+    private char direction;
+    private boolean up,down,right,left;
 
     public void update(){
         for(int i = 0; i < gameObjects.size(); i++){
@@ -27,32 +28,35 @@ public class ObjectHandler {
         gameObjects.remove(tempObj);
     }
 
-    public boolean isUp() {
-        return up;
+    public char getDirection() {
+        return direction;
     }
-
-    public boolean isDown() {
-        return down;
-    }
-
-    public boolean isLeft() {
-        return left;
-    }
-
-    public boolean isRight() {
-        return right;
-    }
-
-    public void setUp(boolean up) {
-        this.up = up;
-    }
-    public void setDown(boolean down) {
-        this.down = down;
-    }
-    public void setRight(boolean right) {
-        this.right = right;
+    public void setDirection(char direction){
+        this.direction = direction;
     }
     public void setLeft(boolean left) {
         this.left = left;
     }
+    public void setRight(boolean right) {
+        this.right = right;
+    }
+    public void setDown(boolean down) {
+        this.down = down;
+    }
+    public void setUp(boolean up) {
+        this.up = up;
+    }
+    public boolean isLeft() {
+        return left;
+    }
+    public boolean isRight() {
+        return right;
+    }
+    public boolean isDown() {
+        return down;
+    }
+    public boolean isUp() {
+        return up;
+    }
+
 }

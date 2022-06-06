@@ -24,11 +24,11 @@ public class MenuOption {
     public void render(Graphics g) {
         if(selected) {
             g.setColor(Color.red);
-            g.drawString(text,positionX,positionY);
+            g.drawString(text,positionX+30,positionY+50);
             g.drawRect(positionX,positionY,100,100);
         } else {
             g.setColor(Color.BLUE);
-            g.drawString(text,positionX,positionY);
+            g.drawString(text,positionX+30,positionY+50);
             g.drawRect(positionX,positionY,100,100);
         }
     }

@@ -11,7 +11,7 @@ import gameDA.gui.menus.MenuOption;
 import gameDA.gui.menus.OptionsMenu;
 import gameDA.gui.menus.StartMenu;
 import gameDA.objects.*;
-import gameDA.objects.model.Block;
+import gameDA.objects.model.Walls;
 import gameDA.objects.model.Player;
 import gameDA.config.input.KeyListener;
 
@@ -22,20 +22,22 @@ import java.awt.image.BufferedImage;
 
 public class Game extends Canvas implements Runnable {
 
-    private final int SCREEN_WIDTH = 1216;
-    private final int SCREEN_HEIGHT = 928;
+    public static final int SCREEN_WIDTH = 1216;
+    public static final int SCREEN_HEIGHT = 928;
     private boolean isRunning = false;
     private Thread thread;
     private final ObjectHandler objectHandler;
     private BufferedImage testLvL = null;
     private BufferedImage spriteSheet = null;
-    private BufferedImage background = null;
+    private BufferedImage background[] =new BufferedImage[4];
     private Camera camera;
     private Gamestate gamestate;
     private MenuHandler menuHandler;
     private KeyListener keyListener;
     private SpriteSheet spriteS;
     private int outputFrames;
+    private boolean onPlanet;
+    private Animation animationBackGround;
 
 
 
@@ -51,11 +53,13 @@ public class Game extends Canvas implements Runnable {
         testLvL = loader.loadImage("/TestLVL.png");
         spriteSheet = loader.loadImage("/SpriteSheet.png");
         spriteS = new SpriteSheet(spriteSheet);
-        background = spriteS.getImage(5,1,32,32);
+        background[0] = spriteS.getImage(5,1,32,32);
+        background[1] = spriteS.getImage(6,1,32,32);
+        background[2] = spriteS.getImage(5,2,32,32);
+        background[3] = spriteS.getImage(6,2,32,32);
 
 
-
-
+        onPlanet = false; //toggle for player model change off/on planet
         loadLevel(testLvL);
         //Add new obj
 
@@ -155,7 +159,6 @@ public class Game extends Canvas implements Runnable {
         }
     }
 
-
     public void update() {
         if (gamestate.equals(Gamestate.INGAME)) {
             for (int i = 0; i < objectHandler.gameObjects.size(); i++) {
@@ -164,16 +167,12 @@ public class Game extends Canvas implements Runnable {
                 }
             }
             objectHandler.update();
-
         }
         if (gamestate.equals(Gamestate.INMENU)) {
             menuHandler.update(this);
             objectHandler.update();
         }
     }
-
-
-
 
     public void render() {
         //starten bei null
@@ -185,16 +184,31 @@ public class Game extends Canvas implements Runnable {
             return;
         }
         Graphics g = bufferStrategy.getDrawGraphics();
-        g.setColor(Color.white);
-        g.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        g.setColor(Color.black);
+        g.fillRect(0, 0, SCREEN_WIDTH,SCREEN_HEIGHT);
         //ab hier werden die Objecte, Player, Walls etc auf den canvas gerendert
         Graphics2D graphics2D = (Graphics2D) g;
         graphics2D.translate(-camera.getX(), -camera.getY());
         switch (gamestate) {
             case INGAME:
+                //should be changed to 1 big image
+                int l = 0;
+                int p = 0;
                 for (int i = 0; i < SCREEN_WIDTH+ 832; i+=32) {
+                    int k = 0;
+                    l++;
+                    p+= 8;
                     for (int j = 0; j < SCREEN_HEIGHT+ 1104; j+=32) {
-                        g.drawImage(background,i,j,null);
+                        k++;
+                        if(k % 2 == 0)
+                            g.drawImage(background[0],i,j,null);
+                        else if(l %3 == 0)
+                            g.drawImage(background[2],i,j,null);
+                        else if(p % 16 == 0){
+                            g.drawImage(background[3],i,j,null);
+                        }
+                        else
+                            g.drawImage(background[1],i,j,null);
                     }
                 }
                 objectHandler.render(g);
@@ -209,9 +223,7 @@ public class Game extends Canvas implements Runnable {
         g.drawString("Frames :" + outputFrames,10,10);
         g.dispose();
         bufferStrategy.show();
-
     }
-
     // level loader durch rbg differenzierung, png wird eingelesen und dann mit objecten verwiesen
     private void loadLevel(BufferedImage image) {
         int width = image.getWidth();
@@ -224,10 +236,10 @@ public class Game extends Canvas implements Runnable {
                 int blue = (pixel) & 0xff;
 
                 if (red == 255) {
-                    objectHandler.addObj(new Block(xAxis * 32, yAxis * 32, ObjectID.BLOCK,spriteS));
+                    objectHandler.addObj(new Walls(xAxis * 32, yAxis * 32, ObjectID.BLOCK,spriteS,onPlanet));
                 }
                 if (blue == 255) {
-                    objectHandler.addObj(new Player(xAxis * 32, yAxis * 32, ObjectID.PLAYER, spriteS, objectHandler));
+                    objectHandler.addObj(new Player(xAxis * 32, yAxis * 32, ObjectID.PLAYER, spriteS, objectHandler, onPlanet));
                 }
                 if(green == 255){
 
@@ -235,7 +247,4 @@ public class Game extends Canvas implements Runnable {
             }
         }
     }
-
-
-
 }

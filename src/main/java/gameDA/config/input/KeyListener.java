@@ -24,7 +24,6 @@ public class KeyListener extends KeyAdapter {
 
     @Override
     public void keyTyped(KeyEvent e) {
-
     }
 
     @Override
@@ -35,15 +34,19 @@ public class KeyListener extends KeyAdapter {
                 if (tempObj.getId() == ObjectID.PLAYER) {
                     switch (e.getKeyCode()) {
                         case KeyEvent.VK_LEFT:
+                            objectHandler.setDirection('L');
                             objectHandler.setLeft(true);
                             break;
                         case KeyEvent.VK_RIGHT:
+                            objectHandler.setDirection('R');
                             objectHandler.setRight(true);
                             break;
                         case KeyEvent.VK_DOWN:
+                            objectHandler.setDirection('D');
                             objectHandler.setDown(true);
                             break;
                         case KeyEvent.VK_UP:
+                            objectHandler.setDirection('U');
                             objectHandler.setUp(true);
                             break;
                     }

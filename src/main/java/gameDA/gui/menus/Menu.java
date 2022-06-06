@@ -35,7 +35,7 @@ public abstract class Menu {
 
     public void update(MenuHandler menuHandler, Game game) {
         if(changeCurrentoptionCooldown <= 0) {
-            changeCurrentoptionCooldown = 20;
+            changeCurrentoptionCooldown = 5;
             if (menuHandler.isUp()) {
                 previousOption();
             }
@@ -47,7 +47,7 @@ public abstract class Menu {
         changeCurrentoptionCooldown--;
         //maybe change if performance
         if(enterCooldown <= 0) {
-            enterCooldown = 100;
+            enterCooldown = 5;
             if (menuHandler.isEnter()) {
                 select(game);
             }
