@@ -8,11 +8,13 @@ import java.awt.*;
 public class MenuHandler {
 
     private Menu currentMenu;
+    private Menu startMenu;
     private boolean up = false, down = false, enter = false;
 
 
     public MenuHandler(Menu startMenu) {
         this.currentMenu = startMenu;
+        this.startMenu = startMenu;
     }
 
     public void update(Game game){
@@ -52,5 +54,9 @@ public class MenuHandler {
 
     public void setCurrentMenu(Menu currentMenu) {
         this.currentMenu = currentMenu;
+    }
+
+    public void openStartMenu() {
+        this.currentMenu = startMenu;
     }
 }

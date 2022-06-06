@@ -14,10 +14,13 @@ import gameDA.objects.*;
 import gameDA.objects.model.Block;
 import gameDA.objects.model.Player;
 import gameDA.config.input.KeyListener;
+import gameDA.savemanager.Save;
+import gameDA.savemanager.SaveKey;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.net.URISyntaxException;
 
 
 public class Game extends Canvas implements Runnable {
@@ -55,7 +58,6 @@ public class Game extends Canvas implements Runnable {
 
 
 
-
         loadLevel(testLvL);
         //Add new obj
 
@@ -73,12 +75,23 @@ public class Game extends Canvas implements Runnable {
 
     private void start() {
         initMenus();
+        initSafeManager();
         isRunning = true;
         thread = new Thread(this);
         thread.start();
-
     }
 
+    private void initSafeManager() {
+        //For testing (currently)
+        Save save = null;
+        try {
+            save = new Save(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI().getPath() + "save.txt");
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        save.safe(SaveKey.PLAYERX, "5");
+        System.out.println(save.load());
+    }
     private void initMenus() {
         gamestate = Gamestate.INMENU;
         MenuOption[] empty = {};
@@ -90,7 +103,6 @@ public class Game extends Canvas implements Runnable {
             updateGamestate(Gamestate.INGAME);
         }, "Play", 100, 100), new MenuOption(() -> {
             menuHandler.setCurrentMenu(optionsMenu);
-            System.out.println(optionsMenu.toString());
         }, "Options",250,100), new MenuOption(() -> {
             updateGamestate(Gamestate.INGAME);
         }, "Exit",400,100)
