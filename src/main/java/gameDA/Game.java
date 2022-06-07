@@ -6,10 +6,7 @@ import gameDA.config.output.Camera;
 import gameDA.config.output.SpriteSheet;
 import gameDA.gui.GameWindow;
 import gameDA.gui.Gamestate;
-import gameDA.gui.menus.MenuHandler;
-import gameDA.gui.menus.MenuOption;
-import gameDA.gui.menus.OptionsMenu;
-import gameDA.gui.menus.StartMenu;
+import gameDA.gui.menus.*;
 import gameDA.objects.*;
 import gameDA.objects.model.Walls;
 import gameDA.objects.model.Player;
@@ -102,27 +99,47 @@ public class Game extends Canvas implements Runnable {
         //initinalize empty
         OptionsMenu optionsMenu = new OptionsMenu(empty);
         StartMenu startMenu = new StartMenu(empty);
+        SaveMenu saveMenu = new SaveMenu(empty);
         //menuoptions
+        //StartMenu
         MenuOption[] menuOptionsStartmenu = {new MenuOption(() -> {
             updateGamestate(Gamestate.INGAME);
-        }, "Play", 100, 100), new MenuOption(() -> {
+        }, "Play", 100, 100),new MenuOption(() -> {
+            menuHandler.setCurrentMenu(saveMenu);
+        }, "Saves",100,250),new MenuOption(() -> {
             menuHandler.setCurrentMenu(optionsMenu);
-        }, "Options",250,100), new MenuOption(() -> {
+        }, "Options",100,400), new MenuOption(() -> {
             updateGamestate(Gamestate.INGAME);
-        }, "Exit",400,100)
+        }, "Exit",100,550)
         };
 
+        //OptionsMenu
         MenuOption[] menuOptionsOptionsMenu = {new MenuOption(() -> {
             updateGamestate(Gamestate.INGAME);
         }, "Option1", 100, 100), new MenuOption(() -> {
             updateGamestate(Gamestate.INGAME);
-        }, "Option2",250,100), new MenuOption(() -> {
+        }, "Option2",100,250), new MenuOption(() -> {
             updateGamestate(Gamestate.INGAME);
-        }, "Option3",400,100)
+        }, "Option3",100,400), new MenuOption(() -> {
+            menuHandler.setCurrentMenu(startMenu);
+        }, "Back",100,550)
+        };
+
+        //SaveMenu
+        MenuOption[] menuOptionsSaveMenu = {new MenuOption(() -> {
+            updateGamestate(Gamestate.INGAME);
+        }, "Save 1", 100, 100), new MenuOption(() -> {
+            updateGamestate(Gamestate.INGAME);
+        }, "Save 2",100,250), new MenuOption(() -> {
+            updateGamestate(Gamestate.INGAME);
+        }, "Save 3",100,400), new MenuOption(() -> {
+            menuHandler.setCurrentMenu(startMenu);
+        }, "Back",100,550)
         };
         //set new menuoptions
         startMenu.setMenuOptions(menuOptionsStartmenu);
         optionsMenu.setMenuOptions(menuOptionsOptionsMenu);
+        saveMenu.setMenuOptions(menuOptionsSaveMenu);
 
         menuHandler = new MenuHandler(startMenu);
     }
