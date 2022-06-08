@@ -6,8 +6,8 @@ import java.awt.*;
 
 public abstract class Menu {
     private int currentOption;
-    private int changeCurrentoptionCooldown = 0;
-    private int enterCooldown = 0;
+    private int changeCurrentoptionCooldown = 20;
+    private int enterCooldown = 20;
     public int maxOption;
     public final int minOption;
     private MenuOption[] menuOptions;
@@ -35,24 +35,23 @@ public abstract class Menu {
 
     public void update(MenuHandler menuHandler, Game game) {
         if(changeCurrentoptionCooldown <= 0) {
-            changeCurrentoptionCooldown = 5;
             if (menuHandler.isUp()) {
+                changeCurrentoptionCooldown = 20;
                 previousOption();
             }
             if (menuHandler.isDown()) {
+                changeCurrentoptionCooldown = 20;
                 nextOption();
             }
             menuOptions[currentOption].setSelected(true);
-        }
-        changeCurrentoptionCooldown--;
-        //maybe change if performance
+        } else changeCurrentoptionCooldown--;
+        
         if(enterCooldown <= 0) {
-            enterCooldown = 5;
             if (menuHandler.isEnter()) {
+                enterCooldown = 20;
                 select(game);
             }
-        }
-        enterCooldown--;
+        } else enterCooldown--;
     }
 
     /**

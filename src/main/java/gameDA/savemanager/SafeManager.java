@@ -1,4 +1,4 @@
-package gameDA.saveManager;
+package gameDA.savemanager;
 
 public class SafeManager {
 
@@ -8,10 +8,7 @@ public class SafeManager {
         this.saves = saves;
     }
     public void safe(int save) {
-        String toSave = "";
-        saves[save].safe(toSave);
     }
     public void load(int save) {
-        saves[save].load();
     }
 }
