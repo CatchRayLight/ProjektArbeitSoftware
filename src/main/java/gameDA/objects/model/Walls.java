@@ -25,7 +25,6 @@ public class Walls extends GameObject {
     @Override
     public void update() {
         if(!onPlanet)animation.runAnimation();
-
     }
 
     @Override
