@@ -33,6 +33,9 @@ public class KeyListener extends KeyAdapter {
                 GameObject tempObj = objectHandler.gameObjects.get(i);
                 if (tempObj.getId() == ObjectID.PLAYER) {
                     switch (e.getKeyCode()) {
+                        case KeyEvent.VK_ESCAPE:
+                            menuHandler.openStartMenu();
+                            break;
                         case KeyEvent.VK_LEFT:
                             objectHandler.setDirection('L');
                             objectHandler.setLeft(true);
@@ -52,8 +55,7 @@ public class KeyListener extends KeyAdapter {
                     }
                 }
             }
-        }
-        if (gamestate.equals(Gamestate.INMENU)) {
+        } else if (gamestate.equals(Gamestate.INMENU)) {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_ENTER:
                     menuHandler.setEnter(true);
@@ -94,6 +96,9 @@ public class KeyListener extends KeyAdapter {
         }
         if (gamestate.equals(Gamestate.INMENU)) {
             switch (e.getKeyCode()) {
+                case KeyEvent.VK_ESCAPE:
+                    menuHandler.setEnter(false);
+                    break;
                 case KeyEvent.VK_ENTER:
                     menuHandler.setEnter(false);
                     break;

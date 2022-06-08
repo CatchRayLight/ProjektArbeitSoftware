@@ -141,7 +141,7 @@ public class Game extends Canvas implements Runnable {
         optionsMenu.setMenuOptions(menuOptionsOptionsMenu);
         saveMenu.setMenuOptions(menuOptionsSaveMenu);
 
-        menuHandler = new MenuHandler(startMenu);
+        menuHandler = new MenuHandler(startMenu, this);
     }
 
     //game-Loop
@@ -198,9 +198,11 @@ public class Game extends Canvas implements Runnable {
             objectHandler.update();
         }
         if (gamestate.equals(Gamestate.INMENU)) {
+            camera.setX(0);
+            camera.setY(0);
             menuHandler.update(this);
-            objectHandler.update();
         }
+        objectHandler.update();
     }
 
     public void render() {

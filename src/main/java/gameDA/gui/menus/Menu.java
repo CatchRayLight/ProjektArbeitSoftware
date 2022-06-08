@@ -54,6 +54,14 @@ public abstract class Menu {
         } else enterCooldown--;
     }
 
+    public int getEnterCooldown() {
+        return enterCooldown;
+    }
+
+    public void setEnterCooldown(int enterCooldown) {
+        this.enterCooldown = enterCooldown;
+    }
+
     /**
      * Runs the code associated with the MenuOption currently selected through
      * the execute Method of MenuOption

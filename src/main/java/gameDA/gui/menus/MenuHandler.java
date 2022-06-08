@@ -10,10 +10,12 @@ public class MenuHandler {
     private Menu currentMenu;
     private Menu startMenu;
     private boolean up = false, down = false, enter = false;
+    private Game game;
 
 
-    public MenuHandler(Menu startMenu) {
+    public MenuHandler(Menu startMenu, Game game) {
         this.currentMenu = startMenu;
+        this.game = game;
         this.startMenu = startMenu;
     }
 
@@ -58,5 +60,6 @@ public class MenuHandler {
 
     public void openStartMenu() {
         this.currentMenu = startMenu;
+        game.updateGamestate(Gamestate.INMENU);
     }
 }
