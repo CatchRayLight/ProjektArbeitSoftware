@@ -1,8 +1,8 @@
 <application>
   <component name="FileTypeManager" version="18">
     <extensionMap>
-      <mapping pattern="plugin" type="AUTO_DETECTED" />
       <mapping pattern="images" type="AUTO_DETECTED" />
+      <mapping pattern="plugin" type="AUTO_DETECTED" />
       <mapping pattern="idkmen3" type="CLASS" />
       <mapping pattern="idkemn2" type="JAVA" />
       <mapping ext="space.kts" type="Kotlin" />
