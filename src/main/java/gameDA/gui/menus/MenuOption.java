@@ -1,7 +1,6 @@
 package gameDA.gui.menus;
 
 import gameDA.Game;
-
 import java.awt.*;
 
 public class MenuOption {

@@ -8,6 +8,7 @@ import gameDA.gui.GameWindow;
 import gameDA.gui.Gamestate;
 import gameDA.gui.menus.*;
 import gameDA.objects.*;
+import gameDA.objects.model.SpaceEnemy;
 import gameDA.objects.model.Walls;
 import gameDA.objects.model.Player;
 import gameDA.config.input.KeyListener;
@@ -273,7 +274,7 @@ public class Game extends Canvas implements Runnable {
                     objectHandler.addObj(new Player(xAxis * 32, yAxis * 32, ObjectID.PLAYER, spriteS, objectHandler, onPlanet));
                 }
                 if(green == 255){
-
+                    objectHandler.addObj(new SpaceEnemy(xAxis *32 , yAxis *32, ObjectID.ENEMY,spriteS,objectHandler));
                 }
             }
         }

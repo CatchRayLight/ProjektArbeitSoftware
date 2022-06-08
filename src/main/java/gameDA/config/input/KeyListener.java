@@ -1,8 +1,10 @@
 package gameDA.config.input;
 
+import gameDA.config.output.Camera;
 import gameDA.gui.Gamestate;
 import gameDA.gui.menus.MenuHandler;
 import gameDA.objects.*;
+import gameDA.objects.model.PlayerBullet;
 
 import java.awt.event.*;
 
@@ -10,6 +12,9 @@ public class KeyListener extends KeyAdapter {
 
     private final ObjectHandler objectHandler;
     private final MenuHandler menuHandler;
+    private final int bulletSpeed = 6;
+    public static boolean frameChange = false;
+
     private Gamestate gamestate;
 
     public KeyListener(ObjectHandler objectHandler, MenuHandler menuHandler, Gamestate gamestate) {
@@ -29,6 +34,7 @@ public class KeyListener extends KeyAdapter {
     @Override
     public void keyPressed(KeyEvent e) {
         if (gamestate.equals(Gamestate.INGAME)) {
+            frameChange = true;
             for (int i = 0; i < objectHandler.gameObjects.size(); i++) {
                 GameObject tempObj = objectHandler.gameObjects.get(i);
                 if (tempObj.getId() == ObjectID.PLAYER) {
@@ -52,6 +58,9 @@ public class KeyListener extends KeyAdapter {
                             objectHandler.setDirection('U');
                             objectHandler.setUp(true);
                             break;
+                        case KeyEvent.VK_SPACE:
+                            objectHandler.addObj(new PlayerBullet(tempObj.getX(), tempObj.getY(), ObjectID.BULLET,
+                                    null,objectHandler,bulletSpeed,objectHandler.getDirection()));
                     }
                 }
             }
