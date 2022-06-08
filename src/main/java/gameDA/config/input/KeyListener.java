@@ -55,9 +55,6 @@ public class KeyListener extends KeyAdapter {
                             objectHandler.setDirection('U');
                             objectHandler.setUp(true);
                             break;
-                        case KeyEvent.VK_SPACE:
-                            objectHandler.addObj(new PlayerBullet(tempObj.getX(), tempObj.getY(), ObjectID.BULLET,
-                                    null,objectHandler,bulletSpeed,objectHandler.getDirection()));
                     }
                 }
             }
@@ -96,6 +93,10 @@ public class KeyListener extends KeyAdapter {
                             break;
                         case KeyEvent.VK_UP:
                             objectHandler.setUp(false);
+                            break;
+                        case KeyEvent.VK_SPACE:
+                            objectHandler.addObj(new PlayerBullet(tempObj.getX(), tempObj.getY(), ObjectID.BULLET,
+                                    null,objectHandler,bulletSpeed,objectHandler.getDirection()));
                             break;
                     }
                 }

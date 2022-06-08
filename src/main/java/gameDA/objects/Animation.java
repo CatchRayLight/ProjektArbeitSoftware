@@ -5,18 +5,16 @@ import java.awt.image.BufferedImage;
 
 public class Animation {
     private int speed;
-    private int frames;
+    private final int frames;
     private int index = 0;
     private int count = 0;
 
-    private BufferedImage[] img = new BufferedImage[14];
+    private final BufferedImage[] img = new BufferedImage[14];
     private BufferedImage currentImg;
 
     public Animation(int speed, BufferedImage[] img){
         this.speed = speed;
-        for(int i = 0; i < img.length; i++) {
-            this.img[i] = img[i];
-        }
+        System.arraycopy(img, 0, this.img, 0, img.length);
         frames = img.length;
     }
     public void runAnimation(){
