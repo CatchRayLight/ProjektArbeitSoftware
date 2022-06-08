@@ -1,6 +1,7 @@
 package gameDA.objects.model;
 
 
+import gameDA.config.input.KeyListener;
 import gameDA.config.output.SpriteSheet;
 import gameDA.objects.Animation;
 import gameDA.objects.GameObject;
@@ -9,19 +10,22 @@ import gameDA.objects.ObjectID;
 import java.awt.*;
 
 import java.awt.image.BufferedImage;
+import java.security.Key;
+
+import static gameDA.config.input.KeyListener.frameChange;
 
 public class Player extends GameObject {
     ObjectHandler objectHandler;
     private boolean onPlanet;
-    private BufferedImage playerSpaceSR;
-    private BufferedImage playerSpaceSL;
-    private BufferedImage playerSpaceSU;
-    private BufferedImage playerSpaceSD;
-    private int speed = 5;
-    private BufferedImage[] playerOnPlanetL = new BufferedImage[3];
-    private BufferedImage[] playerOnPlanetR = new BufferedImage[3];
-    private Animation animL;
-    private Animation animR;
+    private final BufferedImage playerSpaceSR;
+    private final BufferedImage playerSpaceSL;
+    private final BufferedImage playerSpaceSU;
+    private final BufferedImage playerSpaceSD;
+    private final int speed = 5;
+    private final BufferedImage[] playerOnPlanetL = new BufferedImage[3];
+    private final BufferedImage[] playerOnPlanetR = new BufferedImage[3];
+    private final Animation animL;
+    private final Animation animR;
 
 
     public Player(int x, int y, ObjectID id, SpriteSheet spriteSheet, ObjectHandler objectHandler, boolean onPlanet) {
@@ -47,7 +51,7 @@ public class Player extends GameObject {
     public void update() {
         x += velocityX;
         y += velocityY;
-        collisionWithWall();
+        collisionWithObject(5,ObjectID.BLOCK);
         playerMovement();
         animL.runAnimation();
         animR.runAnimation();
@@ -57,28 +61,34 @@ public class Player extends GameObject {
 
     @Override
     public void render(Graphics g) {
-        if(!(velocityX == 0 && velocityY ==0)) {
-            if ('L' == objectHandler.getDirection()) {
+        if(!frameChange){
+            if (onPlanet) g.drawImage(playerOnPlanetL[0], x, y, null);
+            else
+                g.drawImage(playerSpaceSD, x, y, null);
+        }
+        switch (objectHandler.getDirection()){
+            case 'L':
                 if (onPlanet) animL.drawAnimation(g, x, y, 0);
                 else
                     g.drawImage(playerSpaceSL, x, y, null);
-            } else if ('R' == objectHandler.getDirection()) {
-                if (onPlanet) animR.drawAnimation(g, x, y, 0);
+                break;
+            case 'R':
+                if (onPlanet) animR.drawAnimation(g,x,y,0);
                 else
                     g.drawImage(playerSpaceSR, x, y, null);
-            } else if ('U' == objectHandler.getDirection()) {
-                if (onPlanet)g.drawImage(playerOnPlanetR[0],x,y,null);
-                else
-                    g.drawImage(playerSpaceSU, x, y, null);
-            }else
-                if (onPlanet)g.drawImage(playerOnPlanetL[0],x,y,null);
+                break;
+            case 'D':
+                if (onPlanet) g.drawImage(playerOnPlanetL[0], x, y, null);
                 else
                     g.drawImage(playerSpaceSD, x, y, null);
-        }else{
-            if(!onPlanet)g.drawImage(playerSpaceSD,x,y,null);
-            else
-                g.drawImage(playerOnPlanetR[0],x,y,null);
+                break;
+            case 'U':
+                if (onPlanet) g.drawImage(playerOnPlanetR[0], x, y, null);
+                else
+                    g.drawImage(playerSpaceSU, x, y, null);
+                break;
         }
+
 //        //top
 //        g.setColor(Color.cyan);
 //        g.drawRect(x, y, 32, 5);
@@ -92,7 +102,6 @@ public class Player extends GameObject {
 //        g.setColor(Color.pink);
 //        g.drawRect(x, y+27, 32, 5);
     }
-
     @Override
     public Rectangle getBounds() {
         return new Rectangle(x,y,32,32);
@@ -123,20 +132,20 @@ public class Player extends GameObject {
     public void setOnPlanet(boolean onPlanet) {
         this.onPlanet = onPlanet;
     }
-    private void collisionWithWall() {
+    private void collisionWithObject(int offset, ObjectID objectID) {
         for (int i = 0; i < objectHandler.gameObjects.size(); i++) {
             GameObject tempObject = objectHandler.gameObjects.get(i);
-            if (tempObject.getId() == ObjectID.BLOCK) {
-                if (getLeftBounds(5).intersects(tempObject.getRightBounds(0))) {
+            if (tempObject.getId() == objectID) {
+                if (getLeftBounds(offset).intersects(tempObject.getRightBounds(0))) {
                     x += velocityX *= -1;
                 }
-                if (getRightBounds(5).intersects(tempObject.getLeftBounds(0))) {
+                if (getRightBounds(offset).intersects(tempObject.getLeftBounds(0))) {
                     x += velocityX *= -1;
                 }
-                if (getTopBounds(5).intersects(tempObject.getBotBounds(0))) {
+                if (getTopBounds(offset).intersects(tempObject.getBotBounds(0))) {
                     y += velocityY *= -1;
                 }
-                if (getBotBounds(5).intersects(tempObject.getTopBounds(0))) {
+                if (getBotBounds(offset).intersects(tempObject.getTopBounds(0))) {
                     y += velocityY *= -1;
                 }
             }

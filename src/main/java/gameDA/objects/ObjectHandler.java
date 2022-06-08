@@ -6,7 +6,7 @@ import java.util.LinkedList;
 public class ObjectHandler {
 
     public LinkedList<GameObject> gameObjects = new LinkedList<GameObject>();
-    private char direction;
+    private char direction = 'N';
     private boolean up,down,right,left;
 
     public void update(){
