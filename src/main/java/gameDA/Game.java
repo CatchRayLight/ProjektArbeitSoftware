@@ -8,9 +8,10 @@ import gameDA.gui.GameWindow;
 import gameDA.gui.Gamestate;
 import gameDA.gui.menus.*;
 import gameDA.gui.menus.submenus.DialogueMenu;
+import gameDA.gui.menus.submenus.MainMenu;
 import gameDA.gui.menus.submenus.OptionsMenu;
 import gameDA.gui.menus.submenus.SaveMenu;
-import gameDA.gui.menus.submenus.MainMenu;
+
 import gameDA.objects.*;
 import gameDA.objects.model.Event;
 import gameDA.objects.model.LootBox;
@@ -214,6 +215,7 @@ public class Game extends Canvas implements Runnable {
             }
             menuHandler.update(this);
             objectHandler.update();
+
         }
     }
 
@@ -239,14 +241,14 @@ public class Game extends Canvas implements Runnable {
                 objectHandler.render(g);
                 graphics2D.translate(camera.getX(), camera.getY());
                 healthbar.render(g);
+                g.setColor(Color.yellow);
+                g.setFont(new Font("Courier New",Font.BOLD,10));
+                g.drawString("Frames :" + outputFrames,10,10);
                 break;
             case INMENU:
                 menuHandler.render(g);
                 break;
         }
-        g.setColor(Color.yellow);
-        g.setFont(new Font("Courier New",Font.BOLD,10));
-        g.drawString("Frames :" + outputFrames,10,10);
         g.dispose();
         bufferStrategy.show();
     }

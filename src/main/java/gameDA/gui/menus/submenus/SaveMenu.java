@@ -17,4 +17,8 @@ public class SaveMenu extends Menu {
             op.render(g);
         }
     }
+    @Override
+    public void updateMenu() {
+
+    }
 }

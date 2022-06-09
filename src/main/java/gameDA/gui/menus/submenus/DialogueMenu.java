@@ -46,4 +46,8 @@ public class DialogueMenu extends Menu {
         //Maybe later: Render Characters in the scene, Names
 
     }
+    @Override
+    public void updateMenu() {
+
+    }
 }

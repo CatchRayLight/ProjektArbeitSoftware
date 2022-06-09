@@ -52,6 +52,7 @@ public abstract class Menu {
                 select(game);
             }
         } else enterCooldown--;
+        updateMenu();
     }
 
     public int getEnterCooldown() {
@@ -75,6 +76,7 @@ public abstract class Menu {
      */
     public abstract void render(Graphics g);
 
+    public abstract void updateMenu();
     public int getCurrentOption() {
         return currentOption;
     }

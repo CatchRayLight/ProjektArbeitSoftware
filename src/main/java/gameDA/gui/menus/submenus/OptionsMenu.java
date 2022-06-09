@@ -17,4 +17,8 @@ public class OptionsMenu extends Menu {
             op.render(g);
         }
     }
+    @Override
+    public void updateMenu() {
+
+    }
 }
