@@ -1,10 +1,12 @@
-package gameDA.gui.menus;
+package gameDA.gui.menus.submenus;
+
+import gameDA.gui.menus.Menu;
+import gameDA.gui.menus.MenuOption;
 
 import java.awt.*;
 
-public class StartMenu extends Menu {
-
-    public StartMenu(MenuOption[] menuOptions) {
+public class SaveMenu extends Menu {
+    public SaveMenu(MenuOption[] menuOptions) {
         super(menuOptions);
     }
 
@@ -15,6 +17,4 @@ public class StartMenu extends Menu {
             op.render(g);
         }
     }
-
-
 }

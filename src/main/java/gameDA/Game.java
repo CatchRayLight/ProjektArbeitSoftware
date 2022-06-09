@@ -7,6 +7,10 @@ import gameDA.config.output.SpriteSheet;
 import gameDA.gui.GameWindow;
 import gameDA.gui.Gamestate;
 import gameDA.gui.menus.*;
+import gameDA.gui.menus.submenus.DialogueMenu;
+import gameDA.gui.menus.submenus.OptionsMenu;
+import gameDA.gui.menus.submenus.SaveMenu;
+import gameDA.gui.menus.submenus.StartMenu;
 import gameDA.objects.*;
 import gameDA.objects.model.Event;
 import gameDA.objects.model.LootBox;
@@ -58,7 +62,6 @@ public class Game extends Canvas implements Runnable {
         this.addKeyListener(keyListener);
 
 
-
         background[0] = spriteS.getImage(5,1,32,32);
         background[1] = spriteS.getImage(6,1,32,32);
         background[2] = spriteS.getImage(5,2,32,32);
@@ -98,7 +101,6 @@ public class Game extends Canvas implements Runnable {
             e.printStackTrace();
         }
         save.safe(SaveKey.PLAYERX, "5");
-        System.out.println(save.load());
     }
     private void initMenus() {
         gamestate = Gamestate.INMENU;
@@ -116,7 +118,7 @@ public class Game extends Canvas implements Runnable {
         }, "Saves",100,250),new MenuOption(() -> {
             menuHandler.setCurrentMenu(optionsMenu);
         }, "Options",100,400), new MenuOption(() -> {
-            updateGamestate(Gamestate.INGAME);
+            menuHandler.setCurrentMenu(new DialogueMenu(new String[]{"Hello", "It works"}, this));
         }, "Exit",100,550)
         };
 
@@ -206,8 +208,10 @@ public class Game extends Canvas implements Runnable {
             healthbar.update();
         }
         if (gamestate.equals(Gamestate.INMENU)) {
-            camera.setX(0);
-            camera.setY(0);
+            if(camera != null) {
+                camera.setX(0);
+                camera.setY(0);
+            }
             menuHandler.update(this);
         }
         objectHandler.update();
