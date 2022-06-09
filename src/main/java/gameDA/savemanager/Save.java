@@ -1,6 +1,8 @@
 package gameDA.savemanager;
 
 
+import gameDA.Game;
+
 import java.io.*;
 import java.util.ArrayList;
 
@@ -22,7 +24,6 @@ public class Save {
             e.printStackTrace();
         }
     }
-
 
     public ArrayList<String> load() {
         ArrayList<String> output = new ArrayList<>();

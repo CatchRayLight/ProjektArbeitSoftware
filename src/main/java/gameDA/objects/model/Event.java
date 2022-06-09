@@ -11,7 +11,6 @@ public class Event extends GameObject {
     private ObjectHandler objectHandler;
     public Event(int x, int y, ObjectID id, SpriteSheet spriteSheet, ObjectHandler objectHandler) {
         super(x, y, id, spriteSheet);
-
         this.objectHandler = objectHandler;
     }
 

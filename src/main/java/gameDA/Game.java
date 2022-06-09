@@ -47,6 +47,7 @@ public class Game extends Canvas implements Runnable {
 
 
 
+
     public Game() {
         new GameWindow(SCREEN_HEIGHT, SCREEN_WIDTH, "Space Plugg", this);
         start();
