@@ -34,9 +34,8 @@ public class Game extends Canvas implements Runnable {
     private boolean isRunning = false;
     private Thread thread;
     private final ObjectHandler objectHandler;
-    private BufferedImage testLvL = null;
-    private BufferedImage spriteSheet = null;
     private final BufferedImage[] background =new BufferedImage[4];
+
     private final Camera camera;
     private Gamestate gamestate;
     private MenuHandler menuHandler;
@@ -53,19 +52,19 @@ public class Game extends Canvas implements Runnable {
         start();
         objectHandler = new ObjectHandler();
         BufferedImageLoader loader = new BufferedImageLoader();
-        testLvL = loader.loadImage("/TestLVL.png");
-        spriteSheet = loader.loadImage("/SpriteSheet.png");
+        BufferedImage testLvL = loader.loadImage("/TestLVL.png");
+        BufferedImage spriteSheet = loader.loadImage("/SpriteSheet.png");
+        BufferedImage backgroundImage = loader.loadImage("/backgroundTest.png");
         spriteS = new SpriteSheet(spriteSheet);
+        SpriteSheet backgroundImageS = new SpriteSheet(backgroundImage);
         camera = new Camera(0, 0);
         healthbar = new Healthbar((int)camera.getX(),(int)camera.getY(),spriteS, 100,90,100);
         keyListener = new KeyListener(objectHandler, menuHandler, gamestate);
         this.addKeyListener(keyListener);
 
 
-        background[0] = spriteS.getImage(5,1,32,32);
-        background[1] = spriteS.getImage(6,1,32,32);
-        background[2] = spriteS.getImage(5,2,32,32);
-        background[3] = spriteS.getImage(6,2,32,32);
+        background[0] = backgroundImageS.getImage(1,1,2048,2048);
+
 
 
         onPlanet = false; //toggle for player model change off/on planet
@@ -228,33 +227,14 @@ public class Game extends Canvas implements Runnable {
         }
         Graphics g = bufferStrategy.getDrawGraphics();
         g.setColor(Color.black);
-        g.fillRect(0, 0, SCREEN_WIDTH,SCREEN_HEIGHT);
+        g.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         //ab hier werden die Objecte, Player, Walls etc auf den canvas gerendert
         switch (gamestate) {
             case INGAME:
                 Graphics2D graphics2D = (Graphics2D) g;
                 graphics2D.translate(-camera.getX(), -camera.getY());
-                //should be changed to 1 big image
-                int l = 0;
-                int p = 0;
-                for (int i = 0; i < SCREEN_WIDTH+ 832; i+=32) {
-                    int k = 0;
-                    l++;
-                    p+= 8;
-                    for (int j = 0; j < SCREEN_HEIGHT+ 1104; j+=32) {
-                        k++;
-                        if(k % 2 == 0)
-                            g.drawImage(background[0],i,j,null);
-                        else if(l % 3 == 0)
-                            g.drawImage(background[2],i,j,null);
-                        else if(p % 16 == 0){
-                            g.drawImage(background[3],i,j,null);
-                        }
-                        else
-                            g.drawImage(background[1],i,j,null);
-                    }
-                }
-                //
+                g.drawImage(background[0], 0, 0, null);
+
                 objectHandler.render(g);
                 graphics2D.translate(camera.getX(), camera.getY());
                 healthbar.render(g);
