@@ -3,7 +3,8 @@ package gameDA.objects;
 public enum ObjectID {
     PLAYER,
     BLOCK,
-    CRATE,
+    LOOTBOX,
     BULLET,
     ENEMY,
+    EVENT,
 }

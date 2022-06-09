@@ -8,6 +8,8 @@ import gameDA.gui.GameWindow;
 import gameDA.gui.Gamestate;
 import gameDA.gui.menus.*;
 import gameDA.objects.*;
+import gameDA.objects.model.Event;
+import gameDA.objects.model.LootBox;
 import gameDA.objects.model.SpaceEnemy;
 import gameDA.objects.model.Walls;
 import gameDA.objects.model.Player;
@@ -38,6 +40,7 @@ public class Game extends Canvas implements Runnable {
     private final SpriteSheet spriteS;
     private int outputFrames;
     private final boolean onPlanet;
+    public static Healthbar healthbar = null;
 
 
 
@@ -45,14 +48,17 @@ public class Game extends Canvas implements Runnable {
         new GameWindow(SCREEN_HEIGHT, SCREEN_WIDTH, "Space Plugg", this);
         start();
         objectHandler = new ObjectHandler();
-        camera = new Camera(0, 0);
-        keyListener = new KeyListener(objectHandler, menuHandler, gamestate);
-        this.addKeyListener(keyListener);
-
         BufferedImageLoader loader = new BufferedImageLoader();
         testLvL = loader.loadImage("/TestLVL.png");
         spriteSheet = loader.loadImage("/SpriteSheet.png");
         spriteS = new SpriteSheet(spriteSheet);
+        camera = new Camera(0, 0);
+        healthbar = new Healthbar((int)camera.getX(),(int)camera.getY(),spriteS, 100,90,100);
+        keyListener = new KeyListener(objectHandler, menuHandler, gamestate);
+        this.addKeyListener(keyListener);
+
+
+
         background[0] = spriteS.getImage(5,1,32,32);
         background[1] = spriteS.getImage(6,1,32,32);
         background[2] = spriteS.getImage(5,2,32,32);
@@ -60,7 +66,7 @@ public class Game extends Canvas implements Runnable {
 
 
         onPlanet = false; //toggle for player model change off/on planet
-        loadLevel(testLvL);
+        levelBuilder(testLvL);
         //Add new obj
 
     }
@@ -197,6 +203,7 @@ public class Game extends Canvas implements Runnable {
                 }
             }
             objectHandler.update();
+            healthbar.update();
         }
         if (gamestate.equals(Gamestate.INMENU)) {
             camera.setX(0);
@@ -219,10 +226,10 @@ public class Game extends Canvas implements Runnable {
         g.setColor(Color.black);
         g.fillRect(0, 0, SCREEN_WIDTH,SCREEN_HEIGHT);
         //ab hier werden die Objecte, Player, Walls etc auf den canvas gerendert
-        Graphics2D graphics2D = (Graphics2D) g;
-        graphics2D.translate(-camera.getX(), -camera.getY());
         switch (gamestate) {
             case INGAME:
+                Graphics2D graphics2D = (Graphics2D) g;
+                graphics2D.translate(-camera.getX(), -camera.getY());
                 //should be changed to 1 big image
                 int l = 0;
                 int p = 0;
@@ -234,7 +241,7 @@ public class Game extends Canvas implements Runnable {
                         k++;
                         if(k % 2 == 0)
                             g.drawImage(background[0],i,j,null);
-                        else if(l %3 == 0)
+                        else if(l % 3 == 0)
                             g.drawImage(background[2],i,j,null);
                         else if(p % 16 == 0){
                             g.drawImage(background[3],i,j,null);
@@ -243,13 +250,15 @@ public class Game extends Canvas implements Runnable {
                             g.drawImage(background[1],i,j,null);
                     }
                 }
+                //
                 objectHandler.render(g);
+                graphics2D.translate(camera.getX(), camera.getY());
+                healthbar.render(g);
                 break;
             case INMENU:
                 menuHandler.render(g);
                 break;
         }
-        graphics2D.translate(camera.getX(), camera.getY());
         g.setColor(Color.yellow);
         g.setFont(new Font("Courier New",Font.BOLD,10));
         g.drawString("Frames :" + outputFrames,10,10);
@@ -257,7 +266,7 @@ public class Game extends Canvas implements Runnable {
         bufferStrategy.show();
     }
     // level loader durch rbg differenzierung, png wird eingelesen und dann mit objecten verwiesen
-    private void loadLevel(BufferedImage image) {
+    private void levelBuilder(BufferedImage image) {
         int width = image.getWidth();
         int height = image.getHeight();
         for (int xAxis = 0; xAxis < width; xAxis++) {
@@ -267,14 +276,22 @@ public class Game extends Canvas implements Runnable {
                 int green = (pixel >> 8) & 0xff;
                 int blue = (pixel) & 0xff;
 
-                if (red == 255) {
+                if (red == 255 && green != 255) {
                     objectHandler.addObj(new Walls(xAxis * 32, yAxis * 32, ObjectID.BLOCK,spriteS,onPlanet));
                 }
-                if (blue == 255) {
-                    objectHandler.addObj(new Player(xAxis * 32, yAxis * 32, ObjectID.PLAYER, spriteS, objectHandler, onPlanet));
+                if (blue == 255 && green != 255) {
+                    objectHandler.addObj(new Player(xAxis * 32, yAxis * 32, ObjectID.PLAYER, spriteS, objectHandler, onPlanet, healthbar));
                 }
-                if(green == 255){
-                    objectHandler.addObj(new SpaceEnemy(xAxis *32 , yAxis *32, ObjectID.ENEMY,spriteS,objectHandler));
+                if(green == 255 && blue != 255){
+                    objectHandler.addObj(new SpaceEnemy(xAxis * 32 , yAxis * 32, ObjectID.ENEMY,spriteS,objectHandler));
+                }
+                if(green == 255 && blue == 255){
+                    //cyan
+                    objectHandler.addObj(new LootBox(xAxis * 32 , yAxis * 32, ObjectID.LOOTBOX,spriteS,objectHandler));
+                }
+                if(red == 255  && green == 255){
+                    //yel
+                    objectHandler.addObj(new Event(xAxis * 32, yAxis * 32, ObjectID.EVENT, spriteS, objectHandler));
                 }
             }
         }

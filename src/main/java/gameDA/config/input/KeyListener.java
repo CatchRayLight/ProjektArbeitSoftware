@@ -8,12 +8,17 @@ import gameDA.objects.model.PlayerBullet;
 
 import java.awt.event.*;
 
+import static gameDA.Game.healthbar;
+
 public class KeyListener extends KeyAdapter {
 
     private final ObjectHandler objectHandler;
     private final MenuHandler menuHandler;
     private final int bulletSpeed = 6;
     public static boolean frameChange = false;
+
+
+
 
     private Gamestate gamestate;
 
@@ -97,8 +102,11 @@ public class KeyListener extends KeyAdapter {
                             objectHandler.setUp(false);
                             break;
                         case KeyEvent.VK_SPACE:
-                            objectHandler.addObj(new PlayerBullet(tempObj.getX(), tempObj.getY(), ObjectID.BULLET,
-                                    null,objectHandler,bulletSpeed,objectHandler.getDirection()));
+                            if(healthbar.getAmmo() > 0) {
+                                objectHandler.addObj(new PlayerBullet(tempObj.getX(), tempObj.getY(), ObjectID.BULLET,
+                                        null, objectHandler, bulletSpeed, objectHandler.getDirection()));
+                                healthbar.setAmmo(healthbar.getAmmo() - 10);
+                            }
                             break;
                     }
                 }

@@ -1,6 +1,10 @@
 package gameDA.config.output;
 
 import gameDA.objects.GameObject;
+import gameDA.objects.Healthbar;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
 
 
 public class Camera {
@@ -22,7 +26,6 @@ public class Camera {
         if(y >= 1158) y = 1158;
 
     }
-
     public float getX() {
         return x;
     }
