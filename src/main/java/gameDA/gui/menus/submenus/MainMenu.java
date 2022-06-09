@@ -5,9 +5,9 @@ import gameDA.gui.menus.MenuOption;
 
 import java.awt.*;
 
-public class StartMenu extends Menu {
+public class MainMenu extends Menu {
 
-    public StartMenu(MenuOption[] menuOptions) {
+    public MainMenu(MenuOption[] menuOptions) {
         super(menuOptions);
     }
 
