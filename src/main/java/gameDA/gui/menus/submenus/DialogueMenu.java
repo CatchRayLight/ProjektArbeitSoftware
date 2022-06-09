@@ -36,6 +36,8 @@ public class DialogueMenu extends Menu {
             MenuOption op = getMenuOptions()[i];
             op.render(g);
         }
+        //render Gameobjects
+
         //Render dialogue Box (WIP)
         g.setColor(Color.BLUE);
         g.drawString(dialogueText[currentDialoguePosition],positionX+30,positionY+50);

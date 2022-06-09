@@ -10,7 +10,7 @@ import gameDA.gui.menus.*;
 import gameDA.gui.menus.submenus.DialogueMenu;
 import gameDA.gui.menus.submenus.OptionsMenu;
 import gameDA.gui.menus.submenus.SaveMenu;
-import gameDA.gui.menus.submenus.StartMenu;
+import gameDA.gui.menus.submenus.MainMenu;
 import gameDA.objects.*;
 import gameDA.objects.model.Event;
 import gameDA.objects.model.LootBox;
@@ -107,7 +107,7 @@ public class Game extends Canvas implements Runnable {
         MenuOption[] empty = {};
         //initinalize empty
         OptionsMenu optionsMenu = new OptionsMenu(empty);
-        StartMenu startMenu = new StartMenu(empty);
+        MainMenu mainMenu = new MainMenu(empty);
         SaveMenu saveMenu = new SaveMenu(empty);
         //menuoptions
         //StartMenu
@@ -130,7 +130,7 @@ public class Game extends Canvas implements Runnable {
         }, "Option2",100,250), new MenuOption(() -> {
             updateGamestate(Gamestate.INGAME);
         }, "Option3",100,400), new MenuOption(() -> {
-            menuHandler.setCurrentMenu(startMenu);
+            menuHandler.setCurrentMenu(mainMenu);
         }, "Back",100,550)
         };
 
@@ -142,15 +142,15 @@ public class Game extends Canvas implements Runnable {
         }, "Save 2",100,250), new MenuOption(() -> {
             updateGamestate(Gamestate.INGAME);
         }, "Save 3",100,400), new MenuOption(() -> {
-            menuHandler.setCurrentMenu(startMenu);
+            menuHandler.setCurrentMenu(mainMenu);
         }, "Back",100,550)
         };
         //set new menuoptions
-        startMenu.setMenuOptions(menuOptionsStartmenu);
+        mainMenu.setMenuOptions(menuOptionsStartmenu);
         optionsMenu.setMenuOptions(menuOptionsOptionsMenu);
         saveMenu.setMenuOptions(menuOptionsSaveMenu);
 
-        menuHandler = new MenuHandler(startMenu, this);
+        menuHandler = new MenuHandler(mainMenu, this);
     }
 
     //game-Loop
@@ -213,8 +213,8 @@ public class Game extends Canvas implements Runnable {
                 camera.setY(0);
             }
             menuHandler.update(this);
+            objectHandler.update();
         }
-        objectHandler.update();
     }
 
     public void render() {
