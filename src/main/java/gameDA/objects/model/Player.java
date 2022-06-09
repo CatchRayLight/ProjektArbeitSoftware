@@ -3,10 +3,8 @@ package gameDA.objects.model;
 
 import gameDA.config.input.KeyListener;
 import gameDA.config.output.SpriteSheet;
-import gameDA.objects.Animation;
-import gameDA.objects.GameObject;
-import gameDA.objects.ObjectHandler;
-import gameDA.objects.ObjectID;
+import gameDA.objects.*;
+
 import java.awt.*;
 
 import java.awt.image.BufferedImage;
@@ -15,20 +13,21 @@ import java.security.Key;
 import static gameDA.config.input.KeyListener.frameChange;
 
 public class Player extends GameObject {
-    ObjectHandler objectHandler;
     private boolean onPlanet;
     private final BufferedImage playerSpaceSR;
     private final BufferedImage playerSpaceSL;
     private final BufferedImage playerSpaceSU;
     private final BufferedImage playerSpaceSD;
     private final int speed = 5;
+
+    private ObjectHandler objectHandler;
     private final BufferedImage[] playerOnPlanetL = new BufferedImage[3];
     private final BufferedImage[] playerOnPlanetR = new BufferedImage[3];
     private final Animation animL;
     private final Animation animR;
 
 
-    public Player(int x, int y, ObjectID id, SpriteSheet spriteSheet, ObjectHandler objectHandler, boolean onPlanet) {
+    public Player(int x, int y, ObjectID id, SpriteSheet spriteSheet, ObjectHandler objectHandler, boolean onPlanet, Healthbar healthbar) {
         super(x, y, id,spriteSheet);
         this.objectHandler = objectHandler;
         this.onPlanet = onPlanet;
@@ -45,6 +44,7 @@ public class Player extends GameObject {
         playerOnPlanetL[2] = spriteSheet.getImage(6,6,32,32); //L3
         animL = new Animation(6, playerOnPlanetL);
         animR = new Animation(6, playerOnPlanetR);
+
     }
 
     @Override
@@ -88,7 +88,7 @@ public class Player extends GameObject {
                     g.drawImage(playerSpaceSU, x, y, null);
                 break;
         }
-
+//
 //        //top
 //        g.setColor(Color.cyan);
 //        g.drawRect(x, y, 32, 5);

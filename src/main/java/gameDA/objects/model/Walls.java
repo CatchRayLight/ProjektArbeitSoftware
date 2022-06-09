@@ -3,6 +3,7 @@ package gameDA.objects.model;
 import gameDA.config.output.SpriteSheet;
 import gameDA.objects.Animation;
 import gameDA.objects.GameObject;
+import gameDA.objects.ObjectHandler;
 import gameDA.objects.ObjectID;
 
 import java.awt.*;
@@ -12,7 +13,7 @@ public class Walls extends GameObject {
     private BufferedImage[] sprite = new BufferedImage[4];
     private boolean onPlanet;
     private Animation animation;
-    public Walls(int x, int y, ObjectID id, SpriteSheet spriteSheet,boolean onPlanet) {
+    public Walls(int x, int y, ObjectID id, SpriteSheet spriteSheet, boolean onPlanet) {
         super(x, y, id,spriteSheet);
         this.onPlanet = onPlanet;
         sprite[0] = spriteSheet.getImage(1,1,32,32);

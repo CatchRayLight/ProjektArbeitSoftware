@@ -13,6 +13,9 @@ import java.awt.*;
 public class PlayerBullet extends GameObject {
     private int offsetX;
     private int offsetY;
+    private int bulletDirectionY;
+
+    private int bulletDirectionX;
     private ObjectHandler objectHandler;
     public PlayerBullet(int x, int y, ObjectID id, SpriteSheet spriteSheet, ObjectHandler objectHandler,int bulletSpeed,char direction) {
         super(x, y, id, spriteSheet);
@@ -24,24 +27,32 @@ public class PlayerBullet extends GameObject {
                 velocityY = -bulletSpeed;
                 offsetX = 16;
                 offsetY = 0;
+                bulletDirectionX= 2;
+                bulletDirectionY = 8;
                 break;
             case 'D':
                 velocityX = 0;
                 velocityY = bulletSpeed;
                 offsetY = 32;
                 offsetX = 16;
+                bulletDirectionX= 2;
+                bulletDirectionY = 8;
                 break;
             case 'R':
                 velocityX = bulletSpeed;
                 velocityY = 0;
                 offsetX = 32;
                 offsetY = 16;
+                bulletDirectionX= 8;
+                bulletDirectionY = 2;
                 break;
             case 'L':
                 velocityX = -bulletSpeed;
                 velocityY = 0;
                 offsetX = 0;
                 offsetY = 16;
+                bulletDirectionX= 8;
+                bulletDirectionY = 2;
                 break;
         }
 
@@ -65,12 +76,12 @@ public class PlayerBullet extends GameObject {
     @Override
     public void render(Graphics g) {
         g.setColor(Color.red);
-        g.fillRect(x+offsetX,y+offsetY,4,4);
+        g.fillRect(x+offsetX,y+offsetY,bulletDirectionX,bulletDirectionY);
     }
 
     @Override
     public Rectangle getBounds() {
-        return new Rectangle(x+offsetX,y+offsetY,4,4);
+        return new Rectangle(x+offsetX,y+offsetY,bulletDirectionX,bulletDirectionY);
     }
 
     @Override
