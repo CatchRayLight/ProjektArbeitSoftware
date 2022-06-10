@@ -13,7 +13,7 @@ public abstract class Menu {
     public int maxOption;
     public final int minOption;
     private MenuOption[] menuOptions;
-    private Font customFont;
+
 
     public Menu(MenuOption[] menuOptions) {
         this.currentOption = 0;
@@ -103,16 +103,5 @@ public abstract class Menu {
     public void setMenuOptions(MenuOption[] menuOptions) {
         maxOption = menuOptions.length - 1;
         this.menuOptions = menuOptions;
-    }
-    protected Font loadFont(){
-        try {
-            //create the font to use. Specify the size!
-            customFont = Font.createFont(Font.TRUETYPE_FONT,
-                    new File("src/main/resources/ARCADECLASSIC.TTF")).deriveFont(12f);
-            return customFont;
-        } catch (IOException | FontFormatException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 }

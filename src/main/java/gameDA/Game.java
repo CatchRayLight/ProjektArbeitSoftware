@@ -263,21 +263,21 @@ public class Game extends Canvas implements Runnable {
                 int green = (pixel >> 8) & 0xff;
                 int blue = (pixel) & 0xff;
 
-                if (blue == 255 && green != 255) {
+                if (blue == 255 && green != 255 && red != 255) {
                     objectHandler.addObj(new Player(xAxis * 32, yAxis * 32, ObjectID.PLAYER, spriteS,
                             objectHandler, onPlanet, camera, 100, 90, 100, 6));
                 }
-                if (red == 255 && green != 255) {
+                if (red == 255 && green != 255 && blue != 255) {
                     objectHandler.addObj(new Walls(xAxis * 32, yAxis * 32, ObjectID.BLOCK, spriteS, onPlanet));
                 }
-                if (green == 255 && blue != 255) {
+                if (green == 255 && blue != 255 && red != 255) {
                     objectHandler.addObj(new SpaceEnemy(xAxis * 32, yAxis * 32, ObjectID.ENEMY, spriteS, objectHandler, 100));
                 }
-                if (green == 255 && blue == 255) {
+                if (green == 255 && blue == 255 && red != 255) {
                     //cyan
                     objectHandler.addObj(new LootBox(xAxis * 32, yAxis * 32, ObjectID.LOOTBOX, spriteS, objectHandler));
                 }
-                if (red == 255 && green == 255) {
+                if (red == 255 && green == 255 && blue != 255) {
                     //yel
                     objectHandler.addObj(new Event(xAxis * 32, yAxis * 32, ObjectID.EVENT, spriteS, objectHandler));
                 }

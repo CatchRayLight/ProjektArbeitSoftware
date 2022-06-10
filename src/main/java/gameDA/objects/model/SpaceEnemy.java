@@ -28,7 +28,6 @@ public class SpaceEnemy extends GameObject{
         enemyInSpace[5] = spriteSheet.getImage(6,7,32,32);
         animationEnemy = new Animation(10, enemyInSpace);
         enemyHealthbar = new Healthbar(hp);
-
     }
 
     @Override
