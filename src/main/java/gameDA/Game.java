@@ -25,6 +25,8 @@ import gameDA.savemanager.SaveKey;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
 
 
@@ -263,19 +265,19 @@ public class Game extends Canvas implements Runnable {
 
                 if (blue == 255 && green != 255) {
                     objectHandler.addObj(new Player(xAxis * 32, yAxis * 32, ObjectID.PLAYER, spriteS,
-                            objectHandler, onPlanet, camera,100,90,100,6));
+                            objectHandler, onPlanet, camera, 100, 90, 100, 6));
                 }
                 if (red == 255 && green != 255) {
-                    objectHandler.addObj(new Walls(xAxis * 32, yAxis * 32, ObjectID.BLOCK,spriteS,onPlanet));
+                    objectHandler.addObj(new Walls(xAxis * 32, yAxis * 32, ObjectID.BLOCK, spriteS, onPlanet));
                 }
-                if(green == 255 && blue != 255){
-                    objectHandler.addObj(new SpaceEnemy(xAxis * 32 , yAxis * 32, ObjectID.ENEMY,spriteS,objectHandler,100));
+                if (green == 255 && blue != 255) {
+                    objectHandler.addObj(new SpaceEnemy(xAxis * 32, yAxis * 32, ObjectID.ENEMY, spriteS, objectHandler, 100));
                 }
-                if(green == 255 && blue == 255){
+                if (green == 255 && blue == 255) {
                     //cyan
-                    objectHandler.addObj(new LootBox(xAxis * 32 , yAxis * 32, ObjectID.LOOTBOX,spriteS,objectHandler));
+                    objectHandler.addObj(new LootBox(xAxis * 32, yAxis * 32, ObjectID.LOOTBOX, spriteS, objectHandler));
                 }
-                if(red == 255  && green == 255){
+                if (red == 255 && green == 255) {
                     //yel
                     objectHandler.addObj(new Event(xAxis * 32, yAxis * 32, ObjectID.EVENT, spriteS, objectHandler));
                 }
