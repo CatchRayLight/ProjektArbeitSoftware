@@ -19,10 +19,11 @@ public class ObjectHandler {
         }
     }
     public void render(Graphics g){
-        for(int i = 0; i < gameObjects.size()-1; i++){
+        for(int i = 0; i < gameObjects.size(); i++){
             GameObject tempObj = gameObjects.get(i);
-            tempObj.render(g);
-            if(tempObj.getId() == ObjectID.PLAYER){
+            if(!(tempObj.getId() == ObjectID.PLAYER)) {
+                tempObj.render(g);
+            }else{
                 lastRenderObject = gameObjects.get(i);
             }
         }

@@ -76,10 +76,10 @@ public class Player extends GameObject {
         animR.runAnimation();
         if(!onPlanet) {
             couldownCounter++;
-            if (objectHandler.isSpace() && couldownCounter >= 10) {
+            if (objectHandler.isSpace() && couldownCounter > 10) {
                 if (playerHealthbar.getAmmo() > 0) {
                     objectHandler.addObj(new PlayerBullet(getX(), getY(), ObjectID.BULLET,
-                            null, objectHandler, bulletSpeed, objectHandler.getDirection()));
+                            spriteSheet, objectHandler, bulletSpeed, objectHandler.getDirection()));
                     playerHealthbar.setAmmo(playerHealthbar.getAmmo() - 10);
                 }
                 couldownCounter = 0;

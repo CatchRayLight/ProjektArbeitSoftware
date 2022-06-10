@@ -228,15 +228,16 @@ public class Game extends Canvas implements Runnable {
             return;
         }
         Graphics g = bufferStrategy.getDrawGraphics();
-        g.setColor(Color.black);
-        g.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+
         //ab hier werden die Objecte, Player, Walls etc auf den canvas gerendert
         switch (gamestate) {
             case INGAME:
                 Graphics2D graphics2D = (Graphics2D) g;
                 graphics2D.translate(-camera.getX(), -camera.getY());
+
                 g.drawImage(background[0], 0, 0, null);
                 objectHandler.render(g);
+
                 graphics2D.translate(camera.getX(), camera.getY());
                 g.setColor(Color.yellow);
                 g.setFont(new Font("Courier New",Font.BOLD,10));
@@ -260,6 +261,10 @@ public class Game extends Canvas implements Runnable {
                 int green = (pixel >> 8) & 0xff;
                 int blue = (pixel) & 0xff;
 
+                if (blue == 255 && green != 255) {
+                    objectHandler.addObj(new Player(xAxis * 32, yAxis * 32, ObjectID.PLAYER, spriteS,
+                            objectHandler, onPlanet, camera,100,90,100,6));
+                }
                 if (red == 255 && green != 255) {
                     objectHandler.addObj(new Walls(xAxis * 32, yAxis * 32, ObjectID.BLOCK,spriteS,onPlanet));
                 }
@@ -273,10 +278,6 @@ public class Game extends Canvas implements Runnable {
                 if(red == 255  && green == 255){
                     //yel
                     objectHandler.addObj(new Event(xAxis * 32, yAxis * 32, ObjectID.EVENT, spriteS, objectHandler));
-                }
-                if (blue == 255 && green != 255) {
-                    objectHandler.addObj(new Player(xAxis * 32, yAxis * 32, ObjectID.PLAYER, spriteS,
-                            objectHandler, onPlanet, camera,100,90,100,6));
                 }
             }
         }

@@ -2,6 +2,7 @@ package gameDA.objects.model;
 
 import gameDA.config.output.SpriteSheet;
 import gameDA.objects.GameObject;
+import gameDA.objects.Healthbar;
 import gameDA.objects.ObjectHandler;
 import gameDA.objects.ObjectID;
 
@@ -13,7 +14,6 @@ import static gameDA.objects.model.Player.playerHealthbar;
 public class LootBox extends GameObject {
     private ObjectHandler objectHandler;
 
-    private Player player;
     public LootBox(int x, int y, ObjectID id, SpriteSheet spriteSheet, ObjectHandler objectHandler) {
         super(x, y, id, spriteSheet);
         this.objectHandler = objectHandler;
