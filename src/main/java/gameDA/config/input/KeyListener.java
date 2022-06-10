@@ -1,26 +1,25 @@
 package gameDA.config.input;
 
-import gameDA.config.output.Camera;
 import gameDA.gui.Gamestate;
 import gameDA.gui.menus.MenuHandler;
 import gameDA.objects.*;
 import gameDA.objects.model.PlayerBullet;
 
+
 import java.awt.event.*;
 
-import static gameDA.Game.healthbar;
 
-public class KeyListener extends KeyAdapter {
+
+
+public class KeyListener extends KeyAdapter{
 
     private final ObjectHandler objectHandler;
     private final MenuHandler menuHandler;
-    private final int bulletSpeed = 6;
     public static boolean frameChange = false;
 
 
-
-
     private Gamestate gamestate;
+
 
     public KeyListener(ObjectHandler objectHandler, MenuHandler menuHandler, Gamestate gamestate) {
         this.objectHandler = objectHandler;
@@ -34,6 +33,7 @@ public class KeyListener extends KeyAdapter {
 
     @Override
     public void keyTyped(KeyEvent e) {
+
     }
 
     @Override
@@ -62,6 +62,9 @@ public class KeyListener extends KeyAdapter {
                         case KeyEvent.VK_UP:
                             objectHandler.setDirection('U');
                             objectHandler.setUp(true);
+                            break;
+                        case KeyEvent.VK_SPACE:
+                            objectHandler.setSpace(true);
                             break;
                     }
                 }
@@ -102,11 +105,7 @@ public class KeyListener extends KeyAdapter {
                             objectHandler.setUp(false);
                             break;
                         case KeyEvent.VK_SPACE:
-                            if(healthbar.getAmmo() > 0) {
-                                objectHandler.addObj(new PlayerBullet(tempObj.getX(), tempObj.getY(), ObjectID.BULLET,
-                                        null, objectHandler, bulletSpeed, objectHandler.getDirection()));
-                                healthbar.setAmmo(healthbar.getAmmo() - 10);
-                            }
+                            objectHandler.setSpace(false);
                             break;
                     }
                 }

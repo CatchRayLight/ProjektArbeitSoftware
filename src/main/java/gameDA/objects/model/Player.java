@@ -1,18 +1,18 @@
 package gameDA.objects.model;
 
 
-import gameDA.config.input.KeyListener;
+import gameDA.config.output.Camera;
 import gameDA.config.output.SpriteSheet;
 import gameDA.objects.*;
 
 import java.awt.*;
 
 import java.awt.image.BufferedImage;
-import java.security.Key;
 
 import static gameDA.config.input.KeyListener.frameChange;
 
 public class Player extends GameObject {
+    private Camera camera;
     private boolean onPlanet;
     private final BufferedImage playerSpaceSR;
     private final BufferedImage playerSpaceSL;
@@ -26,12 +26,30 @@ public class Player extends GameObject {
     private final Animation animL;
     private final Animation animR;
 
+    public static Healthbar playerHealthbar = null;
 
-    public Player(int x, int y, ObjectID id, SpriteSheet spriteSheet, ObjectHandler objectHandler, boolean onPlanet, Healthbar healthbar) {
+    private int hp;
+    private int ammo;
+    private int fuel;
+
+    private int bulletSpeed;
+
+    private  int couldownCounter = 0;
+
+
+
+
+
+    public Player(int x, int y, ObjectID id, SpriteSheet spriteSheet, ObjectHandler objectHandler, boolean onPlanet,
+                  Camera camera,int hp,int ammo, int fuel,int bulletSpeed) {
         super(x, y, id,spriteSheet);
         this.objectHandler = objectHandler;
         this.onPlanet = onPlanet;
-        //78
+        this.camera = camera;
+        this.fuel = fuel;
+        this.ammo = ammo;
+        this.hp = hp;
+        this.bulletSpeed = bulletSpeed;
         playerSpaceSR = spriteSheet.getImage(7,8,32,32);
         playerSpaceSL = spriteSheet.getImage(8,8,32,32);
         playerSpaceSU = spriteSheet.getImage(7,7,32,32);
@@ -44,6 +62,7 @@ public class Player extends GameObject {
         playerOnPlanetL[2] = spriteSheet.getImage(6,6,32,32); //L3
         animL = new Animation(6, playerOnPlanetL);
         animR = new Animation(6, playerOnPlanetR);
+        playerHealthbar = new Healthbar(spriteSheet, hp,ammo,fuel,this.camera);
 
     }
 
@@ -55,12 +74,23 @@ public class Player extends GameObject {
         playerMovement();
         animL.runAnimation();
         animR.runAnimation();
-
+        if(!onPlanet) {
+            couldownCounter++;
+            if (objectHandler.isSpace() && couldownCounter > 10) {
+                if (playerHealthbar.getAmmo() > 0) {
+                    objectHandler.addObj(new PlayerBullet(getX(), getY(), ObjectID.BULLET,
+                            spriteSheet, objectHandler, bulletSpeed, objectHandler.getDirection()));
+                    playerHealthbar.setAmmo(playerHealthbar.getAmmo() - 10);
+                }
+                couldownCounter = 0;
+            }
+        }
     }
 
 
     @Override
     public void render(Graphics g) {
+        playerHealthbar.render(g);
         if(!frameChange){
             if (onPlanet) g.drawImage(playerOnPlanetL[0], x, y, null);
             else

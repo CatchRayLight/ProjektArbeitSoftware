@@ -3,11 +3,14 @@ package gameDA.objects;
 import java.awt.*;
 import java.util.LinkedList;
 
+
+
 public class ObjectHandler {
 
     public LinkedList<GameObject> gameObjects = new LinkedList<GameObject>();
     private char direction = 'N';
-    private boolean up,down,right,left;
+    private boolean up,down,right,left,space;
+    private GameObject lastRenderObject;
 
     public void update(){
         for(int i = 0; i < gameObjects.size(); i++){
@@ -18,8 +21,13 @@ public class ObjectHandler {
     public void render(Graphics g){
         for(int i = 0; i < gameObjects.size(); i++){
             GameObject tempObj = gameObjects.get(i);
-            tempObj.render(g);
+            if(!(tempObj.getId() == ObjectID.PLAYER)) {
+                tempObj.render(g);
+            }else{
+                lastRenderObject = gameObjects.get(i);
+            }
         }
+        lastRenderObject.render(g);
     }
     public void addObj(GameObject tempObj){
         gameObjects.add(tempObj);
@@ -58,5 +66,10 @@ public class ObjectHandler {
     public boolean isUp() {
         return up;
     }
-
+    public void setSpace(boolean space){
+        this.space = space;
+    }
+    public boolean isSpace(){
+        return space;
+    }
 }

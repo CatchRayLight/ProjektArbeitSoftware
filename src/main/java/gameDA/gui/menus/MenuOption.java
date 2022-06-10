@@ -6,6 +6,8 @@ import gameDA.config.output.BufferedImageLoader;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
+import java.io.File;
+import java.io.IOException;
 
 public class MenuOption {
     private final Runnable runnable;
@@ -16,6 +18,7 @@ public class MenuOption {
     private BufferedImageLoader loader = new BufferedImageLoader();
     private BufferedImage selectedButton = loader.loadImage("/selectedMainMenuButton.png");
     private BufferedImage unselectedButton = loader.loadImage("/MainMenuButton.png");
+
     public MenuOption(Runnable runnable, String text, int positionX, int positionY) {
         this.runnable = runnable;
         this.text = text;
@@ -31,13 +34,13 @@ public class MenuOption {
         if(selected) {
             g.drawImage(selectedButton, positionX,positionY,400,96,null);
             g.setColor(Color.BLUE);
-            g.drawString(text,positionX+30,positionY+50);
+            g.drawString(text,positionX+30,positionY+70);
             //g.drawRect(positionX,positionY,400,96);
         } else {
             g.drawImage(unselectedButton, positionX,positionY,400,96,null);
 
             g.setColor(Color.BLUE);
-            g.drawString(text,positionX+30,positionY+50);
+            g.drawString(text,positionX+30,positionY+70);
             //g.drawRect(positionX,positionY,400,96);
         }
     }

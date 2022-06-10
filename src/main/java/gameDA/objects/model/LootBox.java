@@ -2,15 +2,18 @@ package gameDA.objects.model;
 
 import gameDA.config.output.SpriteSheet;
 import gameDA.objects.GameObject;
+import gameDA.objects.Healthbar;
 import gameDA.objects.ObjectHandler;
 import gameDA.objects.ObjectID;
 
 import java.awt.*;
 
-import static gameDA.Game.healthbar;
+import static gameDA.objects.model.Player.playerHealthbar;
+
 
 public class LootBox extends GameObject {
     private ObjectHandler objectHandler;
+
     public LootBox(int x, int y, ObjectID id, SpriteSheet spriteSheet, ObjectHandler objectHandler) {
         super(x, y, id, spriteSheet);
         this.objectHandler = objectHandler;
@@ -24,9 +27,10 @@ public class LootBox extends GameObject {
                 if(getBounds().intersects(tempObject.getBounds())){
                     objectHandler.removeObj(this);
                     System.out.println("LOOTBOX");
-                    if(healthbar.getAmmo() != 100){
-                        healthbar.setAmmo(healthbar.getAmmo() + 10);
+                    if(playerHealthbar.getAmmo()+30 != 100){
+                        playerHealthbar.setAmmo(playerHealthbar.getAmmo() + 30);
                     }
+
                 }
             }
         }
