@@ -44,7 +44,8 @@ public class Game extends Canvas implements Runnable {
     private final SpriteSheet spriteS;
     private int outputFrames;
     private final boolean onPlanet;
-    public static Healthbar healthbar = null;
+
+
 
 
 
@@ -60,7 +61,6 @@ public class Game extends Canvas implements Runnable {
         spriteS = new SpriteSheet(spriteSheet);
         SpriteSheet backgroundImageS = new SpriteSheet(backgroundImage);
         camera = new Camera(0, 0);
-        healthbar = new Healthbar((int)camera.getX(),(int)camera.getY(),spriteS, 100,90,100);
         keyListener = new KeyListener(objectHandler, menuHandler, gamestate);
         this.addKeyListener(keyListener);
 
@@ -206,7 +206,6 @@ public class Game extends Canvas implements Runnable {
                 }
             }
             objectHandler.update();
-            healthbar.update();
         }
         if (gamestate.equals(Gamestate.INMENU)) {
             if(camera != null) {
@@ -237,10 +236,8 @@ public class Game extends Canvas implements Runnable {
                 Graphics2D graphics2D = (Graphics2D) g;
                 graphics2D.translate(-camera.getX(), -camera.getY());
                 g.drawImage(background[0], 0, 0, null);
-
                 objectHandler.render(g);
                 graphics2D.translate(camera.getX(), camera.getY());
-                healthbar.render(g);
                 g.setColor(Color.yellow);
                 g.setFont(new Font("Courier New",Font.BOLD,10));
                 g.drawString("Frames :" + outputFrames,10,10);
@@ -266,11 +263,8 @@ public class Game extends Canvas implements Runnable {
                 if (red == 255 && green != 255) {
                     objectHandler.addObj(new Walls(xAxis * 32, yAxis * 32, ObjectID.BLOCK,spriteS,onPlanet));
                 }
-                if (blue == 255 && green != 255) {
-                    objectHandler.addObj(new Player(xAxis * 32, yAxis * 32, ObjectID.PLAYER, spriteS, objectHandler, onPlanet, healthbar));
-                }
                 if(green == 255 && blue != 255){
-                    objectHandler.addObj(new SpaceEnemy(xAxis * 32 , yAxis * 32, ObjectID.ENEMY,spriteS,objectHandler));
+                    objectHandler.addObj(new SpaceEnemy(xAxis * 32 , yAxis * 32, ObjectID.ENEMY,spriteS,objectHandler,100));
                 }
                 if(green == 255 && blue == 255){
                     //cyan
@@ -279,6 +273,10 @@ public class Game extends Canvas implements Runnable {
                 if(red == 255  && green == 255){
                     //yel
                     objectHandler.addObj(new Event(xAxis * 32, yAxis * 32, ObjectID.EVENT, spriteS, objectHandler));
+                }
+                if (blue == 255 && green != 255) {
+                    objectHandler.addObj(new Player(xAxis * 32, yAxis * 32, ObjectID.PLAYER, spriteS,
+                            objectHandler, onPlanet, camera,100,90,100,6));
                 }
             }
         }
