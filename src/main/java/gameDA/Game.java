@@ -121,7 +121,7 @@ public class Game extends Canvas implements Runnable {
         }, "Saves",100,250),new MenuOption(() -> {
             menuHandler.setCurrentMenu(optionsMenu);
         }, "Options",100,400), new MenuOption(() -> {
-            menuHandler.setCurrentMenu(new DialogueMenu(new String[]{"Hello", "It works"}, this));
+            menuHandler.setCurrentMenu(new DialogueMenu(new String[][]{{"This is first line dialogue option 1", "This is second line dialogue option 1", "This is third line dialogue option 1"},{"This is first line dialogue option 2"}}, this));
         }, "Exit",100,550)
         };
 

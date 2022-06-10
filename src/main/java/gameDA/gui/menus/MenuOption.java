@@ -47,4 +47,12 @@ public class MenuOption {
     public void execute(Game game) {
         runnable.run();
     }
+
+    public String getText() {
+        return text;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
 }
