@@ -1,6 +1,5 @@
 package gameDA.objects.model;
 
-import gameDA.config.output.Camera;
 import gameDA.config.output.SpriteSheet;
 import gameDA.objects.*;
 
@@ -36,8 +35,9 @@ public class SpaceEnemy extends GameObject{
             GameObject tempObject = objectHandler.gameObjects.get(i);
             if (tempObject.getId() == ObjectID.BULLET) {
                 if(getBounds().intersects(tempObject.getBounds())){
-                    enemyHealthbar.setHp(enemyHealthbar.getHp()-50);
-                    if(enemyHealthbar.getHp()== 0){
+                    setHp(getHp()-50);
+                    enemyHealthbar.setHp(getHp());
+                    if(getHp()== 0){
                         objectHandler.removeObj(this);
                     }
                     objectHandler.removeObj(tempObject);
@@ -77,4 +77,11 @@ public class SpaceEnemy extends GameObject{
     public Rectangle getBotBounds(int offset) {
         return null;
     }
+    public int getHp() {
+        return hp;
+    }
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
 }
+

@@ -17,11 +17,9 @@ public class PlayerBullet extends GameObject {
 
     private int bulletDirectionX;
     private ObjectHandler objectHandler;
-    private int bulletSpeed;
-    public PlayerBullet(int x, int y, ObjectID id, SpriteSheet spriteSheet, ObjectHandler objectHandler,int bulletSpeed,char direction) {
+     public PlayerBullet(int x, int y, ObjectID id, SpriteSheet spriteSheet, ObjectHandler objectHandler,int bulletSpeed,char direction) {
         super(x, y, id, spriteSheet);
         this.objectHandler = objectHandler;
-        this.bulletSpeed = bulletSpeed;
 
         switch (direction){
             case 'U':

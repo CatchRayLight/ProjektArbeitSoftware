@@ -31,17 +31,14 @@ public class Player extends GameObject {
     private int hp;
     private int ammo;
     private int fuel;
-
-    private int bulletSpeed;
-
     private  int couldownCounter = 0;
-
-
+    private int bulletSpeed;
+    private int couldownBullet;
 
 
 
     public Player(int x, int y, ObjectID id, SpriteSheet spriteSheet, ObjectHandler objectHandler, boolean onPlanet,
-                  Camera camera,int hp,int ammo, int fuel,int bulletSpeed) {
+                  Camera camera, int hp, int ammo, int fuel, int bulletSpeed, int countdownBullet) {
         super(x, y, id,spriteSheet);
         this.objectHandler = objectHandler;
         this.onPlanet = onPlanet;
@@ -49,6 +46,7 @@ public class Player extends GameObject {
         this.fuel = fuel;
         this.ammo = ammo;
         this.hp = hp;
+        this.couldownBullet = countdownBullet;
         this.bulletSpeed = bulletSpeed;
         playerSpaceSR = spriteSheet.getImage(7,8,32,32);
         playerSpaceSL = spriteSheet.getImage(8,8,32,32);
@@ -76,11 +74,12 @@ public class Player extends GameObject {
         animR.runAnimation();
         if(!onPlanet) {
             couldownCounter++;
-            if (objectHandler.isSpace() && couldownCounter > 10) {
+            if (objectHandler.isSpace() && couldownCounter > couldownBullet) {
                 if (playerHealthbar.getAmmo() > 0) {
                     objectHandler.addObj(new PlayerBullet(getX(), getY(), ObjectID.BULLET,
                             spriteSheet, objectHandler, bulletSpeed, objectHandler.getDirection()));
-                    playerHealthbar.setAmmo(playerHealthbar.getAmmo() - 10);
+                    setAmmo(getAmmo()-10);
+                    playerHealthbar.setAmmo(getAmmo());
                 }
                 couldownCounter = 0;
             }
@@ -158,29 +157,70 @@ public class Player extends GameObject {
     public boolean isOnPlanet() {
         return onPlanet;
     }
-
-    public void setOnPlanet(boolean onPlanet) {
+   public void setOnPlanet(boolean onPlanet) {
         this.onPlanet = onPlanet;
     }
-    private void collisionWithObject(int offset, ObjectID objectID) {
-        for (int i = 0; i < objectHandler.gameObjects.size(); i++) {
-            GameObject tempObject = objectHandler.gameObjects.get(i);
-            if (tempObject.getId() == objectID) {
-                if (getLeftBounds(offset).intersects(tempObject.getRightBounds(0))) {
-                    x += velocityX *= -1;
-                }
-                if (getRightBounds(offset).intersects(tempObject.getLeftBounds(0))) {
-                    x += velocityX *= -1;
-                }
-                if (getTopBounds(offset).intersects(tempObject.getBotBounds(0))) {
-                    y += velocityY *= -1;
-                }
-                if (getBotBounds(offset).intersects(tempObject.getTopBounds(0))) {
-                    y += velocityY *= -1;
-                }
-            }
-        }
+
+    public int getHp() {
+        return hp;
     }
+
+    public Player setHp(int hp) {
+        this.hp = hp;
+        return this;
+    }
+
+    public int getAmmo() {
+        return ammo;
+    }
+
+    public Player setAmmo(int ammo) {
+        this.ammo = ammo;
+        return this;
+    }
+
+    public int getFuel() {
+        return fuel;
+    }
+
+    public Player setFuel(int fuel) {
+        this.fuel = fuel;
+        return this;
+    }
+
+    public int getBulletSpeed() {
+        return bulletSpeed;
+    }
+
+    public Player setBulletSpeed(int bulletSpeed) {
+        this.bulletSpeed = bulletSpeed;
+        return this;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+
+    private void collisionWithObject(int offset, ObjectID objectID) {
+       for (int i = 0; i < objectHandler.gameObjects.size(); i++) {
+           GameObject tempObject = objectHandler.gameObjects.get(i);
+           if (tempObject.getId() == objectID) {
+               if (getLeftBounds(offset).intersects(tempObject.getRightBounds(0))) {
+                   x += velocityX *= -1;
+               }
+               if (getRightBounds(offset).intersects(tempObject.getLeftBounds(0))) {
+                   x += velocityX *= -1;
+               }
+               if (getTopBounds(offset).intersects(tempObject.getBotBounds(0))) {
+                   y += velocityY *= -1;
+               }
+               if (getBotBounds(offset).intersects(tempObject.getTopBounds(0))) {
+                   y += velocityY *= -1;
+               }
+           }
+       }
+   }
     private void playerMovement(){
         if(objectHandler.isLeft())  velocityX = -speed;
         if(objectHandler.isRight()) velocityX = speed;
@@ -189,6 +229,13 @@ public class Player extends GameObject {
         if(objectHandler.isDown())  velocityY = speed;
         else if(!(objectHandler.isUp()||objectHandler.isDown())) velocityY = 0;
 
+    }
+    public int getCouldownBullet() {
+        return couldownBullet;
+    }
+
+    public void setCouldownBullet(int couldownBullet) {
+        this.couldownBullet = couldownBullet;
     }
 }
 
