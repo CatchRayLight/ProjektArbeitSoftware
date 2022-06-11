@@ -113,9 +113,6 @@ public class KeyListener extends KeyAdapter{
         }
         if (gamestate.equals(Gamestate.INMENU)) {
             switch (e.getKeyCode()) {
-                case KeyEvent.VK_ESCAPE:
-                    menuHandler.setEnter(false);
-                    break;
                 case KeyEvent.VK_ENTER:
                     menuHandler.setEnter(false);
                     break;

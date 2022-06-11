@@ -1,6 +1,9 @@
 package gameDA.objects.model;
 
+import gameDA.Game;
 import gameDA.config.output.SpriteSheet;
+import gameDA.gui.Gamestate;
+import gameDA.gui.menus.submenus.DialogueMenu;
 import gameDA.objects.GameObject;
 import gameDA.objects.ObjectHandler;
 import gameDA.objects.ObjectID;
@@ -23,7 +26,16 @@ public class Event extends GameObject {
             GameObject tempObject = objectHandler.gameObjects.get(i);
             if (tempObject.getId() == ObjectID.PLAYER) {
                 if(getBounds().intersects(tempObject.getBounds())){
+                    Game.getGame().updateGamestate(Gamestate.INMENU);
                     System.out.println("Event");
+                    //teleport player out first to not make bugs
+                    Player player = (Player) tempObject;
+                    player.setX(100);
+                    player.setY(100);
+                    //Triggers sample dialogue for now
+                    String[][] sampleDialogue = new String[][]{{"Text"}, {"Text"}};
+                    Game.getGame().getMenuHandler().setCurrentMenu(new DialogueMenu(sampleDialogue));
+                    break;
                 }
             }
         }

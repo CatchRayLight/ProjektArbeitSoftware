@@ -21,11 +21,11 @@ public class DialogueMenu extends Menu {
     private final BufferedImage backgroundNext = loader.loadImage("/DialogueMenuNext.png");
     private final BufferedImage backgroundPrev = loader.loadImage("/DialogueMenuPrev.png");
 
-    public DialogueMenu(String[][] dialogueText, Game game) {
+    public DialogueMenu(String[][] dialogueText) {
         super(new MenuOption[]{});
         setMenuOptions(new MenuOption[]{new MenuOption(() -> {
             if(currentDialoguePosition + 1 >= dialogueText.length) {
-                game.updateGamestate(Gamestate.INGAME);
+                Game.getGame().updateGamestate(Gamestate.INGAME);
             } else currentDialoguePosition++;
         }, "Next", 100, 100), new MenuOption(() -> {
             if(currentDialoguePosition - 1 < 0) {

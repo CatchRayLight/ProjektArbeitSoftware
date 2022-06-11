@@ -43,9 +43,13 @@ public class Game extends Canvas implements Runnable {
     private Gamestate gamestate;
     private MenuHandler menuHandler;
     private final KeyListener keyListener;
+    private Sound sound;
     private final SpriteSheet spriteS;
     private int outputFrames;
     private final boolean onPlanet;
+
+    //Game instance
+    private static Game game;
 
 
 
@@ -53,7 +57,9 @@ public class Game extends Canvas implements Runnable {
 
 
     public Game() {
-        new GameWindow(SCREEN_HEIGHT, SCREEN_WIDTH, "Space Plugg", this);
+        game = this;
+        new GameWindow(SCREEN_HEIGHT, SCREEN_WIDTH, "Space Plugg");
+        sound = new Sound();
         start();
         objectHandler = new ObjectHandler();
         BufferedImageLoader loader = new BufferedImageLoader();
@@ -115,22 +121,26 @@ public class Game extends Canvas implements Runnable {
         //menuoptions
         //StartMenu
         MenuOption[] menuOptionsStartmenu = {new MenuOption(() -> {
+            Game.getGame().getSound().stop();
             updateGamestate(Gamestate.INGAME);
         }, "Play", 100, 100),new MenuOption(() -> {
             menuHandler.setCurrentMenu(saveMenu);
         }, "Saves",100,250),new MenuOption(() -> {
             menuHandler.setCurrentMenu(optionsMenu);
         }, "Options",100,400), new MenuOption(() -> {
-            menuHandler.setCurrentMenu(new DialogueMenu(new String[][]{{"This is first line dialogue option 1", "This is second line dialogue option 1", "This is third line dialogue option 1"},{"This is first line dialogue option 2"}}, this));
+            menuHandler.setCurrentMenu(new DialogueMenu(new String[][]{{"This is first line dialogue option 1", "This is second line dialogue option 1", "This is third line dialogue option 1"},{"This is first line dialogue option 2"}}));
         }, "Exit",100,550)
         };
 
         //OptionsMenu
         MenuOption[] menuOptionsOptionsMenu = {new MenuOption(() -> {
+            Game.getGame().getSound().stop();
             updateGamestate(Gamestate.INGAME);
         }, "Option1", 100, 100), new MenuOption(() -> {
+            Game.getGame().getSound().stop();
             updateGamestate(Gamestate.INGAME);
         }, "Option2",100,250), new MenuOption(() -> {
+            Game.getGame().getSound().stop();
             updateGamestate(Gamestate.INGAME);
         }, "Option3",100,400), new MenuOption(() -> {
             menuHandler.setCurrentMenu(mainMenu);
@@ -139,10 +149,13 @@ public class Game extends Canvas implements Runnable {
 
         //SaveMenu
         MenuOption[] menuOptionsSaveMenu = {new MenuOption(() -> {
+            Game.getGame().getSound().stop();
             updateGamestate(Gamestate.INGAME);
         }, "Save 1", 100, 100), new MenuOption(() -> {
+            Game.getGame().getSound().stop();
             updateGamestate(Gamestate.INGAME);
         }, "Save 2",100,250), new MenuOption(() -> {
+            Game.getGame().getSound().stop();
             updateGamestate(Gamestate.INGAME);
         }, "Save 3",100,400), new MenuOption(() -> {
             menuHandler.setCurrentMenu(mainMenu);
@@ -153,8 +166,13 @@ public class Game extends Canvas implements Runnable {
         optionsMenu.setMenuOptions(menuOptionsOptionsMenu);
         saveMenu.setMenuOptions(menuOptionsSaveMenu);
 
-        menuHandler = new MenuHandler(mainMenu, this);
+        menuHandler = new MenuHandler(mainMenu);
     }
+
+    public MenuHandler getMenuHandler() {
+        return menuHandler;
+    }
+
 
     //game-Loop
 
@@ -214,10 +232,22 @@ public class Game extends Canvas implements Runnable {
                 camera.setX(0);
                 camera.setY(0);
             }
-            menuHandler.update(this);
+            menuHandler.update();
             objectHandler.update();
 
         }
+    }
+
+    public Sound getSound() {
+        return sound;
+    }
+
+    public void setSound(Sound sound) {
+        this.sound = sound;
+    }
+
+    public static Game getGame() {
+        return game;
     }
 
     public void render() {

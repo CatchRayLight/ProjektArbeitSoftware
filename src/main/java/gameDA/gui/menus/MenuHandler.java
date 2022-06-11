@@ -10,8 +10,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import static javafx.scene.text.Font.loadFont;
-
 public class MenuHandler {
 
     private Menu currentMenu;
@@ -31,19 +29,20 @@ public class MenuHandler {
 
 
 
-    public MenuHandler(Menu startMenu, Game game) {
+    public MenuHandler(Menu startMenu) {
         this.currentMenu = startMenu;
-        this.game = game;
+        this.game = Game.getGame();
         this.startMenu = startMenu;
         BufferedImage backgroundGuy2 = loader.loadImage("/BackgroundGuy2.png");
         BufferedImage backgroundGuy1 = loader.loadImage("/BackgroundGuy1.png");
         BufferedImage backgroundGuy = loader.loadImage("/BackgroundGuy.png");
         BufferedImage[] backgroundGuyS = {backgroundGuy, backgroundGuy1, backgroundGuy2};
         animation = new Animation(10, backgroundGuyS);
+        currentMenu.startMusic();
     }
 
-    public void update(Game game){
-        currentMenu.update(this, game);
+    public void update(){
+        currentMenu.update(this);
         animation.runAnimation();
     }
     public void render(Graphics g){
@@ -94,11 +93,19 @@ public class MenuHandler {
     }
 
     public void setCurrentMenu(Menu currentMenu) {
-        this.currentMenu = currentMenu;
+
+        if(currentMenu.getBackgroundMusic() != this.currentMenu.getBackgroundMusic()) {
+            Game.getGame().getSound().stop();
+            this.currentMenu = currentMenu;
+            currentMenu.startMusic();
+        } else this.currentMenu = currentMenu;
+
     }
 
     public void openStartMenu() {
+        Game.getGame().getSound().stop();
         this.currentMenu = startMenu;
+        currentMenu.startMusic();
         game.updateGamestate(Gamestate.INMENU);
     }
     private Font loadFont(){

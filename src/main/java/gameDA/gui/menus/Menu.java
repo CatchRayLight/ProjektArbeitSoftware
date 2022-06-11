@@ -11,6 +11,7 @@ public abstract class Menu {
     private int changeCurrentoptionCooldown = 20;
     private int enterCooldown = 20;
     public int maxOption;
+    private int backgroundMusic;
     public final int minOption;
     private MenuOption[] menuOptions;
 
@@ -20,7 +21,34 @@ public abstract class Menu {
         this.maxOption = menuOptions.length - 1;
         this.minOption = 0;
         this.menuOptions = menuOptions;
+        this.backgroundMusic = -1;
     }
+
+    public Menu(MenuOption[] menuOptions, int backgroundMusic) {
+        this.currentOption = 0;
+        this.maxOption = menuOptions.length - 1;
+        this.minOption = 0;
+        this.menuOptions = menuOptions;
+        this.backgroundMusic = backgroundMusic;
+    }
+
+    public void startMusic() {
+        if(backgroundMusic >= 0 && Game.getGame().getSound() != null) {
+            Game.getGame().getSound().setClip(backgroundMusic);
+            Game.getGame().getSound().play();
+            Game.getGame().getSound().loop();
+        }
+    }
+
+    public int getBackgroundMusic() {
+        return backgroundMusic;
+    }
+
+    public void setBackgroundMusic(int backgroundMusic) {
+        this.backgroundMusic = backgroundMusic;
+    }
+
+
     private void nextOption() {
         menuOptions[currentOption].setSelected(false);
         currentOption++;
@@ -36,7 +64,7 @@ public abstract class Menu {
         }
     }
 
-    public void update(MenuHandler menuHandler, Game game) {
+    public void update(MenuHandler menuHandler) {
         if(changeCurrentoptionCooldown <= 0) {
             if (menuHandler.isUp()) {
                 changeCurrentoptionCooldown = 20;
@@ -48,11 +76,11 @@ public abstract class Menu {
             }
             menuOptions[currentOption].setSelected(true);
         } else changeCurrentoptionCooldown--;
-        
         if(enterCooldown <= 0) {
             if (menuHandler.isEnter()) {
+                menuHandler.setEnter(false);
                 enterCooldown = 20;
-                select(game);
+                select();
             }
         } else enterCooldown--;
         updateMenu();
@@ -70,8 +98,8 @@ public abstract class Menu {
      * Runs the code associated with the MenuOption currently selected through
      * the execute Method of MenuOption
      */
-    public void select(Game game) {
-        menuOptions[currentOption].execute(game);
+    public void select() {
+        menuOptions[currentOption].execute();
     }
 
     /**
