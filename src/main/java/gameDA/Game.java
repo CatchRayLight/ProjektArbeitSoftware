@@ -265,7 +265,8 @@ public class Game extends Canvas implements Runnable {
 
                 if (blue == 255 && green != 255 && red != 255) {
                     objectHandler.addObj(new Player(xAxis * 32, yAxis * 32, ObjectID.PLAYER, spriteS,
-                            objectHandler, onPlanet, camera, 100, 90, 100, 6,10));
+                            objectHandler, onPlanet, camera, 100, 90, 100, 6,
+                            10,10,20));
                 }
                 if (red == 255 && green != 255 && blue != 255) {
                     objectHandler.addObj(new Walls(xAxis * 32, yAxis * 32, ObjectID.BLOCK, spriteS, onPlanet));

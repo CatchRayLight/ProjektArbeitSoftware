@@ -1,58 +1,55 @@
 package gameDA.objects.model;
 
 import gameDA.config.output.SpriteSheet;
+import gameDA.objects.Animation;
 import gameDA.objects.GameObject;
 import gameDA.objects.ObjectHandler;
 import gameDA.objects.ObjectID;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 /**
  * @author Atilla Ipek
  */
 public class PlayerBullet extends GameObject {
-    private int offsetX;
-    private int offsetY;
-    private int bulletDirectionY;
+    private final BufferedImage[] playerBulletV = new BufferedImage[2];
+    private final BufferedImage[] playerBulletH = new BufferedImage[2];
 
-    private int bulletDirectionX;
     private ObjectHandler objectHandler;
+
+    private Animation animationV;
+    private Animation animationH;
+    private char direction;
+
      public PlayerBullet(int x, int y, ObjectID id, SpriteSheet spriteSheet, ObjectHandler objectHandler,int bulletSpeed,char direction) {
         super(x, y, id, spriteSheet);
         this.objectHandler = objectHandler;
-
+        this.direction = direction;
+        //right // left
+         playerBulletV[0] = spriteSheet.getImage(9,9,32,32);
+         playerBulletV[1] = spriteSheet.getImage(10,9,32,32);
+         //top//Down
+         playerBulletH[0] = spriteSheet.getImage(9,10,32,32);
+         playerBulletH[1] = spriteSheet.getImage(10,10,32,32);
+         animationV = new Animation(10,playerBulletV);
+         animationH = new Animation(10,playerBulletH);
         switch (direction){
             case 'U':
                 velocityX = 0;
                 velocityY = -bulletSpeed;
-                offsetX = 16;
-                offsetY = 0;
-                bulletDirectionX= 2;
-                bulletDirectionY = 8;
                 break;
             case 'D':
                 velocityX = 0;
                 velocityY = bulletSpeed;
-                offsetY = 32;
-                offsetX = 16;
-                bulletDirectionX= 2;
-                bulletDirectionY = 8;
                 break;
             case 'R':
                 velocityX = bulletSpeed;
                 velocityY = 0;
-                offsetX = 32;
-                offsetY = 16;
-                bulletDirectionX= 8;
-                bulletDirectionY = 2;
                 break;
             case 'L':
                 velocityX = -bulletSpeed;
                 velocityY = 0;
-                offsetX = 0;
-                offsetY = 16;
-                bulletDirectionX= 8;
-                bulletDirectionY = 2;
                 break;
         }
 
@@ -62,6 +59,8 @@ public class PlayerBullet extends GameObject {
     public void update() {
         x += velocityX;
         y += velocityY;
+        animationH.runAnimation();
+        animationV.runAnimation();
         for (int i = 0; i < objectHandler.gameObjects.size() ; i++) {
             GameObject tempObject = objectHandler.gameObjects.get(i);
             if (tempObject.getId() == ObjectID.BLOCK) {
@@ -75,13 +74,19 @@ public class PlayerBullet extends GameObject {
 
     @Override
     public void render(Graphics g) {
-        g.setColor(Color.green);
-        g.fillRect(x+offsetX,y+offsetY,bulletDirectionX,bulletDirectionY);
+        switch (direction){
+            case 'U':case 'D':
+                animationH.drawAnimation(g,x,y,0);
+                break;
+            case 'R':case 'L':
+                animationV.drawAnimation(g,x,y,0);
+                break;
+        }
     }
 
     @Override
     public Rectangle getBounds() {
-        return new Rectangle(x+offsetX,y+offsetY,bulletDirectionX,bulletDirectionY);
+        return new Rectangle(x,y,10,10);
     }
 
     @Override

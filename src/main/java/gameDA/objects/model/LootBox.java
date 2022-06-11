@@ -2,22 +2,25 @@ package gameDA.objects.model;
 
 import gameDA.config.output.SpriteSheet;
 import gameDA.objects.GameObject;
-import gameDA.objects.Healthbar;
 import gameDA.objects.ObjectHandler;
 import gameDA.objects.ObjectID;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 import static gameDA.objects.model.Player.playerHealthbar;
 
 
 public class LootBox extends GameObject {
     private ObjectHandler objectHandler;
+
+    private BufferedImage img;
     private Player player;
 
     public LootBox(int x, int y, ObjectID id, SpriteSheet spriteSheet, ObjectHandler objectHandler) {
         super(x, y, id, spriteSheet);
         this.objectHandler = objectHandler;
+        img = spriteSheet.getImage(7,6,32,32);
     }
 
     @Override
@@ -27,12 +30,12 @@ public class LootBox extends GameObject {
             if (tempObject.getId() == ObjectID.PLAYER) {
                 if(getBounds().intersects(tempObject.getBounds())){
                     objectHandler.removeObj(this);
+                    player = (Player) tempObject;
                     System.out.println("LOOTBOX");
                     //add stuff /coins what ever
-                    if(playerHealthbar.getAmmo()+30 != 100){
-                        player.setAmmo(player.getAmmo()+30);
-                        playerHealthbar.setAmmo(player.getAmmo());
-                    }
+                    player.setAmmo(Math.min(player.getAmmo()+30, 100));
+                    playerHealthbar.setAmmo(player.getAmmo());
+                    System.out.println(player.getAmmo());
 
                 }
             }
@@ -41,8 +44,7 @@ public class LootBox extends GameObject {
 
     @Override
     public void render(Graphics g) {
-        g.setColor(Color.cyan);
-        g.fillRect(x,y,32,32);
+        g.drawImage(img,x,y,null);
     }
 
     @Override

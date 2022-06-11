@@ -6,12 +6,15 @@ import gameDA.objects.ObjectHandler;
 import gameDA.objects.ObjectID;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class Event extends GameObject {
     private ObjectHandler objectHandler;
+    private BufferedImage img;
     public Event(int x, int y, ObjectID id, SpriteSheet spriteSheet, ObjectHandler objectHandler) {
         super(x, y, id, spriteSheet);
         this.objectHandler = objectHandler;
+        img = spriteSheet.getImage(9,8,32,32);
     }
 
     @Override
@@ -28,8 +31,7 @@ public class Event extends GameObject {
 
     @Override
     public void render(Graphics g) {
-        g.setColor(Color.yellow);
-        g.fillRect(x,y,32,32);
+        g.drawImage(img,x,y,null);
     }
 
     @Override
