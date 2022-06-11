@@ -44,7 +44,7 @@ public class MenuOption {
             //g.drawRect(positionX,positionY,400,96);
         }
     }
-    public void execute(Game game) {
+    public void execute() {
         runnable.run();
     }
 

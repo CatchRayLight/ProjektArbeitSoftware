@@ -10,7 +10,7 @@ import java.awt.*;
 
 public class MainMenu extends Menu {
         public MainMenu(MenuOption[] menuOptions){
-        super(menuOptions);
+        super(menuOptions,0);
     }
 
     @Override

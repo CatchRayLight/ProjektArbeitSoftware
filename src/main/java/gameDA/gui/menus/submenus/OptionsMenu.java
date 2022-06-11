@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 
 public class OptionsMenu extends Menu {
     public OptionsMenu(MenuOption[] menuOptions) {
-        super(menuOptions);
+        super(menuOptions, 0);
     }
 
     @Override

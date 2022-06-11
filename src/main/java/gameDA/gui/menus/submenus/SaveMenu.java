@@ -11,8 +11,7 @@ import java.awt.image.BufferedImage;
 public class SaveMenu extends Menu {
 
     public SaveMenu(MenuOption[] menuOptions) {
-        super(menuOptions);
-
+        super(menuOptions,0);
     }
 
     @Override
