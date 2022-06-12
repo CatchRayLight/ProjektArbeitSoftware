@@ -27,6 +27,7 @@ public class KeyListener extends KeyAdapter{
         this.gamestate = gamestate;
     }
 
+
     public void setGamestate(Gamestate gamestate) {
         this.gamestate = gamestate;
     }

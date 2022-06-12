@@ -46,22 +46,22 @@ public class MenuHandler {
         animation.runAnimation();
     }
     public void render(Graphics g){
-        yy++;
-        if(yy >= 2){
-            xx--;
-            yy= 0;
-        }
-        g.drawImage(background1, xx - (4 * Game.SCREEN_WIDTH), 0, null);
-        g.drawImage(background2, xx-(3*Game.SCREEN_WIDTH), 0, null);
-        g.drawImage(background3, xx-(2*Game.SCREEN_WIDTH), 0, null);
-        g.drawImage(background1, xx - (Game.SCREEN_WIDTH), 0, null);
-        if(xx <= Game.SCREEN_WIDTH) xx = 4*Game.SCREEN_WIDTH;
-        animation.drawAnimation(g,-140,170,0);
-        g.setColor(Color.GREEN);
-        g.setFont(customFont.deriveFont(128f));
-        g.drawString("Cool Game",Game.SCREEN_WIDTH/2-20, Game.SCREEN_HEIGHT/2 - 100);
-        g.setFont(customFont.deriveFont(50f));
-        currentMenu.render(g);
+            yy++;
+            if (yy >= 2) {
+                xx--;
+                yy = 0;
+            }
+            g.drawImage(background1, xx - (4 * Game.SCREEN_WIDTH), 0, null);
+            g.drawImage(background2, xx - (3 * Game.SCREEN_WIDTH), 0, null);
+            g.drawImage(background3, xx - (2 * Game.SCREEN_WIDTH), 0, null);
+            g.drawImage(background1, xx - (Game.SCREEN_WIDTH), 0, null);
+            if (xx <= Game.SCREEN_WIDTH) xx = 4 * Game.SCREEN_WIDTH;
+            animation.drawAnimation(g, -140, 170, 0);
+            g.setColor(Color.GREEN);
+            g.setFont(customFont.deriveFont(128f));
+            g.drawString("Cool Game", Game.SCREEN_WIDTH / 2 - 20, Game.SCREEN_HEIGHT / 2 - 100);
+            g.setFont(customFont.deriveFont(50f));
+            currentMenu.render(g);
     }
 
     public boolean isUp() {
@@ -106,7 +106,7 @@ public class MenuHandler {
         Game.getGame().getSound().stop();
         this.currentMenu = startMenu;
         currentMenu.startMusic();
-        game.updateGamestate(Gamestate.INMENU);
+        game.setGamestate(Gamestate.INMENU);
     }
     private Font loadFont(){
         try {

@@ -38,7 +38,6 @@ public class MenuOption {
             //g.drawRect(positionX,positionY,400,96);
         } else {
             g.drawImage(unselectedButton, positionX,positionY,400,96,null);
-
             g.setColor(Color.BLUE);
             g.drawString(text,positionX+30,positionY+70);
             //g.drawRect(positionX,positionY,400,96);

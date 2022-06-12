@@ -25,7 +25,7 @@ public class DialogueMenu extends Menu {
         super(new MenuOption[]{});
         setMenuOptions(new MenuOption[]{new MenuOption(() -> {
             if(currentDialoguePosition + 1 >= dialogueText.length) {
-                Game.getGame().updateGamestate(Gamestate.INGAME);
+                Game.getGame().setGamestate(Gamestate.INGAME);
             } else currentDialoguePosition++;
         }, "Next", 100, 100), new MenuOption(() -> {
             if(currentDialoguePosition - 1 < 0) {

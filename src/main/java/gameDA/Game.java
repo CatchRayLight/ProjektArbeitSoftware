@@ -19,163 +19,82 @@ import gameDA.objects.model.SpaceEnemy;
 import gameDA.objects.model.Walls;
 import gameDA.objects.model.Player;
 import gameDA.config.input.KeyListener;
-import gameDA.savemanager.Save;
-import gameDA.savemanager.SaveKey;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
 
 
 public class Game extends Canvas implements Runnable {
 
+    //Variablen und ressourcen benötigt für das Spiel
     public static final int SCREEN_WIDTH = 1216;
     public static final int SCREEN_HEIGHT = 928;
-    private boolean isRunning = false;
-    private Thread thread;
-    private final ObjectHandler objectHandler;
     private final BufferedImage[] background =new BufferedImage[4];
+    private final SpriteSheet spriteS;
 
-    private final Camera camera;
-    private Gamestate gamestate;
+    //Objekte zur Steuerung des Spieles
     private MenuHandler menuHandler;
+    private final ObjectHandler objectHandler;
     private final KeyListener keyListener;
     private Sound sound;
-    private final SpriteSheet spriteS;
+    private final Camera camera;
+    private Thread thread;
+
+    //Variablen die Auskunft über den Zustand des Spieles geben
+    private Gamestate gamestate = Gamestate.INMENU;
     private int outputFrames;
     private final boolean onPlanet;
+    private boolean isRunning = false;
 
-    //Game instance
+    //Game Instanz
     private static Game game;
 
-
-
-
-
-
+    //Konstruktor
     public Game() {
-        game = this;
-        new GameWindow(SCREEN_HEIGHT, SCREEN_WIDTH, "Space Plugg");
-        sound = new Sound();
-        start();
-        objectHandler = new ObjectHandler();
+        //Laden der Ressourcen
         BufferedImageLoader loader = new BufferedImageLoader();
         BufferedImage testLvL = loader.loadImage("/TestLVL.png");
+        BufferedImage LvL1 = loader.loadImage("/Level2.png");
         BufferedImage spriteSheet = loader.loadImage("/SpriteSheet.png");
         BufferedImage backgroundImage = loader.loadImage("/backgroundTest.png");
+        BufferedImage icon = loader.loadImage("/Icon.png");
+
+        //Initialisierungen
+        game = this;
+        GameWindow gameWindow = new GameWindow(SCREEN_HEIGHT, SCREEN_WIDTH, "Space Plugg");
+        gameWindow.setIconImage(icon);
+        sound = new Sound();
+        objectHandler = new ObjectHandler();
+        initMenus(); //Initialisiert alle nötigen Menus und Menuhandler
         spriteS = new SpriteSheet(spriteSheet);
-        SpriteSheet backgroundImageS = new SpriteSheet(backgroundImage);
+        onPlanet = false; //toggle for player model change off/on planet
         camera = new Camera(0, 0);
         keyListener = new KeyListener(objectHandler, menuHandler, gamestate);
         this.addKeyListener(keyListener);
-
-
+        SpriteSheet backgroundImageS = new SpriteSheet(backgroundImage);
         background[0] = backgroundImageS.getImage(1,1,2048,2048);
 
-
-
-        onPlanet = false; //toggle for player model change off/on planet
-        levelBuilder(testLvL);
-        //Add new obj
-
+        //Starten des Spieles und laden des Levels
+        start();
+        levelBuilder(LvL1);
     }
 
-    public void updateGamestate(Gamestate newgamestate) {
-        gamestate = newgamestate;
-        keyListener.setGamestate(gamestate);
-    }
-
-    private void stop() throws InterruptedException {
-        isRunning = false;
-        thread.join();
-    }
-
+    //Die Start Methode startet den Thread und somit das Spiel
     private void start() {
-        initMenus();
-        initSafeManager();
         isRunning = true;
         thread = new Thread(this);
         thread.start();
     }
 
-    private void initSafeManager() {
-        //For testing (currently)
-        Save save = null;
-        try {
-            save = new Save(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI().getPath() + "save.txt");
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        save.safe(SaveKey.PLAYERX, "5");
-    }
-    private void initMenus() {
-        gamestate = Gamestate.INMENU;
-        MenuOption[] empty = {};
-        //initinalize empty
-        OptionsMenu optionsMenu = new OptionsMenu(empty);
-        MainMenu mainMenu = new MainMenu(empty);
-        SaveMenu saveMenu = new SaveMenu(empty);
-        //menuoptions
-        //StartMenu
-        MenuOption[] menuOptionsStartmenu = {new MenuOption(() -> {
-            Game.getGame().getSound().stop();
-            updateGamestate(Gamestate.INGAME);
-        }, "Play", 100, 100),new MenuOption(() -> {
-            menuHandler.setCurrentMenu(saveMenu);
-        }, "Saves",100,250),new MenuOption(() -> {
-            menuHandler.setCurrentMenu(optionsMenu);
-        }, "Options",100,400), new MenuOption(() -> {
-            menuHandler.setCurrentMenu(new DialogueMenu(new String[][]{{"This is first line dialogue option 1", "This is second line dialogue option 1", "This is third line dialogue option 1"},{"This is first line dialogue option 2"}}));
-        }, "Exit",100,550)
-        };
-
-        //OptionsMenu
-        MenuOption[] menuOptionsOptionsMenu = {new MenuOption(() -> {
-            Game.getGame().getSound().stop();
-            updateGamestate(Gamestate.INGAME);
-        }, "Option1", 100, 100), new MenuOption(() -> {
-            Game.getGame().getSound().stop();
-            updateGamestate(Gamestate.INGAME);
-        }, "Option2",100,250), new MenuOption(() -> {
-            Game.getGame().getSound().stop();
-            updateGamestate(Gamestate.INGAME);
-        }, "Option3",100,400), new MenuOption(() -> {
-            menuHandler.setCurrentMenu(mainMenu);
-        }, "Back",100,550)
-        };
-
-        //SaveMenu
-        MenuOption[] menuOptionsSaveMenu = {new MenuOption(() -> {
-            Game.getGame().getSound().stop();
-            updateGamestate(Gamestate.INGAME);
-        }, "Save 1", 100, 100), new MenuOption(() -> {
-            Game.getGame().getSound().stop();
-            updateGamestate(Gamestate.INGAME);
-        }, "Save 2",100,250), new MenuOption(() -> {
-            Game.getGame().getSound().stop();
-            updateGamestate(Gamestate.INGAME);
-        }, "Save 3",100,400), new MenuOption(() -> {
-            menuHandler.setCurrentMenu(mainMenu);
-        }, "Back",100,550)
-        };
-        //set new menuoptions
-        mainMenu.setMenuOptions(menuOptionsStartmenu);
-        optionsMenu.setMenuOptions(menuOptionsOptionsMenu);
-        saveMenu.setMenuOptions(menuOptionsSaveMenu);
-
-        menuHandler = new MenuHandler(mainMenu);
-    }
-
-    public MenuHandler getMenuHandler() {
-        return menuHandler;
+    //Die Stop methode beendet den Thread
+    private void stop() throws InterruptedException {
+        isRunning = false;
+        thread.join();
     }
 
 
     //game-Loop
-
     @Override
     public void run() {
         /**
@@ -218,6 +137,7 @@ public class Game extends Canvas implements Runnable {
         }
     }
 
+    //update methode
     public void update() {
         if (gamestate.equals(Gamestate.INGAME)) {
             for (int i = 0; i < objectHandler.gameObjects.size(); i++) {
@@ -238,18 +158,7 @@ public class Game extends Canvas implements Runnable {
         }
     }
 
-    public Sound getSound() {
-        return sound;
-    }
-
-    public void setSound(Sound sound) {
-        this.sound = sound;
-    }
-
-    public static Game getGame() {
-        return game;
-    }
-
+    //Render des gesamten Spielinhaltes
     public void render() {
         //starten bei null
         BufferStrategy bufferStrategy = this.getBufferStrategy();
@@ -269,7 +178,6 @@ public class Game extends Canvas implements Runnable {
 
                 g.drawImage(background[0], 0, 0, null);
                 objectHandler.render(g);
-
                 graphics2D.translate(camera.getX(), camera.getY());
                 g.setColor(Color.yellow);
                 g.setFont(new Font("Courier New",Font.BOLD,10));
@@ -282,6 +190,7 @@ public class Game extends Canvas implements Runnable {
         g.dispose();
         bufferStrategy.show();
     }
+
     // level loader durch rbg differenzierung, png wird eingelesen und dann mit objecten verwiesen
     private void levelBuilder(BufferedImage image) {
         int width = image.getWidth();
@@ -315,4 +224,102 @@ public class Game extends Canvas implements Runnable {
             }
         }
     }
+
+    //Initialisierung der Menus
+    private void initMenus() {
+        MenuOption[] empty = {};
+        //initinalize empty
+        OptionsMenu optionsMenu = new OptionsMenu(empty);
+        MainMenu mainMenu = new MainMenu(empty);
+        SaveMenu saveMenu = new SaveMenu(empty);
+        //menuoptions
+        //StartMenu
+        MenuOption[] menuOptionsStartmenu = {new MenuOption(() -> {
+            Game.getGame().getSound().stop();
+            setGamestate(Gamestate.INGAME);
+        }, "Play", 100, 100),new MenuOption(() -> {
+            menuHandler.setCurrentMenu(saveMenu);
+        }, "Saves",100,250),new MenuOption(() -> {
+            menuHandler.setCurrentMenu(optionsMenu);
+        }, "Options",100,400), new MenuOption(() -> {
+            menuHandler.setCurrentMenu(new DialogueMenu(new String[][]{{"This is first line dialogue option 1", "This is second line dialogue option 1", "This is third line dialogue option 1"},{"This is first line dialogue option 2"}}));
+        }, "Exit",100,550)
+        };
+
+        //OptionsMenu
+        MenuOption[] menuOptionsOptionsMenu = {new MenuOption(() -> {
+            Game.getGame().getSound().stop();
+            setGamestate(Gamestate.INGAME);
+        }, "Option1", 100, 100), new MenuOption(() -> {
+            Game.getGame().getSound().stop();
+            setGamestate(Gamestate.INGAME);
+        }, "Option2",100,250), new MenuOption(() -> {
+            Game.getGame().getSound().stop();
+            setGamestate(Gamestate.INGAME);
+        }, "Option3",100,400), new MenuOption(() -> {
+            menuHandler.setCurrentMenu(mainMenu);
+        }, "Back",100,550)
+        };
+
+        //SaveMenu
+        MenuOption[] menuOptionsSaveMenu = {new MenuOption(() -> {
+            Game.getGame().getSound().stop();
+            setGamestate(Gamestate.INGAME);
+        }, "Save 1", 100, 100), new MenuOption(() -> {
+            Game.getGame().getSound().stop();
+            setGamestate(Gamestate.INGAME);
+        }, "Save 2",100,250), new MenuOption(() -> {
+            Game.getGame().getSound().stop();
+            setGamestate(Gamestate.INGAME);
+        }, "Save 3",100,400), new MenuOption(() -> {
+            menuHandler.setCurrentMenu(mainMenu);
+        }, "Back",100,550)
+        };
+        //set new menuoptions
+        mainMenu.setMenuOptions(menuOptionsStartmenu);
+        optionsMenu.setMenuOptions(menuOptionsOptionsMenu);
+        saveMenu.setMenuOptions(menuOptionsSaveMenu);
+
+        menuHandler = new MenuHandler(mainMenu);
+
+    }
+
+    //Getter and setter
+
+
+    public void setGamestate(Gamestate newgamestate) {
+        gamestate = newgamestate;
+        keyListener.setGamestate(gamestate);
+    }
+
+    public MenuHandler getMenuHandler() {
+        return menuHandler;
+    }
+
+    public Camera getCamera() {
+        return camera;
+    }
+
+    public ObjectHandler getObjectHandler() {
+        return objectHandler;
+    }
+
+    public int getOutputFrames() {
+        return outputFrames;
+    }
+    
+    public Sound getSound() {
+        return sound;
+    }
+
+    public void setSound(Sound sound) {
+        this.sound = sound;
+    }
+
+    public static Game getGame() {
+        return game;
+    }
+
+
+
 }

@@ -26,7 +26,7 @@ public class Event extends GameObject {
             GameObject tempObject = objectHandler.gameObjects.get(i);
             if (tempObject.getId() == ObjectID.PLAYER) {
                 if(getBounds().intersects(tempObject.getBounds())){
-                    Game.getGame().updateGamestate(Gamestate.INMENU);
+                    Game.getGame().setGamestate(Gamestate.INMENU);
                     System.out.println("Event");
                     //teleport player out first to not make bugs
                     Player player = (Player) tempObject;
