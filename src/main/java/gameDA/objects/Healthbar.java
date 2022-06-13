@@ -34,7 +34,7 @@ public class Healthbar{
     }
     public void render(Graphics g) {
         g.setColor(Color.red);
-        g.fillRect((int) camera.getX() + 43, (int) camera.getY() + Game.SCREEN_HEIGHT - 150, (hp * 156) / 100, 20);
+        g.fillRect((int) camera.getX() + 43, (int) (camera.getY() + Game.SCREEN_HEIGHT - 150), (hp * 156) / 100, 20);
         g.setColor(Color.orange);
         g.fillRect((int) camera.getX() + 43, (int) camera.getY() + Game.SCREEN_HEIGHT - 113, (ammo * 156) / 100, 20);
         g.setColor(Color.LIGHT_GRAY);

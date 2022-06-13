@@ -2,16 +2,13 @@ package gameDA.config.output;
 
 import gameDA.Game;
 import gameDA.objects.GameObject;
-import gameDA.objects.Healthbar;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
 
 
 public class Camera {
-    private int x,y;
+    private float x,y;
 
-    public Camera(int x,int y){
+    public Camera(float x,float y){
         this.x = x;
         this.y = y;
 
@@ -27,20 +24,20 @@ public class Camera {
         if(y >= 1158) y = 1158;
 
     }
-    public int getX() {
+    public float getX() {
         return x;
     }
 
-    public Camera setX(int x) {
+    public Camera setX(float x) {
         this.x = x;
         return this;
     }
 
-    public int getY() {
+    public float getY() {
         return y;
     }
 
-    public Camera setY(int y) {
+    public Camera setY(float y) {
         this.y = y;
         return this;
     }

@@ -145,12 +145,6 @@ public class Game extends Canvas implements Runnable {
             objectHandler.update();
         }
         if (gamestate.equals(Gamestate.INMENU)) {
-            if(camera != null) {
-                if(player != null) {
-                    camera.setX((player.getX()- SCREEN_WIDTH / 2));
-                    camera.setY((player.getY()- SCREEN_HEIGHT / 2));
-                }
-            }
             menuHandler.update();
             objectHandler.update();
 
