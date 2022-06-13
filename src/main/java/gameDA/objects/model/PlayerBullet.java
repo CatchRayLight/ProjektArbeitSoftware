@@ -32,8 +32,8 @@ public class PlayerBullet extends GameObject {
          //top//Down
          playerBulletH[0] = spriteSheet.getImage(9,10,32,32);
          playerBulletH[1] = spriteSheet.getImage(10,10,32,32);
-         animationV = new Animation(10,playerBulletV);
-         animationH = new Animation(10,playerBulletH);
+         animationV = new Animation(3,playerBulletV);
+         animationH = new Animation(3,playerBulletH);
         switch (direction){
             case 'U':
                 velocityX = 0;

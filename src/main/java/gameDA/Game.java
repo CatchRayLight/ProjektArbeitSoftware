@@ -68,7 +68,6 @@ public class Game extends Canvas implements Runnable {
         objectHandler = new ObjectHandler();
         initMenus(); //Initialisiert alle nötigen Menus und Menuhandler
         spriteS = new SpriteSheet(spriteSheet);
-        onPlanet = false; //toggle for player model change off/on planet
         camera = new Camera(0, 0);
         keyListener = new KeyListener(objectHandler, menuHandler, gamestate);
         this.addKeyListener(keyListener);
@@ -77,6 +76,7 @@ public class Game extends Canvas implements Runnable {
 
         //Starten des Spieles und laden des Levels
         start();
+        onPlanet = false; //toggle for player model change off/on planet
         levelBuilder(LvL1);
     }
 
@@ -92,8 +92,6 @@ public class Game extends Canvas implements Runnable {
         isRunning = false;
         thread.join();
     }
-
-
     //game-Loop
     @Override
     public void run() {
@@ -107,26 +105,27 @@ public class Game extends Canvas implements Runnable {
          **/
         this.requestFocus();
         long lastTime = System.nanoTime();
-        double amountOfTicks = 60.0;
-        double ns = 1000000000 / amountOfTicks;
+        double FPS = 60.0;
+        double ns = 1000000000 / FPS;
         double delta = 0;
         long timer = System.currentTimeMillis();
         int frames = 0;
         while (isRunning) {
-            long now = System.nanoTime();
-            delta += (now - lastTime) /ns;
-            lastTime = now;
-            while(delta >= 1) {
+            long currentTime = System.nanoTime();
+            delta += (currentTime - lastTime) / ns;
+            timer += (currentTime - lastTime);
+            lastTime = currentTime;
+            if(delta >= 1) {
                 update();
+                render();
                 //updates++;
                 delta--;
-                render();
                 frames++;
             }
-            if (System.currentTimeMillis() - timer > 1000) {
-                timer += 1000;
+            if (timer >= 1000000000) {
                 outputFrames = frames;
                 frames = 0;
+                timer = 0;
                 //updates = 0;
             }
         }

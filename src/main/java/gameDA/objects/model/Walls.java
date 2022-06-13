@@ -12,26 +12,22 @@ import java.awt.image.BufferedImage;
 public class Walls extends GameObject {
     private BufferedImage[] sprite = new BufferedImage[4];
     private boolean onPlanet;
-    private Animation animation;
+
     public Walls(int x, int y, ObjectID id, SpriteSheet spriteSheet, boolean onPlanet) {
         super(x, y, id,spriteSheet);
         this.onPlanet = onPlanet;
         sprite[0] = spriteSheet.getImage(1,1,32,32);
-        sprite[1] = spriteSheet.getImage(2,1,32,32);
-        sprite[2] = spriteSheet.getImage(3,1,32,32);
-        sprite[3] = spriteSheet.getImage(4,1,32,32);
-        animation = new Animation(50,sprite);
     }
 
     @Override
     public void update() {
-        if(!onPlanet)animation.runAnimation();
+        if(!onPlanet);
     }
 
     @Override
     public void render(Graphics g) {
         if(!onPlanet) {
-            animation.drawAnimation(g,x,y,0);
+            g.drawImage(sprite[0],x,y,null);
         }
 
 //        g.setColor(Color.red);
