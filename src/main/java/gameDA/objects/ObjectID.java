@@ -4,7 +4,10 @@ public enum ObjectID {
     PLAYER,
     BLOCK,
     LOOTBOX,
-    BULLET,
+    PLAYERBULLET,
     ENEMY,
     EVENT,
+
+    ENEMYBULLET,
+
 }

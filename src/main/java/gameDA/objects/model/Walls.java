@@ -10,26 +10,25 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Walls extends GameObject {
-    private BufferedImage[] sprite = new BufferedImage[4];
-    private boolean onPlanet;
+    private final BufferedImage sprite;
+    private final boolean onPlanet;
 
     public Walls(int x, int y, ObjectID id, SpriteSheet spriteSheet, boolean onPlanet) {
         super(x, y, id,spriteSheet);
         this.onPlanet = onPlanet;
-        sprite[0] = spriteSheet.getImage(1,1,32,32);
+                sprite = spriteSheet.getImage(1,1,32,32);
     }
 
     @Override
     public void update() {
-        if(!onPlanet);
     }
 
     @Override
     public void render(Graphics g) {
         if(!onPlanet) {
-            g.drawImage(sprite[0],x,y,null);
+            g.drawImage(sprite,x,y,null);
         }
-
+//        //hitbox
 //        g.setColor(Color.red);
 //        g.drawRect(x,y,32,32);
     }
