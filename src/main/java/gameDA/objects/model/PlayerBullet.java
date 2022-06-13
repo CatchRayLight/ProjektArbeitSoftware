@@ -1,6 +1,8 @@
 package gameDA.objects.model;
 
+import gameDA.Game;
 import gameDA.config.output.SpriteSheet;
+import gameDA.gui.Gamestate;
 import gameDA.objects.Animation;
 import gameDA.objects.GameObject;
 import gameDA.objects.ObjectHandler;
@@ -23,10 +25,10 @@ public class PlayerBullet extends GameObject {
     private char direction;
 
      public PlayerBullet(int x, int y, ObjectID id, SpriteSheet spriteSheet, ObjectHandler objectHandler,int bulletSpeed,char direction) {
-        super(x, y, id, spriteSheet);
-        this.objectHandler = objectHandler;
-        this.direction = direction;
-        //right // left
+         super(x, y, id, spriteSheet);
+         this.objectHandler = objectHandler;
+         this.direction = direction;
+         //right // left
          playerBulletV[0] = spriteSheet.getImage(9,9,32,32);
          playerBulletV[1] = spriteSheet.getImage(10,9,32,32);
          //top//Down
@@ -34,7 +36,7 @@ public class PlayerBullet extends GameObject {
          playerBulletH[1] = spriteSheet.getImage(10,10,32,32);
          animationV = new Animation(3,playerBulletV);
          animationH = new Animation(3,playerBulletH);
-        switch (direction){
+         switch (direction){
             case 'U':
                 velocityX = 0;
                 velocityY = -bulletSpeed;
@@ -52,13 +54,14 @@ public class PlayerBullet extends GameObject {
                 velocityY = 0;
                 break;
         }
-
     }
 
     @Override
     public void update() {
-        x += velocityX;
-        y += velocityY;
+         if (Game.gamestate.equals(Gamestate.INGAME)) {
+             x += velocityX;
+             y += velocityY;
+         }
         animationH.runAnimation();
         animationV.runAnimation();
         for (int i = 0; i < objectHandler.gameObjects.size() ; i++) {

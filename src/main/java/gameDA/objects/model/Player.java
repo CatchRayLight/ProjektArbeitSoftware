@@ -1,8 +1,10 @@
 package gameDA.objects.model;
 
 
+import gameDA.Game;
 import gameDA.config.output.Camera;
 import gameDA.config.output.SpriteSheet;
+import gameDA.gui.Gamestate;
 import gameDA.objects.*;
 
 import java.awt.*;
@@ -38,6 +40,7 @@ public class Player extends GameObject {
     private int bulletCost;
 
     private int bulletDmg;
+
 
 
     public Player(int x, int y, ObjectID id, SpriteSheet spriteSheet, ObjectHandler objectHandler, boolean onPlanet,
@@ -244,12 +247,21 @@ public class Player extends GameObject {
        }
    }
     private void playerMovement(){
-        if(objectHandler.isLeft())  velocityX = -speed;
-        if(objectHandler.isRight()) velocityX = speed;
-        else if(!(objectHandler.isLeft() || objectHandler.isRight())) velocityX = 0;
-        if(objectHandler.isUp())  velocityY = -speed;
-        if(objectHandler.isDown())  velocityY = speed;
-        else if(!(objectHandler.isUp()||objectHandler.isDown())) velocityY = 0;
+        if(!(Game.gamestate.equals(Gamestate.INGAME))){
+            velocityX = 0;
+            velocityY = 0;
+            objectHandler.setLeft(false);
+            objectHandler.setRight(false);
+            objectHandler.setUp(false);
+            objectHandler.setDown(false);
+        }else {
+            if (objectHandler.isLeft()) velocityX = -speed;
+            if (objectHandler.isRight()) velocityX = speed;
+            else if (!(objectHandler.isLeft() || objectHandler.isRight())) velocityX = 0;
+            if (objectHandler.isUp()) velocityY = -speed;
+            if (objectHandler.isDown()) velocityY = speed;
+            else if (!(objectHandler.isUp() || objectHandler.isDown())) velocityY = 0;
+        }
 
     }
     public int getCouldownBullet() {

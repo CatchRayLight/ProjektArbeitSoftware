@@ -39,7 +39,7 @@ public class Game extends Canvas implements Runnable {
     private Thread thread;
 
     //Variablen die Auskunft über den Zustand des Spieles geben
-    private Gamestate gamestate = Gamestate.INMENU;
+    public static Gamestate gamestate = Gamestate.INMENU;
     private int outputFrames;
     private final boolean onPlanet;
     private boolean isRunning = false;

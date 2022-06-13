@@ -6,9 +6,9 @@ import gameDA.objects.GameObject;
 
 
 public class Camera {
-    private float x,y;
+    private int x,y;
 
-    public Camera(float x,float y){
+    public Camera(int x,int y){
         this.x = x;
         this.y = y;
 
@@ -24,20 +24,20 @@ public class Camera {
         if(y >= 1158) y = 1158;
 
     }
-    public float getX() {
+    public int getX() {
         return x;
     }
 
-    public Camera setX(float x) {
+    public Camera setX(int x) {
         this.x = x;
         return this;
     }
 
-    public float getY() {
+    public int getY() {
         return y;
     }
 
-    public Camera setY(float y) {
+    public Camera setY(int y) {
         this.y = y;
         return this;
     }
