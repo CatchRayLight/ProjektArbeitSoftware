@@ -1,5 +1,6 @@
 package gameDA.config.output;
 
+import gameDA.Game;
 import gameDA.objects.GameObject;
 import gameDA.objects.Healthbar;
 
@@ -17,8 +18,8 @@ public class Camera {
     }
     public void update(GameObject gameObject) {
 
-        x += ((gameObject.getX() - x) - 1216 / 2) * 0.05f;
-        y += ((gameObject.getY() - y) - 928 / 2) * 0.05f;
+        x += ((gameObject.getX() - x) - Game.SCREEN_WIDTH / 2) * 0.05f;
+        y += ((gameObject.getY() - y) - Game.SCREEN_HEIGHT / 2) * 0.05f;
 
         if(x <= 0) x = 0;
         if(x >= 848) x =848;

@@ -47,6 +47,7 @@ public class Game extends Canvas implements Runnable {
     //Game Instanz
     private static Game game;
 
+    private Player player;
     //Konstruktor
     public Game() {
         //Laden der Ressourcen
@@ -136,15 +137,19 @@ public class Game extends Canvas implements Runnable {
         if (gamestate.equals(Gamestate.INGAME)) {
             for (int i = 0; i < objectHandler.gameObjects.size(); i++) {
                 if (objectHandler.gameObjects.get(i).getId() == ObjectID.PLAYER) {
+                    GameObject tempObj = objectHandler.gameObjects.get(i);
                     camera.update(objectHandler.gameObjects.get(i));
+                    player = (Player) tempObj;
                 }
             }
             objectHandler.update();
         }
         if (gamestate.equals(Gamestate.INMENU)) {
             if(camera != null) {
-                camera.setX(0);
-                camera.setY(0);
+                if(player != null) {
+                    camera.setX((player.getX()- SCREEN_WIDTH / 2));
+                    camera.setY((player.getY()- SCREEN_HEIGHT / 2));
+                }
             }
             menuHandler.update();
             objectHandler.update();
