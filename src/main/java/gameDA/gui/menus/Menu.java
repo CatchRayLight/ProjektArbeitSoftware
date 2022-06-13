@@ -113,6 +113,7 @@ public abstract class Menu {
     }
 
     public void setCurrentOption(int currentOption) {
+        menuOptions[this.currentOption].setSelected(false);
         this.currentOption = currentOption;
     }
 

@@ -2,6 +2,8 @@ package gameDA.gui.menus;
 
 import gameDA.Game;
 import gameDA.config.output.BufferedImageLoader;
+import gameDA.config.output.Camera;
+import gameDA.config.output.SpriteSheet;
 import gameDA.gui.Gamestate;
 import gameDA.objects.Animation;
 
@@ -16,10 +18,14 @@ public class MenuHandler {
     private Menu startMenu;
     private boolean up = false, down = false, enter = false;
     private Game game;
+    private boolean loadBackground = true;
     private final BufferedImageLoader loader = new BufferedImageLoader();
     private final BufferedImage background1 = loader.loadImage("/MainMenueBackground.png");
     private final BufferedImage background2 = loader.loadImage("/MainMenueBackground1.png");
     private final BufferedImage background3 = loader.loadImage("/MainMenueBackground2.png");
+    private final SpriteSheet backgroundImageS = new SpriteSheet(loader.loadImage("/backgroundTest.png"));
+    private final BufferedImage background = backgroundImageS.getImage(1,1,2048,2048);
+    private Camera camera;
 
     private final Animation animation;
     private int yy;
@@ -46,6 +52,8 @@ public class MenuHandler {
         animation.runAnimation();
     }
     public void render(Graphics g){
+        if(loadBackground) {
+            //Lade Menu hintergrund
             yy++;
             if (yy >= 2) {
                 xx--;
@@ -61,7 +69,22 @@ public class MenuHandler {
             g.setFont(customFont.deriveFont(128f));
             g.drawString("Cool Game", Game.SCREEN_WIDTH / 2 - 20, Game.SCREEN_HEIGHT / 2 - 100);
             g.setFont(customFont.deriveFont(50f));
-            currentMenu.render(g);
+        } else {
+            //Lade Gameobjects zum rendern
+
+            camera = game.getCamera();
+
+            Graphics2D graphics2D = (Graphics2D) g;
+            graphics2D.translate(-camera.getX(), -camera.getY());
+
+            g.drawImage(background, 0, 0, null);
+            game.getObjectHandler().render(g);
+            graphics2D.translate(camera.getX(), camera.getY());
+            g.setColor(Color.yellow);
+            g.setFont(new Font("Courier New",Font.BOLD,10));
+            g.drawString("Frames :" + game.getOutputFrames(),10,10);
+        }
+        currentMenu.render(g);
     }
 
     public boolean isUp() {
@@ -102,7 +125,8 @@ public class MenuHandler {
 
     }
 
-    public void openStartMenu() {
+    public void openEscapeMenu() {
+        this.loadBackground = false;
         Game.getGame().getSound().stop();
         this.currentMenu = startMenu;
         currentMenu.startMusic();
