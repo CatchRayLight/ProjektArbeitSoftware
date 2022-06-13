@@ -7,10 +7,7 @@ import gameDA.config.output.SpriteSheet;
 import gameDA.gui.GameWindow;
 import gameDA.gui.Gamestate;
 import gameDA.gui.menus.*;
-import gameDA.gui.menus.submenus.DialogueMenu;
-import gameDA.gui.menus.submenus.MainMenu;
-import gameDA.gui.menus.submenus.OptionsMenu;
-import gameDA.gui.menus.submenus.SaveMenu;
+import gameDA.gui.menus.submenus.*;
 
 import gameDA.objects.*;
 import gameDA.objects.model.Event;
@@ -58,12 +55,10 @@ public class Game extends Canvas implements Runnable {
         BufferedImage LvL1 = loader.loadImage("/Level2.png");
         BufferedImage spriteSheet = loader.loadImage("/SpriteSheet.png");
         BufferedImage backgroundImage = loader.loadImage("/backgroundTest.png");
-        BufferedImage icon = loader.loadImage("/Icon.png");
 
         //Initialisierungen
         game = this;
-        GameWindow gameWindow = new GameWindow(SCREEN_HEIGHT, SCREEN_WIDTH, "Space Plugg");
-        gameWindow.setIconImage(icon);
+        new GameWindow(SCREEN_HEIGHT, SCREEN_WIDTH, "Space Plugg", loader);
         sound = new Sound();
         objectHandler = new ObjectHandler();
         initMenus(); //Initialisiert alle nötigen Menus und Menuhandler
@@ -233,47 +228,67 @@ public class Game extends Canvas implements Runnable {
         SaveMenu saveMenu = new SaveMenu(empty);
         //menuoptions
         //StartMenu
-        MenuOption[] menuOptionsStartmenu = {new MenuOption(() -> {
+        MenuOption[] menuOptionsStartmenu;
+        MenuOption[] menuOptionsOptionsMenu;
+        MenuOption[] menuOptionsSaveMenu1;
+        MenuOption[] menuOptionsSaveMenu;
+
+        menuOptionsSaveMenu1 = new MenuOption[]{new MenuOption(() -> {
             Game.getGame().getSound().stop();
             setGamestate(Gamestate.INGAME);
-        }, "Play", 100, 100),new MenuOption(() -> {
+        }, "Save", 100, 100), new MenuOption(() -> {
+            Game.getGame().getSound().stop();
+            setGamestate(Gamestate.INGAME);
+        }, "Load", 100, 250), new MenuOption(() -> {
+            menuHandler.setCurrentMenu(mainMenu);
+        }, "Back", 100, 550)
+        };
+
+        menuOptionsSaveMenu = new MenuOption[]{new MenuOption(() -> {
+            saveMenu.setCurrentOption(0);
+            saveMenu.setMenuOptions(menuOptionsSaveMenu1);
+        }, "Save 1", 100, 100), new MenuOption(() -> {
+            saveMenu.setCurrentOption(0);
+            saveMenu.setMenuOptions(menuOptionsSaveMenu1);
+        }, "Save 2", 100, 250), new MenuOption(() -> {
+            saveMenu.setCurrentOption(0);
+            saveMenu.setMenuOptions(menuOptionsSaveMenu1);
+        }, "Save 3", 100, 400), new MenuOption(() -> {
+            menuHandler.setCurrentMenu(mainMenu);
+        }, "Back", 100, 550)
+        };
+
+        menuOptionsStartmenu = new MenuOption[]{new MenuOption(() -> {
+            Game.getGame().getSound().stop();
+            setGamestate(Gamestate.INGAME);
+        }, "Play", 100, 100), new MenuOption(() -> {
+            saveMenu.setCurrentOption(0);
+            saveMenu.setMenuOptions(menuOptionsSaveMenu);
             menuHandler.setCurrentMenu(saveMenu);
-        }, "Saves",100,250),new MenuOption(() -> {
+        }, "Saves", 100, 250), new MenuOption(() -> {
             menuHandler.setCurrentMenu(optionsMenu);
-        }, "Options",100,400), new MenuOption(() -> {
-            menuHandler.setCurrentMenu(new DialogueMenu(new String[][]{{"This is first line dialogue option 1", "This is second line dialogue option 1", "This is third line dialogue option 1"},{"This is first line dialogue option 2"}}));
-        }, "Exit",100,550)
+        }, "Options", 100, 400), new MenuOption(() -> {
+            menuHandler.setCurrentMenu(new DialogueMenu(new String[][]{{"This is first line dialogue option 1", "This is second line dialogue option 1", "This is third line dialogue option 1"}, {"This is first line dialogue option 2"}}));
+        }, "Exit", 100, 550)
         };
 
         //OptionsMenu
-        MenuOption[] menuOptionsOptionsMenu = {new MenuOption(() -> {
+        menuOptionsOptionsMenu = new MenuOption[]{new MenuOption(() -> {
             Game.getGame().getSound().stop();
             setGamestate(Gamestate.INGAME);
         }, "Option1", 100, 100), new MenuOption(() -> {
             Game.getGame().getSound().stop();
             setGamestate(Gamestate.INGAME);
-        }, "Option2",100,250), new MenuOption(() -> {
+        }, "Option2", 100, 250), new MenuOption(() -> {
             Game.getGame().getSound().stop();
             setGamestate(Gamestate.INGAME);
-        }, "Option3",100,400), new MenuOption(() -> {
+        }, "Option3", 100, 400), new MenuOption(() -> {
             menuHandler.setCurrentMenu(mainMenu);
-        }, "Back",100,550)
+        }, "Back", 100, 550)
         };
 
         //SaveMenu
-        MenuOption[] menuOptionsSaveMenu = {new MenuOption(() -> {
-            Game.getGame().getSound().stop();
-            setGamestate(Gamestate.INGAME);
-        }, "Save 1", 100, 100), new MenuOption(() -> {
-            Game.getGame().getSound().stop();
-            setGamestate(Gamestate.INGAME);
-        }, "Save 2",100,250), new MenuOption(() -> {
-            Game.getGame().getSound().stop();
-            setGamestate(Gamestate.INGAME);
-        }, "Save 3",100,400), new MenuOption(() -> {
-            menuHandler.setCurrentMenu(mainMenu);
-        }, "Back",100,550)
-        };
+
         //set new menuoptions
         mainMenu.setMenuOptions(menuOptionsStartmenu);
         optionsMenu.setMenuOptions(menuOptionsOptionsMenu);
@@ -306,7 +321,7 @@ public class Game extends Canvas implements Runnable {
     public int getOutputFrames() {
         return outputFrames;
     }
-    
+
     public Sound getSound() {
         return sound;
     }
