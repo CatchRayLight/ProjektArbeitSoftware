@@ -254,6 +254,7 @@ public class Player extends GameObject {
             objectHandler.setRight(false);
             objectHandler.setUp(false);
             objectHandler.setDown(false);
+            objectHandler.setSpace(false);
         }else {
             if (objectHandler.isLeft()) velocityX = -speed;
             if (objectHandler.isRight()) velocityX = speed;
