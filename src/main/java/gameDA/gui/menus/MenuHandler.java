@@ -71,7 +71,6 @@ public class MenuHandler {
             g.setFont(customFont.deriveFont(50f));
         } else {
             //Lade Gameobjects zum rendern
-
             camera = game.getCamera();
 
             Graphics2D graphics2D = (Graphics2D) g;
@@ -85,6 +84,10 @@ public class MenuHandler {
             g.drawString("Frames :" + game.getOutputFrames(),10,10);
         }
         currentMenu.render(g);
+    }
+
+    public void setLoadBackground(boolean loadBackground) {
+        this.loadBackground = loadBackground;
     }
 
     public boolean isUp() {
@@ -127,6 +130,14 @@ public class MenuHandler {
 
     public void openEscapeMenu() {
         this.loadBackground = false;
+        Game.getGame().getSound().stop();
+        this.currentMenu = startMenu;
+        currentMenu.startMusic();
+        game.setGamestate(Gamestate.INMENU);
+    }
+
+    public void openMainMenu() {
+        this.loadBackground = true;
         Game.getGame().getSound().stop();
         this.currentMenu = startMenu;
         currentMenu.startMusic();

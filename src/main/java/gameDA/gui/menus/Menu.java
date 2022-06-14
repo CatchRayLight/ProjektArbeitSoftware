@@ -3,8 +3,6 @@ package gameDA.gui.menus;
 import gameDA.Game;
 
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 
 public abstract class Menu {
     private int currentOption;

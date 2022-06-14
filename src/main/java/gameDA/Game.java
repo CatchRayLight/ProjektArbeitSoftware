@@ -16,6 +16,9 @@ import gameDA.objects.model.SpaceEnemy;
 import gameDA.objects.model.Walls;
 import gameDA.objects.model.Player;
 import gameDA.config.input.KeyListener;
+import gameDA.savemanager.Options;
+import gameDA.savemanager.SafeManager;
+import gameDA.savemanager.Save;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -32,6 +35,7 @@ public class Game extends Canvas implements Runnable {
 
     //Objekte zur Steuerung des Spieles
     private MenuHandler menuHandler;
+    private Options options;
     private final ObjectHandler objectHandler;
     private final KeyListener keyListener;
     private Sound sound;
@@ -62,6 +66,7 @@ public class Game extends Canvas implements Runnable {
         new GameWindow(SCREEN_HEIGHT, SCREEN_WIDTH, "Space Plugg", loader);
         sound = new Sound();
         objectHandler = new ObjectHandler();
+        options = new Options(false);
         initMenus(); //Initialisiert alle nötigen Menus und Menuhandler
         spriteS = new SpriteSheet(spriteSheet);
         camera = new Camera(0, 0);
@@ -220,6 +225,17 @@ public class Game extends Canvas implements Runnable {
 
     //Initialisierung der Menus
     private void initMenus() {
+        //TESTING
+        Save[] saves = new Save[]{
+                new Save("Save1.txt"), new Save("Save2.txt"), new Save("Save3.txt"), new Save("config.txt")
+
+        };
+        SafeManager safeManager = new SafeManager(saves);
+        safeManager.safe(2);
+        safeManager.load(2);
+        options = safeManager.loadOptions();
+
+        //TESTING ENDS HERE
         MenuOption[] empty = {};
         //initinalize empty
         OptionsMenu optionsMenu = new OptionsMenu(empty);
@@ -267,25 +283,56 @@ public class Game extends Canvas implements Runnable {
         }, "Saves", 100, 250), new MenuOption(() -> {
             menuHandler.setCurrentMenu(optionsMenu);
         }, "Options", 100, 400), new MenuOption(() -> {
-            menuHandler.setCurrentMenu(new DialogueMenu(new String[][]{{"This is first line dialogue option 1", "This is second line dialogue option 1", "This is third line dialogue option 1"}, {"This is first line dialogue option 2"}}));
+            menuHandler.setCurrentMenu(new DeathMenu());
         }, "Exit", 100, 550)
         };
 
         //OptionsMenu
-        menuOptionsOptionsMenu = new MenuOption[]{new MenuOption(() -> {
-            Game.getGame().getSound().stop();
-            setGamestate(Gamestate.INGAME);
-        }, "Option1", 100, 100), new MenuOption(() -> {
-            Game.getGame().getSound().stop();
-            setGamestate(Gamestate.INGAME);
-        }, "Option2", 100, 250), new MenuOption(() -> {
-            Game.getGame().getSound().stop();
-            setGamestate(Gamestate.INGAME);
-        }, "Option3", 100, 400), new MenuOption(() -> {
-            menuHandler.setCurrentMenu(mainMenu);
-        }, "Back", 100, 550)
-        };
-
+        if(options.isMusic()) {
+            menuOptionsOptionsMenu = new MenuOption[]{new MenuOption(() -> {
+                //Change Options
+                options.setMusic(!options.isMusic());
+                //Safe change in config
+                safeManager.saveOptions(options);
+                //reset this menu option of options menu
+                String onOff;
+                if(options.isMusic()) {
+                    onOff = "Music On";
+                } else onOff = "Music Off";
+                Game.getGame().getMenuHandler().getCurrentMenu().getMenuOptions()[0].setText(onOff);
+            }, "Music On", 100, 100), new MenuOption(() -> {
+                Game.getGame().getSound().stop();
+                setGamestate(Gamestate.INGAME);
+            }, "Option2", 100, 250), new MenuOption(() -> {
+                Game.getGame().getSound().stop();
+                setGamestate(Gamestate.INGAME);
+            }, "Option3", 100, 400), new MenuOption(() -> {
+                menuHandler.setCurrentMenu(mainMenu);
+            }, "Back", 100, 550)
+            };
+        } else {
+            menuOptionsOptionsMenu = new MenuOption[]{new MenuOption(() -> {
+                //Change Options
+                options.setMusic(!options.isMusic());
+                //Safe change in config
+                safeManager.saveOptions(options);
+                //reset this menu option of options menu
+                String onOff;
+                if(options.isMusic()) {
+                    onOff = "Music On";
+                } else onOff = "Music Off";
+                Game.getGame().getMenuHandler().getCurrentMenu().getMenuOptions()[0].setText(onOff);
+            }, "Music OFF", 100, 100), new MenuOption(() -> {
+                Game.getGame().getSound().stop();
+                setGamestate(Gamestate.INGAME);
+            }, "Option2", 100, 250), new MenuOption(() -> {
+                Game.getGame().getSound().stop();
+                setGamestate(Gamestate.INGAME);
+            }, "Option3", 100, 400), new MenuOption(() -> {
+                menuHandler.setCurrentMenu(mainMenu);
+            }, "Back", 100, 550)
+            };
+        }
         //SaveMenu
 
         //set new menuoptions
@@ -298,6 +345,7 @@ public class Game extends Canvas implements Runnable {
     }
 
     //Getter and setter
+
 
 
     public void setGamestate(Gamestate newgamestate) {

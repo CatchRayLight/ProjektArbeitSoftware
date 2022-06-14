@@ -12,7 +12,7 @@ import java.io.IOException;
 public class MenuOption {
     private final Runnable runnable;
     private boolean selected = false;
-    private final String text;
+    private String text;
     private int positionX;
     private int positionY;
     private BufferedImageLoader loader = new BufferedImageLoader();
@@ -45,6 +45,10 @@ public class MenuOption {
     }
     public void execute() {
         runnable.run();
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 
     public String getText() {
