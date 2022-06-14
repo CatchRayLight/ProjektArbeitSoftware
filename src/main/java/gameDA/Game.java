@@ -47,6 +47,8 @@ public class Game extends Canvas implements Runnable {
     public static Gamestate gamestate = Gamestate.INMENU;
     private int outputFrames;
     private final boolean onPlanet;
+
+    private int LvLInt;
     private boolean isRunning = false;
 
     //Game Instanz
@@ -76,7 +78,7 @@ public class Game extends Canvas implements Runnable {
         //Starten des Spieles und laden des Levels
         start();
         onPlanet = false; //toggle for player model change off/on planet
-        levelBuilder(lvLHandler.getLvL(1));
+        levelBuilder(lvLHandler.setLvL(1));
 
     }
 
@@ -198,9 +200,11 @@ public class Game extends Canvas implements Runnable {
                 int blue = (pixel) & 0xff;
 
                 if (blue == 255 && green != 255 && red != 255) {
-                    objectHandler.addObj(new Player(xAxis * 32, yAxis * 32, ObjectID.PLAYER, spriteS,
-                            objectHandler, onPlanet, camera, 100, 90, 100, 6,
-                            10,10,20));
+                    if(getLvLInt() == 1) {
+                        objectHandler.addObj(new Player(xAxis * 32, yAxis * 32, ObjectID.PLAYER, spriteS,
+                                objectHandler, onPlanet, camera, 100, 90, 100, 6,
+                                10, 10, 20));
+                    }
                 }
                 if (red == 255 && green != 255 && blue != 255) {
                     objectHandler.addObj(new Walls(xAxis * 32, yAxis * 32, ObjectID.BLOCK, spriteS, onPlanet));
@@ -382,6 +386,12 @@ public class Game extends Canvas implements Runnable {
         return game;
     }
 
+    public int getLvLInt() {
+        return LvLInt;
+    }
 
-
+    public Game setLvLInt(int lvLInt) {
+        LvLInt = lvLInt;
+        return this;
+    }
 }

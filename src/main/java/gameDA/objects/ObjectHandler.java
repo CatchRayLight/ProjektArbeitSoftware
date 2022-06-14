@@ -1,5 +1,7 @@
 package gameDA.objects;
 
+import gameDA.objects.model.Player;
+
 import java.awt.*;
 import java.util.LinkedList;
 
@@ -34,15 +36,6 @@ public class ObjectHandler {
     }
     public void removeObj(GameObject tempObj){
         gameObjects.remove(tempObj);
-    }
-    public void removeAllObj(){
-        for (int i = 0; i <gameObjects.size() ; i++) {
-            GameObject tempObj = gameObjects.get(i);
-            if(tempObj.getId() == ObjectID.PLAYER){
-                gameObjects.clear();
-                gameObjects.add(tempObj);
-            }
-        }
     }
 
     public char getDirection() {

@@ -18,10 +18,12 @@ public class EventLvL1 extends GameObject {
 
     private LvLHandler lvLHandler;
 
+
     public EventLvL1(int x, int y, ObjectID id, SpriteSheet spriteSheet, ObjectHandler objectHandler) {
         super(x, y, id, spriteSheet);
         this.objectHandler = objectHandler;
         img = spriteSheet.getImage(9,8,32,32);
+        lvLHandler = new LvLHandler();
     }
 
     @Override
@@ -33,12 +35,8 @@ public class EventLvL1 extends GameObject {
                     Game.getGame().setGamestate(Gamestate.INMENU);
                     System.out.println("Event");
                     //teleport player out first to not make bugs
-                    Player player = (Player) tempObject;
-                    player.setX(100);
-                    player.setY(100);
-                    objectHandler.removeAllObj();
+                    lvLHandler.nextLvL(objectHandler);
                     //change lvl
-//                    Game.getGame().levelBuilder(lvLHandler.getLvL(3));
                     //Triggers sample dialogue for now
                     String[][] sampleDialogue = new String[][]{{"Text"}, {"Text"}};
                     Game.getGame().getMenuHandler().setCurrentMenu(new DialogueMenu(sampleDialogue));
