@@ -5,16 +5,20 @@ import gameDA.config.output.SpriteSheet;
 import gameDA.gui.Gamestate;
 import gameDA.gui.menus.submenus.DialogueMenu;
 import gameDA.objects.GameObject;
+import gameDA.objects.LvLHandler;
 import gameDA.objects.ObjectHandler;
 import gameDA.objects.ObjectID;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Event extends GameObject {
+public class EventLvL1 extends GameObject {
     private final ObjectHandler objectHandler;
     private final BufferedImage img;
-    public Event(int x, int y, ObjectID id, SpriteSheet spriteSheet, ObjectHandler objectHandler) {
+
+    private LvLHandler lvLHandler;
+
+    public EventLvL1(int x, int y, ObjectID id, SpriteSheet spriteSheet, ObjectHandler objectHandler) {
         super(x, y, id, spriteSheet);
         this.objectHandler = objectHandler;
         img = spriteSheet.getImage(9,8,32,32);
@@ -32,6 +36,9 @@ public class Event extends GameObject {
                     Player player = (Player) tempObject;
                     player.setX(100);
                     player.setY(100);
+                    objectHandler.removeAllObj();
+                    //change lvl
+//                    Game.getGame().levelBuilder(lvLHandler.getLvL(3));
                     //Triggers sample dialogue for now
                     String[][] sampleDialogue = new String[][]{{"Text"}, {"Text"}};
                     Game.getGame().getMenuHandler().setCurrentMenu(new DialogueMenu(sampleDialogue));
@@ -40,7 +47,6 @@ public class Event extends GameObject {
             }
         }
     }
-
     @Override
     public void render(Graphics g) {
         g.drawImage(img,x,y,null);

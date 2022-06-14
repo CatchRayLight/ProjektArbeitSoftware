@@ -10,7 +10,7 @@ import gameDA.gui.menus.*;
 import gameDA.gui.menus.submenus.*;
 
 import gameDA.objects.*;
-import gameDA.objects.model.Event;
+import gameDA.objects.model.EventLvL1;
 import gameDA.objects.model.LootBox;
 import gameDA.objects.model.SpaceEnemy;
 import gameDA.objects.model.Walls;
@@ -41,6 +41,7 @@ public class Game extends Canvas implements Runnable {
     private Sound sound;
     private final Camera camera;
     private Thread thread;
+    private LvLHandler lvLHandler;
 
     //Variablen die Auskunft über den Zustand des Spieles geben
     public static Gamestate gamestate = Gamestate.INMENU;
@@ -51,22 +52,18 @@ public class Game extends Canvas implements Runnable {
     //Game Instanz
     private static Game game;
 
-    private Player player;
     //Konstruktor
     public Game() {
         //Laden der Ressourcen
         BufferedImageLoader loader = new BufferedImageLoader();
-        BufferedImage testLvL = loader.loadImage("/TestLVL.png");
-        BufferedImage lvL1 = loader.loadImage("/Level1.png");
-        BufferedImage lvL2 = loader.loadImage("/Level2.png");
         BufferedImage spriteSheet = loader.loadImage("/SpriteSheet.png");
         BufferedImage backgroundImage = loader.loadImage("/backgroundTest.png");
-
         //Initialisierungen
         game = this;
         new GameWindow(SCREEN_HEIGHT, SCREEN_WIDTH, "Space Plugg", loader);
         sound = new Sound();
         objectHandler = new ObjectHandler();
+        lvLHandler = new LvLHandler();
         options = new Options(false);
         initMenus(); //Initialisiert alle nötigen Menus und Menuhandler
         spriteS = new SpriteSheet(spriteSheet);
@@ -79,7 +76,8 @@ public class Game extends Canvas implements Runnable {
         //Starten des Spieles und laden des Levels
         start();
         onPlanet = false; //toggle for player model change off/on planet
-        levelBuilder(lvL1);
+        levelBuilder(lvLHandler.getLvL(1));
+
     }
 
     //Die Start Methode startet den Thread und somit das Spiel
@@ -145,7 +143,7 @@ public class Game extends Canvas implements Runnable {
                 if (objectHandler.gameObjects.get(i).getId() == ObjectID.PLAYER) {
                     GameObject tempObj = objectHandler.gameObjects.get(i);
                     camera.update(objectHandler.gameObjects.get(i));
-                    player = (Player) tempObj;
+                    Player player = (Player) tempObj;
                 }
             }
             objectHandler.update();
@@ -189,7 +187,7 @@ public class Game extends Canvas implements Runnable {
     }
 
     // level loader durch rbg differenzierung, png wird eingelesen und dann mit objecten verwiesen
-    private void levelBuilder(BufferedImage image) {
+    public void levelBuilder(BufferedImage image) {
         int width = image.getWidth();
         int height = image.getHeight();
         for (int xAxis = 0; xAxis < width; xAxis++) {
@@ -217,7 +215,7 @@ public class Game extends Canvas implements Runnable {
                 }
                 if (red == 255 && green == 255 && blue != 255) {
                     //yel
-                    objectHandler.addObj(new Event(xAxis * 32, yAxis * 32, ObjectID.EVENT, spriteS, objectHandler));
+                    objectHandler.addObj(new EventLvL1(xAxis * 32, yAxis * 32, ObjectID.EVENT, spriteS, objectHandler));
                 }
             }
         }
