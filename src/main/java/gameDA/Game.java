@@ -57,7 +57,8 @@ public class Game extends Canvas implements Runnable {
         //Laden der Ressourcen
         BufferedImageLoader loader = new BufferedImageLoader();
         BufferedImage testLvL = loader.loadImage("/TestLVL.png");
-        BufferedImage LvL1 = loader.loadImage("/Level2.png");
+        BufferedImage lvL1 = loader.loadImage("/Level1.png");
+        BufferedImage lvL2 = loader.loadImage("/Level2.png");
         BufferedImage spriteSheet = loader.loadImage("/SpriteSheet.png");
         BufferedImage backgroundImage = loader.loadImage("/backgroundTest.png");
 
@@ -78,7 +79,7 @@ public class Game extends Canvas implements Runnable {
         //Starten des Spieles und laden des Levels
         start();
         onPlanet = false; //toggle for player model change off/on planet
-        levelBuilder(LvL1);
+        levelBuilder(lvL1);
     }
 
     //Die Start Methode startet den Thread und somit das Spiel
@@ -116,11 +117,11 @@ public class Game extends Canvas implements Runnable {
             delta += (currentTime - lastTime) / ns;
             timer += (currentTime - lastTime);
             lastTime = currentTime;
-            if(delta >= 1) {
+            while(delta >= 1) {
+                delta--;
                 update();
                 render();
                 //updates++;
-                delta--;
                 frames++;
             }
             if (timer >= 1000000000) {
@@ -209,7 +210,8 @@ public class Game extends Canvas implements Runnable {
                     objectHandler.addObj(new Walls(xAxis * 32, yAxis * 32, ObjectID.BLOCK, spriteS, onPlanet));
                 }
                 if (green == 255 && blue != 255 && red != 255) {
-                    objectHandler.addObj(new SpaceEnemy(xAxis * 32, yAxis * 32, ObjectID.ENEMY, spriteS, objectHandler, 100));
+                    objectHandler.addObj(new SpaceEnemy(xAxis * 32, yAxis * 32, ObjectID.ENEMY, spriteS,
+                            objectHandler, 100,5,10,5));
                 }
                 if (green == 255 && blue == 255 && red != 255) {
                     //cyan

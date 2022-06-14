@@ -8,18 +8,26 @@ import java.awt.image.BufferedImage;
 
 public class SpaceEnemy extends GameObject{
     private final Animation animationEnemy;
-    private ObjectHandler objectHandler;
+    private final ObjectHandler objectHandler;
 
     private final Healthbar enemyHealthbar;
     private int hp;
 
     private Player player;
+    private int bulletSpeed;
+    private  int coolDownCounter;
+    private int bulletCooldown;
 
+    private int bulletDmg;
 
-    public SpaceEnemy(int x, int y, ObjectID id, SpriteSheet spriteSheet, ObjectHandler objectHandler,int hp) {
+    public SpaceEnemy(int x, int y, ObjectID id, SpriteSheet spriteSheet, ObjectHandler objectHandler,int hp,
+                      int bulletSpeed,int bulletCooldown,int bulletDmg) {
         super(x, y, id, spriteSheet);
         this.objectHandler = objectHandler;
         this.hp = hp;
+        this.bulletSpeed = bulletSpeed;
+        this.bulletCooldown = bulletCooldown;
+        this.bulletDmg = bulletDmg;
         BufferedImage[] enemyInSpace = new BufferedImage[6];
         enemyInSpace[0] = spriteSheet.getImage(1,7,32,32);
         enemyInSpace[1] = spriteSheet.getImage(2,7,32,32);
@@ -33,16 +41,17 @@ public class SpaceEnemy extends GameObject{
 
     @Override
     public void update() {
-        for (int i = 0; i < objectHandler.gameObjects.size() ; i++) {
+        bulletShooting();
+        for (int i = 0; i < objectHandler.gameObjects.size(); i++) {
             GameObject tempObject = objectHandler.gameObjects.get(i);
-            if(tempObject.getId() == ObjectID.PLAYER){
-                player = (Player)tempObject;
+            if (tempObject.getId() == ObjectID.PLAYER) {
+                player = (Player) tempObject;
             }
-            if (tempObject.getId() == ObjectID.BULLET) {
-                if(getBounds().intersects(tempObject.getBounds())){
-                    setHp(Math.min(getHp()-player.getBulletDmg(),100));
+            if (tempObject.getId() == ObjectID.PLAYERBULLET) {
+                if (getBounds().intersects(tempObject.getBounds())) {
+                    setHp(Math.min(getHp() - player.getBulletDmg(), 100));
                     enemyHealthbar.setHp(getHp());
-                    if(getHp() == 0){
+                    if (getHp() == 0) {
                         objectHandler.removeObj(this);
                     }
                     objectHandler.removeObj(tempObject);
@@ -56,7 +65,58 @@ public class SpaceEnemy extends GameObject{
     public void render(Graphics g) {
         animationEnemy.drawAnimation(g,x,y,0);
         enemyHealthbar.render(g,x,y,-16,-18,70,12);
+//        //Hitbox-PlayerDetection
+//        //top
+//        int offset = 100;
+//        g.setColor(Color.cyan);
+//        g.drawRect(x-(offset/2), y-offset, (32+offset), 5);
+//        //right
+//        g.setColor(Color.blue);
+//        g.drawRect((x+27)+offset, y-(offset/2), 5, 32+offset);
+//        //left
+//        g.setColor(Color.orange);
+//        g.drawRect(x-offset, y-(offset/2), 5, 32+offset);
+//        //bot
+//        g.setColor(Color.pink);
+//        g.drawRect(x-(offset/2), y+27+offset, 32+offset, 5);
     }
+    private void bulletShooting() {
+        coolDownCounter++;
+        for (int i = 0; i < objectHandler.gameObjects.size(); i++) {
+            GameObject tempObject = objectHandler.gameObjects.get(i);
+            if (tempObject.getId() == ObjectID.PLAYER) {
+                if (getLeftBounds(100).intersects(tempObject.getBounds())) {
+                    if (coolDownCounter > bulletCooldown) {
+                        objectHandler.addObj(new Bullet(getX(), getY(), ObjectID.ENEMYBULLET,
+                                spriteSheet, objectHandler, 5, 'L', false));
+                        coolDownCounter = 0;
+                    }
+                }
+                if (getRightBounds(100).intersects(tempObject.getBounds())) {
+                    if (coolDownCounter > bulletCooldown) {
+                        objectHandler.addObj(new Bullet(getX(), getY(), ObjectID.ENEMYBULLET,
+                                spriteSheet, objectHandler, 5, 'R', false));
+                        coolDownCounter = 0;
+                    }
+                }
+                if (getTopBounds(100).intersects(tempObject.getBounds())) {
+                    if (coolDownCounter > bulletCooldown) {
+                        objectHandler.addObj(new Bullet(getX(), getY(), ObjectID.ENEMYBULLET,
+                                spriteSheet, objectHandler, 5, 'U', false));
+                        coolDownCounter = 0;
+                    }
+                }
+                if (getBotBounds(100).intersects(tempObject.getBounds())) {
+                    if (coolDownCounter > bulletCooldown) {
+                        objectHandler.addObj(new Bullet(getX(), getY(), ObjectID.ENEMYBULLET,
+                                spriteSheet, objectHandler, 5, 'D', false));
+                        coolDownCounter = 0;
+                    }
+                }
+            }
+        }
+    }
+
 
     @Override
     public Rectangle getBounds() {
@@ -65,28 +125,54 @@ public class SpaceEnemy extends GameObject{
 
     @Override
     public Rectangle getTopBounds(int offset) {
-        return null;
+        return new Rectangle(x-(offset/2), y-offset, 32+offset, 5);
     }
 
     @Override
     public Rectangle getRightBounds(int offset) {
-        return null;
+        return new Rectangle((x+27)+offset, y-(offset/2), 5, 32+offset);
     }
 
     @Override
     public Rectangle getLeftBounds(int offset) {
-        return null;
+        return new Rectangle(x-offset, y-(offset/2), 5, 32+offset);
     }
 
     @Override
     public Rectangle getBotBounds(int offset) {
-        return null;
+        return new Rectangle(x-(offset/2), y+27+offset, 32+offset, 5);
     }
     public int getHp() {
         return hp;
     }
     public void setHp(int hp) {
         this.hp = hp;
+    }
+    public int getBulletCooldown() {
+        return bulletCooldown;
+    }
+
+    public SpaceEnemy setBulletCooldown(int bulletCooldown) {
+        this.bulletCooldown = bulletCooldown;
+        return this;
+    }
+
+    public int getBulletSpeed() {
+        return bulletSpeed;
+    }
+
+    public SpaceEnemy setBulletSpeed(int bulletSpeed) {
+        this.bulletSpeed = bulletSpeed;
+        return this;
+    }
+
+    public int getBulletDmg() {
+        return bulletDmg;
+    }
+
+    public SpaceEnemy setBulletDmg(int bulletDmg) {
+        this.bulletDmg = bulletDmg;
+        return this;
     }
 }
 

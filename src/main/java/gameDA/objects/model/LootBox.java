@@ -12,10 +12,9 @@ import static gameDA.objects.model.Player.playerHealthbar;
 
 
 public class LootBox extends GameObject {
-    private ObjectHandler objectHandler;
+    private final ObjectHandler objectHandler;
 
-    private BufferedImage img;
-    private Player player;
+    private final BufferedImage img;
 
     public LootBox(int x, int y, ObjectID id, SpriteSheet spriteSheet, ObjectHandler objectHandler) {
         super(x, y, id, spriteSheet);
@@ -30,10 +29,12 @@ public class LootBox extends GameObject {
             if (tempObject.getId() == ObjectID.PLAYER) {
                 if(getBounds().intersects(tempObject.getBounds())){
                     objectHandler.removeObj(this);
-                    player = (Player) tempObject;
+                    Player player = (Player) tempObject;
                     System.out.println("LOOTBOX");
                     //add stuff /coins what ever
                     player.setAmmo(Math.min(player.getAmmo()+30, 100));
+                    player.setHp(Math.min(player.getHp()+30,100));
+                    playerHealthbar.setHp(player.getHp());
                     playerHealthbar.setAmmo(player.getAmmo());
                     System.out.println(player.getAmmo());
 

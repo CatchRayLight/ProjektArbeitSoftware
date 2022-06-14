@@ -14,7 +14,6 @@ import java.awt.image.BufferedImage;
 import static gameDA.config.input.KeyListener.frameChange;
 
 public class Player extends GameObject {
-    private Camera camera;
     private boolean onPlanet;
     private final BufferedImage playerSpaceSR;
     private final BufferedImage playerSpaceSL;
@@ -22,7 +21,7 @@ public class Player extends GameObject {
     private final BufferedImage playerSpaceSD;
     private final int speed = 5;
 
-    private ObjectHandler objectHandler;
+    private final ObjectHandler objectHandler;
     private final BufferedImage[] playerOnPlanetL = new BufferedImage[3];
     private final BufferedImage[] playerOnPlanetR = new BufferedImage[3];
     private final Animation animL;
@@ -35,24 +34,23 @@ public class Player extends GameObject {
     private int fuel;
     private  int couldownCounter = 0;
     private int bulletSpeed;
-    private int couldownBullet;
+    private int cooldownBullet;
 
     private int bulletCost;
 
     private int bulletDmg;
 
-
+    private SpaceEnemy spaceEnemy;
 
     public Player(int x, int y, ObjectID id, SpriteSheet spriteSheet, ObjectHandler objectHandler, boolean onPlanet,
                   Camera camera, int hp, int ammo, int fuel, int bulletSpeed, int countdownBullet,int bulletCost,int bulletDmg) {
         super(x, y, id,spriteSheet);
         this.objectHandler = objectHandler;
         this.onPlanet = onPlanet;
-        this.camera = camera;
         this.fuel = fuel;
         this.ammo = ammo;
         this.hp = hp;
-        this.couldownBullet = countdownBullet;
+        this.cooldownBullet = countdownBullet;
         this.bulletSpeed = bulletSpeed;
         this.bulletCost = bulletCost;
         this.bulletDmg = bulletDmg;
@@ -68,7 +66,7 @@ public class Player extends GameObject {
         playerOnPlanetL[2] = spriteSheet.getImage(6,6,32,32); //L3
         animL = new Animation(6, playerOnPlanetL);
         animR = new Animation(6, playerOnPlanetR);
-        playerHealthbar = new Healthbar(spriteSheet, hp,ammo,fuel,this.camera);
+        playerHealthbar = new Healthbar(spriteSheet, hp,ammo,fuel, camera);
 
     }
 
@@ -76,20 +74,27 @@ public class Player extends GameObject {
     public void update() {
         x += velocityX;
         y += velocityY;
-        collisionWithObject(5,ObjectID.BLOCK);
+        motionCancelCollision(5,ObjectID.BLOCK);
         playerMovement();
         animL.runAnimation();
         animR.runAnimation();
-        if(!onPlanet) {
-            couldownCounter++;
-            if (objectHandler.isSpace() && couldownCounter > couldownBullet) {
-                if (playerHealthbar.getAmmo() > 0) {
-                    objectHandler.addObj(new PlayerBullet(getX(), getY(), ObjectID.BULLET,
-                            spriteSheet, objectHandler, bulletSpeed, objectHandler.getDirection()));
-                    setAmmo(getAmmo()-getBulletCost());
-                    playerHealthbar.setAmmo(getAmmo());
+        playerShooting();
+        for (int i = 0; i < objectHandler.gameObjects.size(); i++) {
+            GameObject tempObject = objectHandler.gameObjects.get(i);
+            if(tempObject.getId() == ObjectID.ENEMY){
+                spaceEnemy = (SpaceEnemy) tempObject;
+            }
+            if (tempObject.getId() == ObjectID.ENEMYBULLET) {
+                if (getBounds().intersects(tempObject.getBounds())) {
+                    if(getHp() > 0){
+                        setHp((getHp() - spaceEnemy.getBulletDmg()));
+                        objectHandler.removeObj(tempObject);
+                        playerHealthbar.setHp(getHp());
+                    }
+                    if (getHp() <= 0) {
+                        System.out.println("DEATH");
+                    }
                 }
-                couldownCounter = 0;
             }
         }
     }
@@ -125,7 +130,7 @@ public class Player extends GameObject {
                     g.drawImage(playerSpaceSU, x, y, null);
                 break;
         }
-//
+//        //Hitbox
 //        //top
 //        g.setColor(Color.cyan);
 //        g.drawRect(x, y, 32, 5);
@@ -170,12 +175,11 @@ public class Player extends GameObject {
     }
 
     public int getHp() {
-        hp = Math.min(hp, 100);
         return hp;
     }
 
-    public void setHp(int damage) {
-        hp = Math.max(hp - damage, 0);
+    public void setHp(int hp) {
+        this.hp = hp;
     }
 
     public int getAmmo() {
@@ -226,51 +230,63 @@ public class Player extends GameObject {
         this.bulletDmg = bulletDmg;
         return this;
     }
+    public int getCooldownBullet() {
+        return cooldownBullet;
+    }
 
-    private void collisionWithObject(int offset, ObjectID objectID) {
-       for (int i = 0; i < objectHandler.gameObjects.size(); i++) {
-           GameObject tempObject = objectHandler.gameObjects.get(i);
-           if (tempObject.getId() == objectID) {
-               if (getLeftBounds(offset).intersects(tempObject.getRightBounds(0))) {
-                   x += velocityX *= -1;
+    public void setCooldownBullet(int cooldownBullet) {
+        this.cooldownBullet = cooldownBullet;
+    }
+    private void motionCancelCollision(int offset, ObjectID objectID) {
+        for (int i = 0; i < objectHandler.gameObjects.size(); i++) {
+            GameObject tempObject = objectHandler.gameObjects.get(i);
+            if (tempObject.getId() == objectID) {
+                if (getLeftBounds(offset).intersects(tempObject.getRightBounds(0))) {
+                    x += velocityX *= -1;
+                }
+                if (getRightBounds(offset).intersects(tempObject.getLeftBounds(0))) {
+                    x += velocityX *= -1;
+                }
+                if (getTopBounds(offset).intersects(tempObject.getBotBounds(0))) {
+                    y += velocityY *= -1;
+                }
+                if (getBotBounds(offset).intersects(tempObject.getTopBounds(0))) {
+                    y += velocityY *= -1;
+                }
+            }
+        }
+    }
+   private void playerMovement(){
+       if(!(Game.gamestate.equals(Gamestate.INGAME))){
+           velocityX = 0;
+           velocityY = 0;
+           objectHandler.setLeft(false);
+           objectHandler.setRight(false);
+           objectHandler.setUp(false);
+           objectHandler.setDown(false);
+           objectHandler.setSpace(false);
+       }else {
+           if (objectHandler.isLeft()) velocityX = -speed;
+           if (objectHandler.isRight()) velocityX = speed;
+           else if (!(objectHandler.isLeft() || objectHandler.isRight())) velocityX = 0;
+           if (objectHandler.isUp()) velocityY = -speed;
+           if (objectHandler.isDown()) velocityY = speed;
+           else if (!(objectHandler.isUp() || objectHandler.isDown())) velocityY = 0;
+        }
+    }
+   private void playerShooting(){
+       if(!onPlanet) {
+           couldownCounter++;
+           if (objectHandler.isSpace() && couldownCounter > cooldownBullet) {
+               if (playerHealthbar.getAmmo() > 0) {
+                   objectHandler.addObj(new Bullet(getX(), getY(), ObjectID.PLAYERBULLET,
+                           spriteSheet, objectHandler, bulletSpeed, objectHandler.getDirection(),true));
+                   setAmmo(getAmmo()-getBulletCost());
+                   playerHealthbar.setAmmo(getAmmo());
                }
-               if (getRightBounds(offset).intersects(tempObject.getLeftBounds(0))) {
-                   x += velocityX *= -1;
-               }
-               if (getTopBounds(offset).intersects(tempObject.getBotBounds(0))) {
-                   y += velocityY *= -1;
-               }
-               if (getBotBounds(offset).intersects(tempObject.getTopBounds(0))) {
-                   y += velocityY *= -1;
-               }
+               couldownCounter = 0;
            }
        }
    }
-    private void playerMovement(){
-        if(!(Game.gamestate.equals(Gamestate.INGAME))){
-            velocityX = 0;
-            velocityY = 0;
-            objectHandler.setLeft(false);
-            objectHandler.setRight(false);
-            objectHandler.setUp(false);
-            objectHandler.setDown(false);
-            objectHandler.setSpace(false);
-        }else {
-            if (objectHandler.isLeft()) velocityX = -speed;
-            if (objectHandler.isRight()) velocityX = speed;
-            else if (!(objectHandler.isLeft() || objectHandler.isRight())) velocityX = 0;
-            if (objectHandler.isUp()) velocityY = -speed;
-            if (objectHandler.isDown()) velocityY = speed;
-            else if (!(objectHandler.isUp() || objectHandler.isDown())) velocityY = 0;
-        }
-
-    }
-    public int getCouldownBullet() {
-        return couldownBullet;
-    }
-
-    public void setCouldownBullet(int couldownBullet) {
-        this.couldownBullet = couldownBullet;
-    }
 }
 
