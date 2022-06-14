@@ -251,23 +251,26 @@ public class Game extends Canvas implements Runnable {
         MenuOption[] menuOptionsSaveMenu;
 
         menuOptionsSaveMenu1 = new MenuOption[]{new MenuOption(() -> {
-            Game.getGame().getSound().stop();
-            setGamestate(Gamestate.INGAME);
+            safeManager.safe(safeManager.getCurrentSave());
+            menuHandler.setCurrentMenu(mainMenu);
         }, "Save", 100, 100), new MenuOption(() -> {
-            Game.getGame().getSound().stop();
-            setGamestate(Gamestate.INGAME);
+            safeManager.load(safeManager.getCurrentSave());
+            menuHandler.setCurrentMenu(mainMenu);
         }, "Load", 100, 250), new MenuOption(() -> {
             menuHandler.setCurrentMenu(mainMenu);
         }, "Back", 100, 550)
         };
 
         menuOptionsSaveMenu = new MenuOption[]{new MenuOption(() -> {
+            safeManager.setCurrentSave(0);
             saveMenu.setCurrentOption(0);
             saveMenu.setMenuOptions(menuOptionsSaveMenu1);
         }, "Save 1", 100, 100), new MenuOption(() -> {
+            safeManager.setCurrentSave(1);
             saveMenu.setCurrentOption(0);
             saveMenu.setMenuOptions(menuOptionsSaveMenu1);
         }, "Save 2", 100, 250), new MenuOption(() -> {
+            safeManager.setCurrentSave(2);
             saveMenu.setCurrentOption(0);
             saveMenu.setMenuOptions(menuOptionsSaveMenu1);
         }, "Save 3", 100, 400), new MenuOption(() -> {
