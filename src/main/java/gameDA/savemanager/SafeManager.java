@@ -50,5 +50,11 @@ public class SafeManager {
         return saves[3].loadOptions();
     }
 
+    public int getCurrentSave() {
+        return currentSave;
+    }
 
+    public void setCurrentSave(int currentSave) {
+        this.currentSave = currentSave;
+    }
 }
