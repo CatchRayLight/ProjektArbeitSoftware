@@ -5,6 +5,7 @@ import gameDA.Game;
 import gameDA.config.output.Camera;
 import gameDA.config.output.SpriteSheet;
 import gameDA.gui.Gamestate;
+import gameDA.gui.menus.submenus.DeathMenu;
 import gameDA.objects.*;
 
 import java.awt.*;
@@ -92,7 +93,10 @@ public class Player extends GameObject {
                         playerHealthbar.setHp(getHp());
                     }
                     if (getHp() <= 0) {
-                        System.out.println("DEATH");
+                        System.out.println(Game.getGame().getGamestate());
+                        Game.getGame().setGamestate(Gamestate.INMENU);
+                        Game.getGame().getMenuHandler().setCurrentMenu(new DeathMenu());
+                        break;
                     }
                 }
             }

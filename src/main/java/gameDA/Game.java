@@ -152,8 +152,6 @@ public class Game extends Canvas implements Runnable {
         }
         if (gamestate.equals(Gamestate.INMENU)) {
             menuHandler.update();
-            objectHandler.update();
-
         }
     }
 
@@ -349,6 +347,9 @@ public class Game extends Canvas implements Runnable {
     //Getter and setter
 
 
+    public static Gamestate getGamestate() {
+        return gamestate;
+    }
 
     public void setGamestate(Gamestate newgamestate) {
         gamestate = newgamestate;
