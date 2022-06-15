@@ -10,7 +10,7 @@ import gameDA.gui.menus.*;
 import gameDA.gui.menus.submenus.*;
 
 import gameDA.objects.*;
-import gameDA.objects.model.EventLvL1;
+import gameDA.objects.model.EventTeleportLVL;
 import gameDA.objects.model.LootBox;
 import gameDA.objects.model.SpaceEnemy;
 import gameDA.objects.model.Walls;
@@ -28,7 +28,7 @@ import java.awt.image.BufferedImage;
 public class Game extends Canvas implements Runnable {
 
     //Variablen und ressourcen benötigt für das Spiel
-    public static final int SCREEN_WIDTH = 1216;
+        public static final int SCREEN_WIDTH = 1216;
     public static final int SCREEN_HEIGHT = 928;
     private final BufferedImage[] background =new BufferedImage[4];
     private final SpriteSheet spriteS;
@@ -46,7 +46,7 @@ public class Game extends Canvas implements Runnable {
     //Variablen die Auskunft über den Zustand des Spieles geben
     public static Gamestate gamestate = Gamestate.INMENU;
     private int outputFrames;
-    private final boolean onPlanet;
+    private boolean onPlanet;
 
     private int LvLInt;
     private boolean isRunning = false;
@@ -77,7 +77,8 @@ public class Game extends Canvas implements Runnable {
 
         //Starten des Spieles und laden des Levels
         start();
-        onPlanet = false; //toggle for player model change off/on planet
+        //setting the Start Level on 1 and declaring onPlanet boolean
+        onPlanet = false;
         levelBuilder(lvLHandler.setLvL(1));
 
     }
@@ -172,7 +173,6 @@ public class Game extends Canvas implements Runnable {
             case INGAME:
                 Graphics2D graphics2D = (Graphics2D) g;
                 graphics2D.translate(-camera.getX(), -camera.getY());
-
                 g.drawImage(background[0], 0, 0, null);
                 objectHandler.render(g);
                 graphics2D.translate(camera.getX(), camera.getY());
@@ -219,7 +219,7 @@ public class Game extends Canvas implements Runnable {
                 }
                 if (red == 255 && green == 255 && blue != 255) {
                     //yel
-                    objectHandler.addObj(new EventLvL1(xAxis * 32, yAxis * 32, ObjectID.EVENT, spriteS, objectHandler));
+                    objectHandler.addObj(new EventTeleportLVL(xAxis * 32, yAxis * 32, ObjectID.EVENT, spriteS, objectHandler));
                 }
             }
         }
@@ -395,6 +395,15 @@ public class Game extends Canvas implements Runnable {
 
     public Game setLvLInt(int lvLInt) {
         LvLInt = lvLInt;
+        return this;
+    }
+
+    public boolean isOnPlanet() {
+        return onPlanet;
+    }
+
+    public Game setOnPlanet(boolean onPlanet) {
+        this.onPlanet = onPlanet;
         return this;
     }
 }

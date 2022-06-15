@@ -12,14 +12,13 @@ import gameDA.objects.ObjectID;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class EventLvL1 extends GameObject {
+public class EventTeleportLVL extends GameObject {
     private final ObjectHandler objectHandler;
     private final BufferedImage img;
 
     private LvLHandler lvLHandler;
 
-
-    public EventLvL1(int x, int y, ObjectID id, SpriteSheet spriteSheet, ObjectHandler objectHandler) {
+    public EventTeleportLVL(int x, int y, ObjectID id, SpriteSheet spriteSheet, ObjectHandler objectHandler) {
         super(x, y, id, spriteSheet);
         this.objectHandler = objectHandler;
         img = spriteSheet.getImage(9,8,32,32);
@@ -33,10 +32,9 @@ public class EventLvL1 extends GameObject {
             if (tempObject.getId() == ObjectID.PLAYER) {
                 if(getBounds().intersects(tempObject.getBounds())){
                     Game.getGame().setGamestate(Gamestate.INMENU);
-                    System.out.println("Event");
-                    //teleport player out first to not make bugs
-                    lvLHandler.nextLvL(objectHandler);
+                    System.out.println("EventTP");
                     //change lvl
+                    lvLHandler.nextLvL(objectHandler);
                     //Triggers sample dialogue for now
                     String[][] sampleDialogue = new String[][]{{"Text"}, {"Text"}};
                     Game.getGame().getMenuHandler().setCurrentMenu(new DialogueMenu(sampleDialogue));
@@ -54,7 +52,6 @@ public class EventLvL1 extends GameObject {
     public Rectangle getBounds() {
         return new Rectangle(x,y,32,32);
     }
-
     @Override
     public Rectangle getTopBounds(int offset) {
         return null;

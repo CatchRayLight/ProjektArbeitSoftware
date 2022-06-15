@@ -8,7 +8,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 public class Healthbar{
     private BufferedImage healthbar;
-    private SpriteSheet spriteSheet;
     private int x;
     private int y;
     private int hp;
@@ -22,7 +21,6 @@ public class Healthbar{
         this.hp = hp;
         this.ammo = ammo;
         this.fuel = fuel;
-        this.spriteSheet = spriteSheet;
         healthbar = spriteSheet.getImage(7, 3, 192, 96);
     }
     public Healthbar(int hp) {
@@ -34,12 +32,12 @@ public class Healthbar{
     }
     public void render(Graphics g) {
         g.setColor(Color.red);
-        g.fillRect((int) camera.getX() + 43, (int) (camera.getY() + Game.SCREEN_HEIGHT - 150), (hp * 156) / 100, 20);
+        g.fillRect(camera.getX() + 43, camera.getY() + Game.SCREEN_HEIGHT - 150, (hp * 156) / 100, 20);
         g.setColor(Color.orange);
-        g.fillRect((int) camera.getX() + 43, (int) camera.getY() + Game.SCREEN_HEIGHT - 113, (ammo * 156) / 100, 20);
+        g.fillRect(camera.getX() + 43, camera.getY() + Game.SCREEN_HEIGHT - 113, (ammo * 156) / 100, 20);
         g.setColor(Color.LIGHT_GRAY);
-        g.fillRect((int) camera.getX() + 43, (int) camera.getY() + Game.SCREEN_HEIGHT - 75, (fuel * 156) / 100, 20);
-        g.drawImage(healthbar, (int) camera.getX() + 10, (int) camera.getY() + Game.SCREEN_HEIGHT - 150, null);
+        g.fillRect(camera.getX() + 43, camera.getY() + Game.SCREEN_HEIGHT - 75, (fuel * 156) / 100, 20);
+        g.drawImage(healthbar, camera.getX() + 10, camera.getY() + Game.SCREEN_HEIGHT - 150, null);
     }
     public void render(Graphics g,int x,int y, int offsetX, int offsetY,int size,int height){
         g.setColor(Color.red);

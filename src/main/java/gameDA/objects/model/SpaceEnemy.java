@@ -125,22 +125,22 @@ public class SpaceEnemy extends GameObject{
 
     @Override
     public Rectangle getTopBounds(int offset) {
-        return new Rectangle(x-(offset/2), y-offset, 32+offset, 5);
+        return new Rectangle(x-(offset/2), y-offset, 32+offset, 50);
     }
 
     @Override
     public Rectangle getRightBounds(int offset) {
-        return new Rectangle((x+27)+offset, y-(offset/2), 5, 32+offset);
+        return new Rectangle((x+27)+offset, y-(offset/2), 50, 32+offset);
     }
 
     @Override
     public Rectangle getLeftBounds(int offset) {
-        return new Rectangle(x-offset, y-(offset/2), 5, 32+offset);
+        return new Rectangle(x-offset, y-(offset/2), 50, 32+offset);
     }
 
     @Override
     public Rectangle getBotBounds(int offset) {
-        return new Rectangle(x-(offset/2), y+27+offset, 32+offset, 5);
+        return new Rectangle(x-(offset/2), y+27+offset, 32+offset, 50);
     }
     public int getHp() {
         return hp;

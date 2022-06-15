@@ -30,6 +30,7 @@ public class ObjectHandler {
             }
         }
         lastRenderObject.render(g);
+
     }
     public void addObj(GameObject tempObj){
         gameObjects.add(tempObj);

@@ -21,7 +21,6 @@ public class LootBox extends GameObject {
         this.objectHandler = objectHandler;
         img = spriteSheet.getImage(7,6,32,32);
     }
-
     @Override
     public void update() {
         for (int i = 0; i < objectHandler.gameObjects.size() ; i++) {
@@ -37,7 +36,6 @@ public class LootBox extends GameObject {
                     playerHealthbar.setHp(player.getHp());
                     playerHealthbar.setAmmo(player.getAmmo());
                     System.out.println(player.getAmmo());
-
                 }
             }
         }

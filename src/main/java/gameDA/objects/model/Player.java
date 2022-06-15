@@ -2,6 +2,7 @@ package gameDA.objects.model;
 
 
 import gameDA.Game;
+import gameDA.config.output.BufferedImageLoader;
 import gameDA.config.output.Camera;
 import gameDA.config.output.SpriteSheet;
 import gameDA.gui.Gamestate;
@@ -25,6 +26,7 @@ public class Player extends GameObject {
     private final ObjectHandler objectHandler;
     private final BufferedImage[] playerOnPlanetL = new BufferedImage[3];
     private final BufferedImage[] playerOnPlanetR = new BufferedImage[3];
+    private  final BufferedImage viewIMG;
     private final Animation animL;
     private final Animation animR;
 
@@ -55,6 +57,7 @@ public class Player extends GameObject {
         this.bulletSpeed = bulletSpeed;
         this.bulletCost = bulletCost;
         this.bulletDmg = bulletDmg;
+        BufferedImageLoader loader = new BufferedImageLoader();
         playerSpaceSR = spriteSheet.getImage(7,8,32,32);
         playerSpaceSL = spriteSheet.getImage(8,8,32,32);
         playerSpaceSU = spriteSheet.getImage(7,7,32,32);
@@ -68,6 +71,7 @@ public class Player extends GameObject {
         animL = new Animation(6, playerOnPlanetL);
         animR = new Animation(6, playerOnPlanetR);
         playerHealthbar = new Healthbar(spriteSheet, hp,ammo,fuel, camera);
+        viewIMG = loader.loadImage("/viewtest.png");
 
     }
 
@@ -106,6 +110,7 @@ public class Player extends GameObject {
 
     @Override
     public void render(Graphics g) {
+        g.drawImage(viewIMG,x- (viewIMG.getWidth() /2) + 15,y - (viewIMG.getHeight()/2) + 20,null);
         playerHealthbar.render(g);
         if(!frameChange){
             if (onPlanet) g.drawImage(playerOnPlanetL[0], x, y, null);

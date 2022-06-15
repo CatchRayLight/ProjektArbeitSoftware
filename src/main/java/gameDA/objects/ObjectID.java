@@ -7,7 +7,6 @@ public enum ObjectID {
     PLAYERBULLET,
     ENEMY,
     EVENT,
-
     ENEMYBULLET,
 
 }
