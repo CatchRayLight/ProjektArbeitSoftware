@@ -10,6 +10,7 @@ public class Sound {
 
     public Sound() {
         soundUrl[0] = getClass().getResource("/Music.wav");
+        soundUrl[1] = getClass().getResource("/DeathScreenMusic.wav");
     }
 
     public void setClip(int i) {

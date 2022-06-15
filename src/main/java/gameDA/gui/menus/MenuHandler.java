@@ -80,8 +80,8 @@ public class MenuHandler {
             game.getObjectHandler().render(g);
             graphics2D.translate(camera.getX(), camera.getY());
             g.setColor(Color.yellow);
-            g.setFont(new Font("Courier New",Font.BOLD,10));
             g.drawString("Frames :" + game.getOutputFrames(),10,10);
+            g.setFont(customFont.deriveFont(35f));
         }
         currentMenu.render(g);
     }
