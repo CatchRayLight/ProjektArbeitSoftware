@@ -97,7 +97,7 @@ public class Player extends GameObject {
                         playerHealthbar.setHp(getHp());
                     }
                     if (getHp() <= 0) {
-                        System.out.println(Game.getGame().getGamestate());
+                        System.out.println(Game.getGamestate());
                         Game.getGame().setGamestate(Gamestate.INMENU);
                         Game.getGame().getMenuHandler().setCurrentMenu(new DeathMenu());
                         break;
