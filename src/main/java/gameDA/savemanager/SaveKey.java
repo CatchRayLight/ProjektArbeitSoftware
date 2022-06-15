@@ -1,11 +1,14 @@
 package gameDA.savemanager;
 
 public enum SaveKey {
-    PLAYERX("PlayerX"),
-    PLAYERY("PlayerY");
+    PLAYERX("PlayerX", "100"),
+    PLAYERY("PlayerY", "100");
+    //(To be implemented)
 
     public final String identifier;
-    SaveKey(String identifier) {
+    public final String startValue;
+    SaveKey(String identifier, String startValue) {
         this.identifier = identifier;
+        this.startValue = startValue;
     }
 }

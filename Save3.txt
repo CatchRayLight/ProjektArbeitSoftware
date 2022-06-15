@@ -1,2 +1,0 @@
-PlayerX:5
-PlayerY:20

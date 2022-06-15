@@ -31,7 +31,7 @@ public abstract class Menu {
     }
 
     public void startMusic() {
-        if(backgroundMusic >= 0 && Game.getGame().getSound() != null) {
+        if(backgroundMusic >= 0 && (Game.getGame().getSound() != null )&& Game.getGame().getOptions().isMusic()) {
             Game.getGame().getSound().setClip(backgroundMusic);
             Game.getGame().getSound().play();
             Game.getGame().getSound().loop();
