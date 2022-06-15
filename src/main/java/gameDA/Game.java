@@ -290,7 +290,7 @@ public class Game extends Canvas implements Runnable {
         }, "Saves", 100, 250), new MenuOption(() -> {
             menuHandler.setCurrentMenu(optionsMenu);
         }, "Options", 100, 400), new MenuOption(() -> {
-            menuHandler.setCurrentMenu(new DeathMenu());
+            System.exit(0);
         }, "Exit", 100, 550)
         };
 

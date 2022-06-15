@@ -12,7 +12,7 @@ public class DeathMenu extends Menu {
     public DeathMenu(){
         super(new MenuOption[]{new MenuOption(() -> {
             //Return to last safe
-        },"Load last save", 400, 400), new MenuOption(() -> {
+        },"Load save 1", 400, 400), new MenuOption(() -> {
             Game.getGame().getMenuHandler().openMainMenu();
         }, "Exit to Mainmenu", 400, 500)
         }, 1);
