@@ -100,19 +100,20 @@ public class Game extends Canvas implements Runnable {
     //Die Stop methode beendet den Thread
     private void stop() throws InterruptedException {
         isRunning = false;
+        System.exit(0);
         thread.join();
     }
     //game-Loop
+    /**
+     * lastime: Time since the last iteration of the loop. Helps compute delta.
+     * AmountOfTicks: The max FPS for the game.
+     * ns: The number of nanoseconds per frame.
+     * delta: The 'progress' that must be elapsed until the next frame.
+     * frames: The number of frames elapsed since the last time we displayed the FPS.
+     * time: The current time. Used to know when to display next the FPS.
+     **/
     @Override
     public void run() {
-        /**
-         * lastime: Time since the last iteration of the loop. Helps compute delta.
-         * AmountOfTicks: The max FPS for the game.
-         * ns: The number of nanoseconds per frame.
-         * delta: The 'progress' that must be elapsed until the next frame.
-         * frames: The number of frames elapsed since the last time we displayed the FPS.
-         * time: The current time. Used to know when to display next the FPS.
-         **/
         this.requestFocus();
         long lastTime = System.nanoTime();
         double FPS = 60.0;
@@ -165,17 +166,12 @@ public class Game extends Canvas implements Runnable {
 
     //Render des gesamten Spielinhaltes
     public void render() {
-        //starten bei null
         BufferStrategy bufferStrategy = this.getBufferStrategy();
-        //die tatsächlichen Frames sind schon vor dem Anzeigen da, "Preloaded", also bswp. 1ster Frame wird gezeigt
-        // 2 andere sind schon in der Warteschlange dahinter zum zeigen
         if (bufferStrategy == null) {
             this.createBufferStrategy(3);
             return;
         }
         Graphics g = bufferStrategy.getDrawGraphics();
-
-        //ab hier werden die Objecte, Player, Walls etc auf den canvas gerendert
         switch (gamestate) {
             case INGAME:
                 Graphics2D graphics2D = (Graphics2D) g;
@@ -295,7 +291,6 @@ public class Game extends Canvas implements Runnable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            System.exit(0);
         }, "Exit", 100, 550)
         };
 

@@ -1,2 +1,2 @@
-PlayerX:100
-PlayerY:100
+PlayerX:5
+PlayerY:20

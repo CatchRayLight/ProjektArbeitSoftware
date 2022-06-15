@@ -14,7 +14,7 @@ public class DeathMenu extends Menu {
             //Return to last safe
         },"Load save 1", 400, 400), new MenuOption(() -> {
             Game.getGame().getMenuHandler().openMainMenu();
-        }, "Exit to Mainmenu", 400, 500)
+        }, "Exit to Main-menu", 400, 500)
         }, 1);
         Game.getGame().getMenuHandler().setLoadBackground(false);
     }
@@ -27,8 +27,9 @@ public class DeathMenu extends Menu {
             op.render(g);
         }
         g.setColor(Color.RED);
-        g.setFont(new Font("Courier New",Font.BOLD,60));
-        g.drawString("You Died",450,350);
+//        g.setFont(new Font("Courier New",Font.BOLD,60));
+        g.drawString("You",530,350);
+        g.drawString("Died",620,350);
     }
 
     @Override
