@@ -20,10 +20,10 @@ public class MenuHandler {
     private Game game;
     private boolean loadBackground = true;
     private final BufferedImageLoader loader = new BufferedImageLoader();
-    private final BufferedImage background1 = loader.loadImage("/MainMenueBackground.png");
-    private final BufferedImage background2 = loader.loadImage("/MainMenueBackground1.png");
-    private final BufferedImage background3 = loader.loadImage("/MainMenueBackground2.png");
-    private final SpriteSheet backgroundImageS = new SpriteSheet(loader.loadImage("/backgroundTest.png"));
+    private final BufferedImage background1 = loader.loadImage("/menu/MainMenueBackground.png");
+    private final BufferedImage background2 = loader.loadImage("/menu/MainMenueBackground1.png");
+    private final BufferedImage background3 = loader.loadImage("/menu/MainMenueBackground2.png");
+    private final SpriteSheet backgroundImageS = new SpriteSheet(loader.loadImage("/maps/backgroundTest.png"));
     private final BufferedImage background = backgroundImageS.getImage(1,1,2048,2048);
     private Camera camera;
 
@@ -39,9 +39,9 @@ public class MenuHandler {
         this.currentMenu = startMenu;
         this.game = Game.getGame();
         this.startMenu = startMenu;
-        BufferedImage backgroundGuy2 = loader.loadImage("/BackgroundGuy2.png");
-        BufferedImage backgroundGuy1 = loader.loadImage("/BackgroundGuy1.png");
-        BufferedImage backgroundGuy = loader.loadImage("/BackgroundGuy.png");
+        BufferedImage backgroundGuy2 = loader.loadImage("/menu/BackgroundGuy2.png");
+        BufferedImage backgroundGuy1 = loader.loadImage("/menu/BackgroundGuy1.png");
+        BufferedImage backgroundGuy = loader.loadImage("/menu/BackgroundGuy.png");
         BufferedImage[] backgroundGuyS = {backgroundGuy, backgroundGuy1, backgroundGuy2};
         animation = new Animation(10, backgroundGuyS);
         currentMenu.startMusic();
@@ -149,7 +149,7 @@ public class MenuHandler {
         try {
             //create the font to use. Specify the size!
             customFont = Font.createFont(Font.TRUETYPE_FONT,
-                    new File("src/main/resources/ARCADECLASSIC.TTF")).deriveFont(30f);
+                    new File("src/main/resources/font/ARCADECLASSIC.TTF")).deriveFont(30f);
             return customFont;
         } catch (IOException | FontFormatException e) {
             e.printStackTrace();

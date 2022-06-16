@@ -30,7 +30,7 @@ public class Game extends Canvas implements Runnable {
     //Variablen und ressourcen benötigt für das Spiel
     public static final int SCREEN_WIDTH = 1216;
     public static final int SCREEN_HEIGHT = 928;
-    private final BufferedImage[] background =new BufferedImage[4];
+    private final BufferedImage backgroundImage[] = new BufferedImage[3];
     private final SpriteSheet spriteS;
 
     //Objekte zur Steuerung des Spieles
@@ -63,8 +63,9 @@ public class Game extends Canvas implements Runnable {
     public Game() {
         //Laden der Ressourcen
         BufferedImageLoader loader = new BufferedImageLoader();
-        BufferedImage spriteSheet = loader.loadImage("/SpriteSheet.png");
-        BufferedImage backgroundImage = loader.loadImage("/backgroundTest.png");
+        BufferedImage spriteSheet = loader.loadImage("/textures/SpriteSheet.png");
+        backgroundImage[0] = loader.loadImage("/maps/backgroundTest.png");
+        backgroundImage[1] = loader.loadImage("/maps/Planet1.png");
         //Initialisierungen
         game = this;
         new GameWindow(SCREEN_HEIGHT, SCREEN_WIDTH, "Space Plugg", loader);
@@ -79,14 +80,12 @@ public class Game extends Canvas implements Runnable {
         camera = new Camera(0, 0);
         keyListener = new KeyListener(objectHandler, menuHandler, gamestate);
         this.addKeyListener(keyListener);
-        SpriteSheet backgroundImageS = new SpriteSheet(backgroundImage);
-        background[0] = backgroundImageS.getImage(1,1,2048,2048);
 
         //Starten des Spieles und laden des Levels
         start();
         //setting the Start Level on 1 and declaring onPlanet boolean
-        onPlanet = false;
-        levelBuilder(lvLHandler.setLvL(1));
+        setOnPlanet(true);
+        levelBuilder(lvLHandler.setLvL(getLvLInt()));
 
     }
 
@@ -153,8 +152,11 @@ public class Game extends Canvas implements Runnable {
             for (int i = 0; i < objectHandler.gameObjects.size(); i++) {
                 if (objectHandler.gameObjects.get(i).getId() == ObjectID.PLAYER) {
                     GameObject tempObj = objectHandler.gameObjects.get(i);
-                    camera.update(objectHandler.gameObjects.get(i));
-                    Player player = (Player) tempObj;
+                    if(!isOnPlanet())camera.update(objectHandler.gameObjects.get(i));
+                    if(isOnPlanet()){
+                        camera.setX(0);
+                        camera.setY(0);
+                    }
                 }
             }
             objectHandler.update();
@@ -176,7 +178,13 @@ public class Game extends Canvas implements Runnable {
             case INGAME:
                 Graphics2D graphics2D = (Graphics2D) g;
                 graphics2D.translate(-camera.getX(), -camera.getY());
-                g.drawImage(background[0], 0, 0, null);
+                // getLvL int %2 == 0 dann image on planet
+                System.out.println(getLvLInt());
+                System.out.println(isOnPlanet());
+                g.drawImage(backgroundImage[1], 0, 0, null);
+                if(getLvLInt() == 1 || getLvLInt() == 3 || getLvLInt() == 5) {
+                    g.drawImage(backgroundImage[0], 0, 0, null);
+                }
                 objectHandler.render(g);
                 graphics2D.translate(camera.getX(), camera.getY());
                 g.setColor(Color.yellow);
@@ -203,14 +211,14 @@ public class Game extends Canvas implements Runnable {
                 int blue = (pixel) & 0xff;
 
                 if (blue == 255 && green != 255 && red != 255) {
-                    if(getLvLInt() == 1) {
+                    if(getLvLInt() == 0) {
                         objectHandler.addObj(new Player(xAxis * 32, yAxis * 32, ObjectID.PLAYER, spriteS,
-                                objectHandler, onPlanet, camera, 100, 90, 100, 6,
+                                objectHandler, isOnPlanet(), camera, 100, 90, 15600, 6,
                                 10, 10, 20));
                     }
                 }
                 if (red == 255 && green != 255 && blue != 255) {
-                    objectHandler.addObj(new Walls(xAxis * 32, yAxis * 32, ObjectID.BLOCK, spriteS, onPlanet));
+                    objectHandler.addObj(new Walls(xAxis * 32, yAxis * 32, ObjectID.BLOCK, spriteS,isOnPlanet()));
                 }
                 if (green == 255 && blue != 255 && red != 255) {
                     objectHandler.addObj(new SpaceEnemy(xAxis * 32, yAxis * 32, ObjectID.ENEMY, spriteS,
@@ -405,6 +413,9 @@ public class Game extends Canvas implements Runnable {
 
     public static Game getGame() {
         return game;
+    }
+    public void togglePlanet(){
+        this.onPlanet = !this.onPlanet;
     }
 
     public int getLvLInt() {

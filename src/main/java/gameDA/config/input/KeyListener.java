@@ -3,6 +3,7 @@ package gameDA.config.input;
 import gameDA.gui.Gamestate;
 import gameDA.gui.menus.MenuHandler;
 import gameDA.objects.*;
+import gameDA.objects.model.Player;
 
 
 import java.awt.event.*;
