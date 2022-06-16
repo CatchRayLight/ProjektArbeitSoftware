@@ -9,8 +9,8 @@ public class Sound {
     URL soundUrl[] = new URL[30];
 
     public Sound() {
-        soundUrl[0] = getClass().getResource("/Music.wav");
-        soundUrl[1] = getClass().getResource("/DeathScreenMusic.wav");
+        soundUrl[0] = getClass().getResource("/sounds/Music.wav");
+        soundUrl[1] = getClass().getResource("/sounds/DeathScreenMusic.wav");
     }
 
     public void setClip(int i) {

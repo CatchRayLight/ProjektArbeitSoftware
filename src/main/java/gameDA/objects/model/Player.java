@@ -21,7 +21,7 @@ public class Player extends GameObject {
     private final BufferedImage playerSpaceSL;
     private final BufferedImage playerSpaceSU;
     private final BufferedImage playerSpaceSD;
-    private final int speed = 5;
+    private int speed = 5;
 
     private final ObjectHandler objectHandler;
     private final BufferedImage[] playerOnPlanetL = new BufferedImage[3];
@@ -71,7 +71,7 @@ public class Player extends GameObject {
         animL = new Animation(6, playerOnPlanetL);
         animR = new Animation(6, playerOnPlanetR);
         playerHealthbar = new Healthbar(spriteSheet, hp,ammo,fuel, camera);
-        viewIMG = loader.loadImage("/viewtest.png");
+        viewIMG = loader.loadImage("/textures/viewtest.png");
 
     }
 
@@ -81,8 +81,14 @@ public class Player extends GameObject {
         y += velocityY;
         motionCancelCollision(5,ObjectID.BLOCK);
         playerMovement();
-        animL.runAnimation();
-        animR.runAnimation();
+        if(isOnPlanet()) {
+            animL.runAnimation();
+            animR.runAnimation();
+            speed = 2;
+        }
+        if(!onPlanet){
+            speed = 5;
+        }
         playerShooting();
         for (int i = 0; i < objectHandler.gameObjects.size(); i++) {
             GameObject tempObject = objectHandler.gameObjects.get(i);
@@ -96,21 +102,20 @@ public class Player extends GameObject {
                         objectHandler.removeObj(tempObject);
                         playerHealthbar.setHp(getHp());
                     }
-                    if (getHp() <= 0) {
-                        System.out.println(Game.getGamestate());
-                        Game.getGame().setGamestate(Gamestate.INMENU);
-                        Game.getGame().getMenuHandler().setCurrentMenu(new DeathMenu());
-                        break;
-                    }
                 }
             }
+        }
+        if ((getHp() <= 0) || (getFuel() <= 0)) {
+            System.out.println(Game.getGamestate());
+            Game.getGame().setGamestate(Gamestate.INMENU);
+            Game.getGame().getMenuHandler().setCurrentMenu(new DeathMenu());
         }
     }
 
 
     @Override
     public void render(Graphics g) {
-        g.drawImage(viewIMG,x- (viewIMG.getWidth() /2) + 15,y - (viewIMG.getHeight()/2) + 20,null);
+        if(!isOnPlanet())g.drawImage(viewIMG,x- (viewIMG.getWidth() /2) + 15,y - (viewIMG.getHeight()/2) + 20,null);
         playerHealthbar.render(g);
         if(!frameChange){
             if (onPlanet) g.drawImage(playerOnPlanetL[0], x, y, null);
@@ -181,6 +186,9 @@ public class Player extends GameObject {
     }
    public void setOnPlanet(boolean onPlanet) {
         this.onPlanet = onPlanet;
+    }
+    public void toggleOnPlanet(){
+        onPlanet = !onPlanet;
     }
 
     public int getHp() {
@@ -275,13 +283,19 @@ public class Player extends GameObject {
            objectHandler.setDown(false);
            objectHandler.setSpace(false);
        }else {
-           if (objectHandler.isLeft()) velocityX = -speed;
-           if (objectHandler.isRight()) velocityX = speed;
-           else if (!(objectHandler.isLeft() || objectHandler.isRight())) velocityX = 0;
-           if (objectHandler.isUp()) velocityY = -speed;
-           if (objectHandler.isDown()) velocityY = speed;
-           else if (!(objectHandler.isUp() || objectHandler.isDown())) velocityY = 0;
+           if (objectHandler.isLeft()){ velocityX = -speed;}
+           if (objectHandler.isRight()){ velocityX = speed;}
+           else if (!(objectHandler.isLeft() || objectHandler.isRight())) {velocityX = 0;}
+           if (objectHandler.isUp()) {velocityY = -speed;}
+           if (objectHandler.isDown()) {velocityY = speed;}
+           else if (!(objectHandler.isUp() || objectHandler.isDown())) {velocityY = 0;}
         }
+       if((velocityY != 0) || (velocityX != 0)){
+           if (!isOnPlanet()) {
+               setFuel(getFuel() - 2);
+               playerHealthbar.setFuel(getFuel());
+           }
+       }
     }
    private void playerShooting(){
        if(!onPlanet) {

@@ -1,5 +1,6 @@
 package gameDA.objects.model;
 
+import gameDA.Game;
 import gameDA.config.output.SpriteSheet;
 import gameDA.objects.Animation;
 import gameDA.objects.GameObject;
@@ -25,7 +26,7 @@ public class Walls extends GameObject {
 
     @Override
     public void render(Graphics g) {
-        if(!onPlanet) {
+        if(!Game.getGame().isOnPlanet()) {
             g.drawImage(sprite,x,y,null);
         }
 //        //hitbox

@@ -18,8 +18,8 @@ public class DialogueMenu extends Menu {
     private String[][] dialogueText;
     private int currentDialoguePosition = 0;
     private final BufferedImageLoader loader = new BufferedImageLoader();
-    private final BufferedImage backgroundNext = loader.loadImage("/DialogueMenuNext.png");
-    private final BufferedImage backgroundPrev = loader.loadImage("/DialogueMenuPrev.png");
+    private final BufferedImage backgroundNext = loader.loadImage("/menu/DialogueMenuNext.png");
+    private final BufferedImage backgroundPrev = loader.loadImage("/menu/DialogueMenuPrev.png");
 
     public DialogueMenu(String[][] dialogueText) {
         super(new MenuOption[]{});
