@@ -385,6 +385,11 @@ public class Game extends Canvas implements Runnable {
     public void setGamestate(Gamestate newgamestate) {
         gamestate = newgamestate;
         keyListener.setGamestate(gamestate);
+        objectHandler.setLeft(false);
+        objectHandler.setRight(false);
+        objectHandler.setDown(false);
+        objectHandler.setUp(false);
+        objectHandler.setSpace(false);
     }
 
     public MenuHandler getMenuHandler() {
