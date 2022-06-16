@@ -8,9 +8,9 @@ public abstract class Menu {
     private int currentOption;
     private int changeCurrentoptionCooldown = 20;
     private int enterCooldown = 20;
-    public int maxOption;
+    private int maxOption;
     private int backgroundMusic;
-    public final int minOption;
+    private final int minOption;
     private MenuOption[] menuOptions;
 
 

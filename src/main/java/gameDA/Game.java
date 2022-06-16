@@ -294,11 +294,16 @@ public class Game extends Canvas implements Runnable {
         }, "Saves", 100, 250), new MenuOption(() -> {
             menuHandler.setCurrentMenu(optionsMenu);
         }, "Options", 100, 400), new MenuOption(() -> {
+            /*
             try {
                 stop();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            */
+            Game.getGame().setGamestate(Gamestate.INMENU);
+            Game.getGame().getMenuHandler().setCurrentMenu(new FlyConfirmationMenu());
+
         }, "Exit", 100, 550)
         };
 

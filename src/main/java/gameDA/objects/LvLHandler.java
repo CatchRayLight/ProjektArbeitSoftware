@@ -55,8 +55,7 @@ public class LvLHandler {
                 objectHandler.setUp(false);
                 objectHandler.setDown(false);
                 objectHandler.setSpace(false);
-                Game.getGame().levelBuilder(setLvL(
-                        Game.getGame().getLvLInt()));
+                Game.getGame().levelBuilder(setLvL(Game.getGame().getLvLInt()));
                 break;
             }
         }

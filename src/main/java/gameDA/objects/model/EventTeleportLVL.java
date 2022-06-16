@@ -32,11 +32,10 @@ public class EventTeleportLVL extends GameObject {
             if (tempObject.getId() == ObjectID.PLAYER) {
                 if(getBounds().intersects(tempObject.getBounds())){
                     Game.getGame().setGamestate(Gamestate.INMENU);
-                    System.out.println("EventTP");
                     //change lvl
                     lvLHandler.nextLvL(objectHandler);
                     //Triggers sample dialogue for now
-                    String[][] sampleDialogue = new String[][]{{"Text"}, {"Text"}};
+                    String[][] sampleDialogue = new String[][]{{"Text"}, {"Text", "line 2", "line 3"}};
                     Game.getGame().getMenuHandler().setCurrentMenu(new DialogueMenu(sampleDialogue));
                     break;
                 }
