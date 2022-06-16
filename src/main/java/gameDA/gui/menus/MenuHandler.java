@@ -23,8 +23,8 @@ public class MenuHandler {
     private final BufferedImage background1 = loader.loadImage("/menu/MainMenueBackground.png");
     private final BufferedImage background2 = loader.loadImage("/menu/MainMenueBackground1.png");
     private final BufferedImage background3 = loader.loadImage("/menu/MainMenueBackground2.png");
-    private final SpriteSheet backgroundImageS = new SpriteSheet(loader.loadImage("/maps/backgroundTest.png"));
-    private final BufferedImage background = backgroundImageS.getImage(1,1,2048,2048);
+    private final BufferedImage backgroundSpace = loader.loadImage("/maps/backgroundTest.png");
+    private final BufferedImage backgroundPlanet = loader.loadImage("/maps/Planet1.png");
     private Camera camera;
 
     private final Animation animation;
@@ -71,12 +71,16 @@ public class MenuHandler {
             g.setFont(customFont.deriveFont(50f));
         } else {
             //Lade Gameobjects zum rendern
+
             camera = game.getCamera();
 
             Graphics2D graphics2D = (Graphics2D) g;
             graphics2D.translate(-camera.getX(), -camera.getY());
-
-            g.drawImage(background, 0, 0, null);
+            if(Game.getGame().isOnPlanet()) {
+                g.drawImage(backgroundPlanet, 0, 0, null);
+            } else {
+                g.drawImage(backgroundSpace, 0, 0, null);
+            }
             game.getObjectHandler().render(g);
             graphics2D.translate(camera.getX(), camera.getY());
             g.setColor(Color.yellow);
