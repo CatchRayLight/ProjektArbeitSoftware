@@ -32,7 +32,6 @@ public class EventTeleportLVL extends GameObject {
             if (tempObject.getId() == ObjectID.PLAYER) {
                 if(getBounds().intersects(tempObject.getBounds())){
                     Game.getGame().setGamestate(Gamestate.INMENU);
-                    System.out.println("EventTP");
                     //change lvl
                     lvLHandler.nextLvL(objectHandler);
                     //Triggers sample dialogue for now

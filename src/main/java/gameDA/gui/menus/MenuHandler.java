@@ -126,6 +126,8 @@ public class MenuHandler {
             currentMenu.startMusic();
         } else this.currentMenu = currentMenu;
 
+
+
     }
 
     public void openEscapeMenu() {

@@ -32,6 +32,7 @@ public class DialogueMenu extends Menu {
             } else currentDialoguePosition--;
         }, "Previous", 100, 250)});
         this.dialogueText = dialogueText;
+        Game.getGame().getMenuHandler().setLoadBackground(false);
     }
 
 
