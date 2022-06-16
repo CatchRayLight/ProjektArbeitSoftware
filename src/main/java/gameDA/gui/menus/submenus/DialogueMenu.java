@@ -14,7 +14,7 @@ public class DialogueMenu extends Menu {
 
     private final int positionX = 0;
     private final int positionY = 690;
-    private final int linewidth = 20;
+    private final int linewidth = 30;
     private String[][] dialogueText;
     private int currentDialoguePosition = 0;
     private final BufferedImageLoader loader = new BufferedImageLoader();
@@ -47,7 +47,7 @@ public class DialogueMenu extends Menu {
         //Render dialogue Text
         g.setColor(Color.BLUE);
         for(int i = 0; i <dialogueText[currentDialoguePosition].length; i++) {
-            g.drawString(dialogueText[currentDialoguePosition][i],positionX+30,positionY+50 + linewidth * i);
+            g.drawString(dialogueText[currentDialoguePosition][i],positionX+30,positionY+70 + linewidth * i);
         }
         //Maybe later: Render Characters in the scene, Names
 
