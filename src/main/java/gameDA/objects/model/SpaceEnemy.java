@@ -1,5 +1,6 @@
 package gameDA.objects.model;
 
+import gameDA.Game;
 import gameDA.config.output.SpriteSheet;
 import gameDA.objects.*;
 
@@ -7,7 +8,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class SpaceEnemy extends GameObject{
-    private final Animation animationEnemy;
+    private final Animation animationEnemy,bossAnimationEnemy,bossAnimationEnemy2,bossAnimationEnemy3;
     private final ObjectHandler objectHandler;
 
     private final Healthbar enemyHealthbar;
@@ -29,13 +30,19 @@ public class SpaceEnemy extends GameObject{
         this.bulletCooldown = bulletCooldown;
         this.bulletDmg = bulletDmg;
         BufferedImage[] enemyInSpace = new BufferedImage[6];
+        BufferedImage[] bossEnemyInSpace = new BufferedImage[2];
         enemyInSpace[0] = spriteSheet.getImage(1,7,32,32);
         enemyInSpace[1] = spriteSheet.getImage(2,7,32,32);
         enemyInSpace[2] = spriteSheet.getImage(3,7,32,32);
         enemyInSpace[3] = spriteSheet.getImage(4,7,32,32);
         enemyInSpace[4] = spriteSheet.getImage(5,7,32,32);
         enemyInSpace[5] = spriteSheet.getImage(6,7,32,32);
+        bossEnemyInSpace[0] = spriteSheet.getImage(13,3,64,64);
+        bossEnemyInSpace[1] = spriteSheet.getImage(15,3,64,64);
         animationEnemy = new Animation(20, enemyInSpace);
+        bossAnimationEnemy = new Animation(20, bossEnemyInSpace);
+        bossAnimationEnemy2 = new Animation(20, bossEnemyInSpace);
+        bossAnimationEnemy3 = new Animation(20, bossEnemyInSpace);
         enemyHealthbar = new Healthbar(hp);
     }
 
@@ -53,17 +60,25 @@ public class SpaceEnemy extends GameObject{
                     enemyHealthbar.setHp(getHp());
                     if (getHp() == 0) {
                         objectHandler.removeObj(this);
+                        player.setPlayerCoins(player.getPlayerCoins()+5);
+                        player.getPlayerHealthbar().setPlayerCoins(player.getPlayerCoins());
                     }
                     objectHandler.removeObj(tempObject);
                 }
             }
         }
         animationEnemy.runAnimation();
+        bossAnimationEnemy.runAnimation();
+        bossAnimationEnemy2.runAnimation();
+        bossAnimationEnemy3.runAnimation();
     }
 
     @Override
     public void render(Graphics g) {
-        animationEnemy.drawAnimation(g,x,y,0);
+        if(!(Game.getGame().getLvLInt() == 2|| Game.getGame().getLvLInt() == 5|| Game.getGame().getLvLInt() == 8))animationEnemy.drawAnimation(g,x,y,0);
+        if(Game.getGame().getLvLInt() == 2)bossAnimationEnemy.drawAnimation(g,x,y,0);
+        if(Game.getGame().getLvLInt() == 5)bossAnimationEnemy2.drawAnimation(g,x,y,0);
+        if(Game.getGame().getLvLInt() == 8)bossAnimationEnemy3.drawAnimation(g,x,y,0);
         enemyHealthbar.render(g,x,y,-16,-18,70,12);
 //        //Hitbox-PlayerDetection
 //        //top

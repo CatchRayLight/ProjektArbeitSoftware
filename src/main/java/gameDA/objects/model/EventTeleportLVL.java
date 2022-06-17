@@ -4,6 +4,7 @@ import gameDA.Game;
 import gameDA.config.output.SpriteSheet;
 import gameDA.gui.Gamestate;
 import gameDA.gui.menus.submenus.DialogueMenu;
+import gameDA.gui.menus.submenus.FlyConfirmationMenu;
 import gameDA.objects.GameObject;
 import gameDA.objects.LvLHandler;
 import gameDA.objects.ObjectHandler;
@@ -33,10 +34,16 @@ public class EventTeleportLVL extends GameObject {
                 if(getBounds().intersects(tempObject.getBounds())){
                     Game.getGame().setGamestate(Gamestate.INMENU);
                     //change lvl
-                    lvLHandler.nextLvL(objectHandler);
                     //Triggers sample dialogue for now
-                    String[][] sampleDialogue = new String[][]{{"Text"}, {"Text", "line 2", "line 3"}};
-                    Game.getGame().getMenuHandler().setCurrentMenu(new DialogueMenu(sampleDialogue));
+                    if(((Player) tempObject).isOnPlanet()){
+                        Game.getGame().getMenuHandler().setCurrentMenu(new FlyConfirmationMenu());
+                        tempObject.setX(getBounds().x+37);
+                    }
+                    if(!((Player) tempObject).isOnPlanet()) {
+                        String[][] sampleDialogue = new String[][]{{"Text"}, {"Text", "line 2", "line 3"}};
+                        Game.getGame().getMenuHandler().setCurrentMenu(new DialogueMenu(sampleDialogue));
+                        lvLHandler.nextLvL(objectHandler);
+                    }
                     break;
                 }
             }

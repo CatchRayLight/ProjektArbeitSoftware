@@ -30,11 +30,11 @@ public class Game extends Canvas implements Runnable {
     //Variablen und ressourcen benötigt für das Spiel
     public static final int SCREEN_WIDTH = 1216;
     public static final int SCREEN_HEIGHT = 928;
-    private final BufferedImage backgroundImage[] = new BufferedImage[3];
+    private final BufferedImage[] backgroundImage = new BufferedImage[6];
     private final SpriteSheet spriteS;
 
     //Objekte zur Steuerung des Spieles
-    private SafeManager safeManager;
+    private final SafeManager safeManager;
     private MenuHandler menuHandler;
     private Options options;
     private final ObjectHandler objectHandler;
@@ -42,10 +42,10 @@ public class Game extends Canvas implements Runnable {
     private Sound sound;
     private final Camera camera;
     private Thread thread;
-    private LvLHandler lvLHandler;
-    private Save[] saves = new Save[]{
-            new Save("saves","Save1.txt"), new Save("saves","Save2.txt"), new Save("saves","Save3.txt"), new Save("saves","config.txt")
-
+    private final LvLHandler lvLHandler;
+    private final Save[] saves = new Save[]{
+            new Save("saves","Save1.txt"), new Save("saves","Save2.txt"),
+            new Save("saves","Save3.txt"), new Save("saves","config.txt")
     };
 
     //Variablen die Auskunft über den Zustand des Spieles geben
@@ -66,6 +66,10 @@ public class Game extends Canvas implements Runnable {
         BufferedImage spriteSheet = loader.loadImage("/textures/SpriteSheet.png");
         backgroundImage[0] = loader.loadImage("/maps/backgroundTest.png");
         backgroundImage[1] = loader.loadImage("/maps/Planet1.png");
+        backgroundImage[2] = loader.loadImage("/maps/Boss1.png");
+        backgroundImage[3] = loader.loadImage("/maps/Boss2.png");
+        backgroundImage[4] = loader.loadImage("/maps/Boss3.png");
+        backgroundImage[5] = loader.loadImage("/maps/WinnLevel.png");
         //Initialisierungen
         game = this;
         new GameWindow(SCREEN_HEIGHT, SCREEN_WIDTH, "Space Plugg", loader);
@@ -129,14 +133,12 @@ public class Game extends Canvas implements Runnable {
                 delta--;
                 update();
                 render();
-                //updates++;
                 frames++;
             }
             if (timer >= 1000000000) {
                 outputFrames = frames;
                 frames = 0;
                 timer = 0;
-                //updates = 0;
             }
         }
         try {
@@ -153,7 +155,7 @@ public class Game extends Canvas implements Runnable {
                 if (objectHandler.gameObjects.get(i).getId() == ObjectID.PLAYER) {
                     GameObject tempObj = objectHandler.gameObjects.get(i);
                     if(!isOnPlanet())camera.update(objectHandler.gameObjects.get(i));
-                    if(isOnPlanet()){
+                    if(isOnPlanet() || getLvLInt() == 2 || getLvLInt() == 5|| getLvLInt() == 8){
                         camera.setX(0);
                         camera.setY(0);
                     }
@@ -179,12 +181,7 @@ public class Game extends Canvas implements Runnable {
                 Graphics2D graphics2D = (Graphics2D) g;
                 graphics2D.translate(-camera.getX(), -camera.getY());
                 // getLvL int %2 == 0 dann image on planet
-                System.out.println(getLvLInt());
-                System.out.println(isOnPlanet());
-                g.drawImage(backgroundImage[1], 0, 0, null);
-                if(getLvLInt() == 1 || getLvLInt() == 3 || getLvLInt() == 5) {
-                    g.drawImage(backgroundImage[0], 0, 0, null);
-                }
+                drawBackground(g);
                 objectHandler.render(g);
                 graphics2D.translate(camera.getX(), camera.getY());
                 g.setColor(Color.yellow);
@@ -214,7 +211,7 @@ public class Game extends Canvas implements Runnable {
                     if(getLvLInt() == 0) {
                         objectHandler.addObj(new Player(xAxis * 32, yAxis * 32, ObjectID.PLAYER, spriteS,
                                 objectHandler, isOnPlanet(), camera, 100, 90, 15600, 6,
-                                10, 10, 20));
+                                10, 10, 20,0));
                     }
                 }
                 if (red == 255 && green != 255 && blue != 255) {
@@ -222,7 +219,7 @@ public class Game extends Canvas implements Runnable {
                 }
                 if (green == 255 && blue != 255 && red != 255) {
                     objectHandler.addObj(new SpaceEnemy(xAxis * 32, yAxis * 32, ObjectID.ENEMY, spriteS,
-                            objectHandler, 100,5,10,5));
+                            objectHandler, 100,5,10,5*getLvLInt()));
                 }
                 if (green == 255 && blue == 255 && red != 255) {
                     //cyan
@@ -233,6 +230,19 @@ public class Game extends Canvas implements Runnable {
                     objectHandler.addObj(new EventTeleportLVL(xAxis * 32, yAxis * 32, ObjectID.EVENT, spriteS, objectHandler));
                 }
             }
+        }
+    }
+    private void drawBackground(Graphics g){
+        g.drawImage(backgroundImage[1], 0, 0, null);
+        if(getLvLInt() == 2)g.drawImage(backgroundImage[2],0,0,null);
+        if(getLvLInt() == 5)g.drawImage(backgroundImage[3],0,0,null);
+        if(getLvLInt() == 8)g.drawImage(backgroundImage[4],0,0,null);
+
+        if(getLvLInt() == 1||getLvLInt() == 4||getLvLInt() == 7){
+            g.drawImage(backgroundImage[0],0,0,null);
+        }
+        if(getLvLInt() >= 9){
+            g.drawImage(backgroundImage[5],0,0,null);
         }
     }
 
