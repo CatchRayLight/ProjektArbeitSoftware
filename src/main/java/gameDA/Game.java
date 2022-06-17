@@ -89,7 +89,7 @@ public class Game extends Canvas implements Runnable {
         start();
         //setting the Start Level on 1 and declaring onPlanet boolean
         setOnPlanet(true);
-        levelBuilder(lvLHandler.setLvL(getLvLInt()));
+        levelBuilder(lvLHandler.getLvLImage(getLvLInt()));
 
     }
 

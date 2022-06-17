@@ -17,7 +17,7 @@ public class EventTeleportLVL extends GameObject {
     private final ObjectHandler objectHandler;
     private final BufferedImage img;
 
-    private LvLHandler lvLHandler;
+    private final LvLHandler lvLHandler;
 
     public EventTeleportLVL(int x, int y, ObjectID id, SpriteSheet spriteSheet, ObjectHandler objectHandler) {
         super(x, y, id, spriteSheet);

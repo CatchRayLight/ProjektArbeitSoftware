@@ -29,7 +29,7 @@ public class LvLHandler {
 
     }
 
-    public BufferedImage setLvL(int lvl) {
+    public BufferedImage getLvLImage(int lvl) {
         if(lvl == 0) return onPlanet;
         if(lvl % 3 == 0)return onPlanet2;
         if(lvl == 1)return lvL1;
@@ -65,7 +65,7 @@ public class LvLHandler {
                 objectHandler.setUp(false);
                 objectHandler.setDown(false);
                 objectHandler.setSpace(false);
-                Game.getGame().levelBuilder(setLvL(Game.getGame().getLvLInt()));
+                Game.getGame().levelBuilder(getLvLImage(Game.getGame().getLvLInt()));
                 break;
             }
         }
