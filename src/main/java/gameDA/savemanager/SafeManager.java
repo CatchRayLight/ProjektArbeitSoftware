@@ -30,8 +30,7 @@ public class SafeManager {
         currentSave.delete();
 
         //Safe all relevant data
-        currentSave.safe(SaveKey.PLAYERX, Integer.toString(5));
-        currentSave.safe(SaveKey.PLAYERY, Integer.toString(20));
+        currentSave.safe(SaveKey.LEVEL, String.valueOf(Game.getGame().getLvLInt()));
     }
     public void load(int save) {
         //Get the data out of the save file
@@ -45,10 +44,11 @@ public class SafeManager {
             value = splitData[1];
             //Exchange currently used Data for the data in the safe file
             switch(key){
-                case "PlayerX":
+                case "Level":
+
+                    Game.getGame().setLvLInt(Integer.parseInt(value));
                     break;
-                case "PlayerY":
-                    break;
+
             }
         }
     }

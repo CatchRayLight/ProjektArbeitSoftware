@@ -370,6 +370,10 @@ public class Game extends Canvas implements Runnable {
     //Getter and setter
 
 
+    public LvLHandler getLvLHandler() {
+        return lvLHandler;
+    }
+
     public Options getOptions() {
         return options;
     }
