@@ -43,10 +43,13 @@ public class Player extends GameObject {
 
     private int bulletDmg;
 
+    private int playerCoins;
+
     private SpaceEnemy spaceEnemy;
 
     public Player(int x, int y, ObjectID id, SpriteSheet spriteSheet, ObjectHandler objectHandler, boolean onPlanet,
-                  Camera camera, int hp, int ammo, int fuel, int bulletSpeed, int countdownBullet,int bulletCost,int bulletDmg) {
+                  Camera camera, int hp, int ammo, int fuel, int bulletSpeed, int countdownBullet,int bulletCost,
+                  int bulletDmg,int playerCoins) {
         super(x, y, id,spriteSheet);
         this.objectHandler = objectHandler;
         this.onPlanet = onPlanet;
@@ -57,6 +60,7 @@ public class Player extends GameObject {
         this.bulletSpeed = bulletSpeed;
         this.bulletCost = bulletCost;
         this.bulletDmg = bulletDmg;
+        this.playerCoins = playerCoins;
         BufferedImageLoader loader = new BufferedImageLoader();
         playerSpaceSR = spriteSheet.getImage(7,8,32,32);
         playerSpaceSL = spriteSheet.getImage(8,8,32,32);
@@ -70,7 +74,7 @@ public class Player extends GameObject {
         playerOnPlanetL[2] = spriteSheet.getImage(6,6,32,32); //L3
         animL = new Animation(6, playerOnPlanetL);
         animR = new Animation(6, playerOnPlanetR);
-        playerHealthbar = new Healthbar(spriteSheet, hp,ammo,fuel, camera);
+        playerHealthbar = new Healthbar(spriteSheet, hp,ammo,fuel, camera,playerCoins);
         viewIMG = loader.loadImage("/textures/viewtest.png");
 
     }
@@ -115,7 +119,10 @@ public class Player extends GameObject {
 
     @Override
     public void render(Graphics g) {
-        if(!isOnPlanet())g.drawImage(viewIMG,x- (viewIMG.getWidth() /2) + 15,y - (viewIMG.getHeight()/2) + 20,null);
+        if((!isOnPlanet() &&!(Game.getGame().getLvLInt() == 2 || Game.getGame().getLvLInt() == 5 ||
+                Game.getGame().getLvLInt() == 8) )&&!(Game.getGame().getLvLInt() >= 9)){
+            g.drawImage(viewIMG,x- (viewIMG.getWidth() /2) + 15,y - (viewIMG.getHeight()/2) + 20,null);
+        }
         playerHealthbar.render(g);
         if(!frameChange){
             if (onPlanet) g.drawImage(playerOnPlanetL[0], x, y, null);
@@ -203,6 +210,15 @@ public class Player extends GameObject {
         return ammo;
     }
 
+    public int getPlayerCoins() {
+        return playerCoins;
+    }
+
+    public Player setPlayerCoins(int playerCoins) {
+        this.playerCoins = playerCoins;
+        return this;
+    }
+
     public Player setAmmo(int ammo) {
         this.ammo = ammo;
         return this;
@@ -253,6 +269,9 @@ public class Player extends GameObject {
 
     public void setCooldownBullet(int cooldownBullet) {
         this.cooldownBullet = cooldownBullet;
+    }
+    public Healthbar getPlayerHealthbar(){
+        return playerHealthbar;
     }
     private void motionCancelCollision(int offset, ObjectID objectID) {
         for (int i = 0; i < objectHandler.gameObjects.size(); i++) {

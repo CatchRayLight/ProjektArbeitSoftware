@@ -33,8 +33,10 @@ public class LootBox extends GameObject {
                     //add stuff /coins what ever
                     player.setAmmo(Math.min(player.getAmmo()+30, 100));
                     player.setHp(Math.min(player.getHp()+30,100));
+                    player.setPlayerCoins(player.getPlayerCoins()+(int)(Math.random() * 15));
                     playerHealthbar.setHp(player.getHp());
                     playerHealthbar.setAmmo(player.getAmmo());
+                    playerHealthbar.setPlayerCoins(player.getPlayerCoins());
                     System.out.println(player.getAmmo());
                 }
             }
