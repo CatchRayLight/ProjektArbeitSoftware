@@ -10,11 +10,7 @@ import gameDA.gui.menus.*;
 import gameDA.gui.menus.submenus.*;
 
 import gameDA.objects.*;
-import gameDA.objects.model.EventTeleportLVL;
-import gameDA.objects.model.LootBox;
-import gameDA.objects.model.SpaceEnemy;
-import gameDA.objects.model.Walls;
-import gameDA.objects.model.Player;
+import gameDA.objects.model.*;
 import gameDA.config.input.KeyListener;
 import gameDA.savemanager.Options;
 import gameDA.savemanager.SafeManager;
@@ -51,7 +47,7 @@ public class Game extends Canvas implements Runnable {
     //Variablen die Auskunft über den Zustand des Spieles geben
     public static Gamestate gamestate = Gamestate.INMENU;
     private int outputFrames;
-    private boolean onPlanet;
+    private boolean onPlanet,bossLvl;
 
     private int LvLInt;
     private boolean isRunning = false;
@@ -206,28 +202,33 @@ public class Game extends Canvas implements Runnable {
                 int red = (pixel >> 16) & 0xff;
                 int green = (pixel >> 8) & 0xff;
                 int blue = (pixel) & 0xff;
-
-                if (blue == 255 && green != 255 && red != 255) {
-                    if(getLvLInt() == 0) {
-                        objectHandler.addObj(new Player(xAxis * 32, yAxis * 32, ObjectID.PLAYER, spriteS,
-                                objectHandler, isOnPlanet(), camera, 100, 90, 15600, 6,
-                                10, 10, 20,0));
+                if (!isBossLvl()) {
+                    if (blue == 255 && green != 255 && red != 255) {
+                        if (getLvLInt() == 0) {
+                            objectHandler.addObj(new Player(xAxis * 32, yAxis * 32, ObjectID.PLAYER, spriteS,
+                                    objectHandler, isOnPlanet(), camera, 100, 90, 15600, 6,
+                                    20, 10, 20, 0));
+                        }
+                    }
+                    if (green == 255 && blue != 255 && red != 255) {
+                        objectHandler.addObj(new SpaceEnemy(xAxis * 32, yAxis * 32, ObjectID.ENEMY, spriteS,
+                                objectHandler, 100, 5, 10, 5 * getLvLInt()));
+                    }
+                    if (green == 255 && blue == 255 && red != 255) {
+                        //cyan
+                        objectHandler.addObj(new LootBox(xAxis * 32, yAxis * 32, ObjectID.LOOTBOX, spriteS, objectHandler));
+                    }
+                    if (red == 255 && green == 255 && blue != 255) {
+                        //yel
+                        objectHandler.addObj(new EventTeleportLVL(xAxis * 32, yAxis * 32, ObjectID.EVENT, spriteS, objectHandler));
                     }
                 }
                 if (red == 255 && green != 255 && blue != 255) {
-                    objectHandler.addObj(new Walls(xAxis * 32, yAxis * 32, ObjectID.BLOCK, spriteS,isOnPlanet()));
+                    objectHandler.addObj(new Walls(xAxis * 32, yAxis * 32, ObjectID.BLOCK, spriteS, isOnPlanet()));
                 }
-                if (green == 255 && blue != 255 && red != 255) {
-                    objectHandler.addObj(new SpaceEnemy(xAxis * 32, yAxis * 32, ObjectID.ENEMY, spriteS,
-                            objectHandler, 100,5,10,5*getLvLInt()));
-                }
-                if (green == 255 && blue == 255 && red != 255) {
-                    //cyan
-                    objectHandler.addObj(new LootBox(xAxis * 32, yAxis * 32, ObjectID.LOOTBOX, spriteS, objectHandler));
-                }
-                if (red == 255 && green == 255 && blue != 255) {
-                    //yel
-                    objectHandler.addObj(new EventTeleportLVL(xAxis * 32, yAxis * 32, ObjectID.EVENT, spriteS, objectHandler));
+                if(red == 255 && green == 255 && blue == 255){
+                    //bosshit
+                    objectHandler.addObj(new SpaceBoss(xAxis * 32, yAxis * 32,ObjectID.SPACEBOSS,spriteS,objectHandler,100));
                 }
             }
         }
@@ -452,6 +453,15 @@ public class Game extends Canvas implements Runnable {
 
     public Game setOnPlanet(boolean onPlanet) {
         this.onPlanet = onPlanet;
+        return this;
+    }
+
+    public boolean isBossLvl() {
+        return bossLvl;
+    }
+
+    public Game setBossLvl(boolean bossLvl) {
+        this.bossLvl = bossLvl;
         return this;
     }
 }

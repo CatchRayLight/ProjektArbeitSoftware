@@ -50,16 +50,20 @@ public class LvLHandler {
                 Player player = (Player) tempObj;
                 player.setX(Game.SCREEN_WIDTH/2);
                 player.setY(Game.SCREEN_HEIGHT/2);
+                Game.getGame().setBossLvl(true);
                 if(!(Game.getGame().getLvLInt() == 2 || Game.getGame().getLvLInt() == 5 || Game.getGame().getLvLInt() == 8)){
                     player.toggleOnPlanet();
                     player.setX(100);
                     player.setY(100);
                     Game.getGame().togglePlanet();
+                    Game.getGame().setBossLvl(false);
                 }
                 if(player.isOnPlanet()){
+                    Game.getGame().setBossLvl(false);
                     player.setX(300);
                     player.setY(400);
                 }
+                System.out.println(Game.getGame().isBossLvl());
                 objectHandler.setLeft(false);
                 objectHandler.setRight(false);
                 objectHandler.setUp(false);

@@ -26,7 +26,7 @@ public class Walls extends GameObject {
 
     @Override
     public void render(Graphics g) {
-        if(!Game.getGame().isOnPlanet()) {
+        if(!Game.getGame().isOnPlanet() && !Game.getGame().isBossLvl()) {
             g.drawImage(sprite,x,y,null);
         }
 //        //hitbox

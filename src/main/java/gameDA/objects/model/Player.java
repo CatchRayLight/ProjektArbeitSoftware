@@ -76,7 +76,6 @@ public class Player extends GameObject {
         animR = new Animation(6, playerOnPlanetR);
         playerHealthbar = new Healthbar(spriteSheet, hp,ammo,fuel, camera,playerCoins);
         viewIMG = loader.loadImage("/textures/viewtest.png");
-
     }
 
     @Override
@@ -325,8 +324,10 @@ public class Player extends GameObject {
                if (playerHealthbar.getAmmo() > 0) {
                    objectHandler.addObj(new Bullet(getX(), getY(), ObjectID.PLAYERBULLET,
                            spriteSheet, objectHandler, bulletSpeed, objectHandler.getDirection(),true));
-                   setAmmo(getAmmo()-getBulletCost());
-                   playerHealthbar.setAmmo(getAmmo());
+                   if(!Game.getGame().isBossLvl()) {
+                       setAmmo(getAmmo() - getBulletCost());
+                       playerHealthbar.setAmmo(getAmmo());
+                   }
                }
                couldownCounter = 0;
            }
