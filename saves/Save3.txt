@@ -1,1 +1,9 @@
 Level:0
+Health:100
+Ammunition:100
+fuel:15600
+bulletSpeed:false
+cooldownBullet:false
+bulletCost:false
+bulletDmg:false
+Money:0

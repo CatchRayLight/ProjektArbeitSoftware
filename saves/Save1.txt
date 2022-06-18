@@ -1,2 +1,9 @@
-PlayerX:5
-PlayerY:20
+Level:0
+Money:0
+Health:100
+Ammunition:90
+fuel:15600
+bulletSpeed:false
+cooldownBullet:false
+bulletCost:false
+bulletDmg:true

@@ -29,7 +29,6 @@ public class LootBox extends GameObject {
                 if(getBounds().intersects(tempObject.getBounds())){
                     objectHandler.removeObj(this);
                     Player player = (Player) tempObject;
-                    System.out.println("LOOTBOX");
                     //add stuff /coins what ever
                     player.setAmmo(Math.min(player.getAmmo()+30, 100));
                     player.setHp(Math.min(player.getHp()+30,100));

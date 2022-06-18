@@ -1,6 +1,7 @@
 package gameDA.gui.menus.submenus;
 
 import gameDA.Game;
+import gameDA.gui.Gamestate;
 import gameDA.gui.menus.Menu;
 import gameDA.gui.menus.MenuOption;
 
@@ -12,9 +13,11 @@ public class DeathMenu extends Menu {
     public DeathMenu(){
         super(new MenuOption[]{new MenuOption(() -> {
             //Return to last safe
+            Game.getGame().getSafeManager().load(0);
+            Game.getGame().setGamestate(Gamestate.INGAME);
         },"Load save 1", 400, 400), new MenuOption(() -> {
             Game.getGame().getMenuHandler().openMainMenu();
-        }, "Exit to Main-menu", 400, 500)
+        }, "Exit to Mainmenu", 400, 500)
         }, 1);
         Game.getGame().getMenuHandler().setLoadBackground(false);
     }

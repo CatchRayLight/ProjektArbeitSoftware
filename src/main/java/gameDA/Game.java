@@ -299,9 +299,15 @@ public class Game extends Canvas implements Runnable {
         }, "Saves", 100, 250), new MenuOption(() -> {
             menuHandler.setCurrentMenu(optionsMenu);
         }, "Options", 100, 400), new MenuOption(() -> {
-            Game.getGame().setGamestate(Gamestate.INMENU);
-            Game.getGame().getMenuHandler().setCurrentMenu(new FlyConfirmationMenu());
-
+            /*
+            try {
+                stop();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.exit(0);
+             */
+            menuHandler.setCurrentMenu(new ShopMenu());
         }, "Exit", 100, 550)
         };
 
@@ -343,12 +349,7 @@ public class Game extends Canvas implements Runnable {
                 changeonOff = "AutoSave On";
             } else changeonOff = "AutoSave Off";
             Game.getGame().getMenuHandler().getCurrentMenu().getMenuOptions()[1].setText(changeonOff);
-            }, autoSave, 100, 250), new MenuOption(() -> {
-
-                Game.getGame().getSound().stop();
-                setGamestate(Gamestate.INGAME);
-
-            }, "Option3", 100, 400), new MenuOption(() -> {
+            }, autoSave, 100, 250),  new MenuOption(() -> {
                 //Sicher Options zu den Files
             safeManager.saveOptions(Game.game.getOptions());
             menuHandler.setCurrentMenu(mainMenu);
