@@ -48,7 +48,7 @@ public class Player extends GameObject {
     private SpaceEnemy spaceEnemy;
 
     public Player(int x, int y, ObjectID id, SpriteSheet spriteSheet, ObjectHandler objectHandler, boolean onPlanet,
-                  Camera camera, int hp, int ammo, int fuel, int bulletSpeed, int countdownBullet,int bulletCost,
+                  Camera camera, int hp, int ammo, int fuel, int bulletSpeed, int cooldownBullet,int bulletCost,
                   int bulletDmg,int playerCoins) {
         super(x, y, id,spriteSheet);
         this.objectHandler = objectHandler;
@@ -56,7 +56,7 @@ public class Player extends GameObject {
         this.fuel = fuel;
         this.ammo = ammo;
         this.hp = hp;
-        this.cooldownBullet = countdownBullet;
+        this.cooldownBullet = cooldownBullet;
         this.bulletSpeed = bulletSpeed;
         this.bulletCost = bulletCost;
         this.bulletDmg = bulletDmg;
@@ -76,7 +76,6 @@ public class Player extends GameObject {
         animR = new Animation(6, playerOnPlanetR);
         playerHealthbar = new Healthbar(spriteSheet, hp,ammo,fuel, camera,playerCoins);
         viewIMG = loader.loadImage("/textures/viewtest.png");
-
     }
 
     @Override
@@ -111,6 +110,8 @@ public class Player extends GameObject {
         }
         if ((getHp() <= 0) || (getFuel() <= 0)) {
             System.out.println(Game.getGamestate());
+            playerHealthbar.setHp(0);
+            playerHealthbar.setFuel(0);
             Game.getGame().setGamestate(Gamestate.INMENU);
             Game.getGame().getMenuHandler().setCurrentMenu(new DeathMenu());
         }
@@ -323,8 +324,10 @@ public class Player extends GameObject {
                if (playerHealthbar.getAmmo() > 0) {
                    objectHandler.addObj(new Bullet(getX(), getY(), ObjectID.PLAYERBULLET,
                            spriteSheet, objectHandler, bulletSpeed, objectHandler.getDirection(),true));
-                   setAmmo(getAmmo()-getBulletCost());
-                   playerHealthbar.setAmmo(getAmmo());
+                   if(!Game.getGame().isBossLvl()) {
+                       setAmmo(getAmmo() - getBulletCost());
+                       playerHealthbar.setAmmo(getAmmo());
+                   }
                }
                couldownCounter = 0;
            }

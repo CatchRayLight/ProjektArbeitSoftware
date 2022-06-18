@@ -29,7 +29,7 @@ public class LvLHandler {
 
     }
 
-    public BufferedImage setLvL(int lvl) {
+    public BufferedImage getLvLImage(int lvl) {
         if(lvl == 0) return onPlanet;
         if(lvl % 3 == 0)return onPlanet2;
         if(lvl == 1)return lvL1;
@@ -50,22 +50,26 @@ public class LvLHandler {
                 Player player = (Player) tempObj;
                 player.setX(Game.SCREEN_WIDTH/2);
                 player.setY(Game.SCREEN_HEIGHT/2);
+                Game.getGame().setBossLvl(true);
                 if(!(Game.getGame().getLvLInt() == 2 || Game.getGame().getLvLInt() == 5 || Game.getGame().getLvLInt() == 8)){
                     player.toggleOnPlanet();
                     player.setX(100);
                     player.setY(100);
                     Game.getGame().togglePlanet();
+                    Game.getGame().setBossLvl(false);
                 }
                 if(player.isOnPlanet()){
+                    Game.getGame().setBossLvl(false);
                     player.setX(300);
                     player.setY(400);
                 }
+                System.out.println(Game.getGame().isBossLvl());
                 objectHandler.setLeft(false);
                 objectHandler.setRight(false);
                 objectHandler.setUp(false);
                 objectHandler.setDown(false);
                 objectHandler.setSpace(false);
-                Game.getGame().levelBuilder(setLvL(Game.getGame().getLvLInt()));
+                Game.getGame().levelBuilder(getLvLImage(Game.getGame().getLvLInt()));
                 break;
             }
         }

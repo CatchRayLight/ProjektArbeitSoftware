@@ -1,2 +1,1 @@
-PlayerX:5
-PlayerY:20
+Level:0

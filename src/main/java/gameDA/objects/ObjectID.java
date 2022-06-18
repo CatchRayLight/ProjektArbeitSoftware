@@ -9,4 +9,6 @@ public enum ObjectID {
     EVENT,
     ENEMYBULLET,
 
+    SPACEBOSS,
+
 }
