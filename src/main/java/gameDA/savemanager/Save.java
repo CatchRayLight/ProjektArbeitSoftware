@@ -1,7 +1,6 @@
 package gameDA.savemanager;
 
 
-import gameDA.Game;
 
 import java.io.*;
 import java.util.ArrayList;

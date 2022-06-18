@@ -69,5 +69,7 @@ public class LvLHandler {
                 break;
             }
         }
+        //Autosave
+        Game.getGame().getSafeManager().safe(1);
     }
 }

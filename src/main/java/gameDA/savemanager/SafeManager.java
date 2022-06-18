@@ -1,6 +1,9 @@
 package gameDA.savemanager;
 
 import gameDA.Game;
+import gameDA.objects.GameObject;
+import gameDA.objects.ObjectID;
+import gameDA.objects.model.Player;
 
 import java.util.ArrayList;
 
@@ -29,13 +32,37 @@ public class SafeManager {
         Save currentSave = saves[save];
         currentSave.delete();
 
+        //Getting Player:
+        Player player = null;
+        for (int i = 0; i < Game.getGame().getObjectHandler().gameObjects.size(); i++) {
+            GameObject tempObj = Game.getGame().getObjectHandler().gameObjects.get(i);
+            if (tempObj.getId() == ObjectID.PLAYER) {
+                player = (Player) tempObj;
+                break;
+            }
+        }
         //Safe all relevant data
+        //Level Player is on
         currentSave.safe(SaveKey.LEVEL, String.valueOf(Game.getGame().getLvLInt()));
+        //Saving Money (Note: This throws Nullpointerexception when there is no Player in Objecthandler)
+        currentSave.safe(SaveKey.MONEY, String.valueOf(player.getPlayerCoins()));
+        //Health
+        currentSave.safe(SaveKey.MONEY, String.valueOf(player.getPlayerCoins()));
+        //Ammunition
+        currentSave.safe(SaveKey.MONEY, String.valueOf(player.getPlayerCoins()));
+        //fuel
+        currentSave.safe(SaveKey.MONEY, String.valueOf(player.getPlayerCoins()));
+        //Shop (whats bought and stuff) (boolean as save, load just inc stats)
+        currentSave.safe(SaveKey.MONEY, String.valueOf(player.getPlayerCoins()));
+
     }
     public void load(int save) {
         //Get the data out of the save file
         Save currentSave = saves[save];
         ArrayList<String> data = currentSave.load();
+        //get Player
+        Player player = Game.getGame().getObjectHandler().getPlayer();
+        //objecthandler clearen
         for(int i = 0; i < data.size(); i++) {
             String key;
             String value;
@@ -43,42 +70,28 @@ public class SafeManager {
             key = splitData[0];
             value = splitData[1];
             //Exchange currently used Data for the data in the safe file
-            switch(key){
-                case "Level":
 
-                    Game.getGame().setLvLInt(Integer.parseInt(value));
+            switch(key){
+                case "Money":
+                    player.setPlayerCoins(Integer.parseInt(key));
+                    break;
+                case "Level":
+                    //Ask: How to load?
+                    //go to last on planet (0,durch 3 teilbar)
+                    //immer onplanet 2 also 3 oder 6 (immer 3 oder 6 )
+                    if(Game.getGame().getLvLInt() == 0)Game.getGame().levelBuilder(Game.getGame().getLvLHandler().setLvL(3));
+                    else Game.getGame().levelBuilder(Game.getGame().getLvLHandler().setLvL(Game.getGame().getLvLInt()));
                     break;
 
             }
         }
     }
     public void safe(){
-        Save currentSave = saves[currentSaveToUse];
-        currentSave.delete();
-
-        //Safe all relevant data (To be implemented)
-        currentSave.safe(SaveKey.PLAYERX, Integer.toString(5));
-        currentSave.safe(SaveKey.PLAYERY, Integer.toString(20));
+        safe(currentSaveToUse);
     }
-
     public void load(){
         //Get the data out of the save file
-        Save currentSave = saves[currentSaveToUse];
-        ArrayList<String> data = currentSave.load();
-        for(int i = 0; i < data.size(); i++) {
-            String key;
-            String value;
-            String[] splitData = data.get(i).split(":");
-            key = splitData[0];
-            value = splitData[1];
-            //Exchange currently used Data for the data in the safe file (To be implemented)
-            switch(key){
-                case "PlayerX":
-                    break;
-                case "PlayerY":
-                    break;
-            }
-        }
+        load(currentSaveToUse);
     }
     public void saveOptions(Options options) {
         Save currentSave = saves[3];

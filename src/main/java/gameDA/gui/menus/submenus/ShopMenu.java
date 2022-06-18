@@ -13,10 +13,13 @@ public class ShopMenu extends Menu {
     public ShopMenu() {
         super(new MenuOption[]{new MenuOption(() -> {
             //Speichere dass die Option gekauft wurde und ziehe Geld ab
+
         }, "ShopOption1", 100, 100), new MenuOption(() -> {
             //Speichere dass die Option gekauft wurde und ziehe Geld ab
+
         }, "ShopOption2", 100, 250), new MenuOption(() -> {
             //Speichere dass die Option gekauft wurde und ziehe Geld ab
+
         }, "ShopOption3", 100, 400), new MenuOption(() -> {
             //Verlasse das Menu
             Game.getGame().getSound().stop();

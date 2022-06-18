@@ -248,12 +248,6 @@ public class Game extends Canvas implements Runnable {
 
     //Initialisierung der Menus
     private void initMenus() {
-        //TESTING
-        safeManager.safe(2);
-        safeManager.load(2);
-        options = safeManager.loadOptions();
-
-        //TESTING ENDS HERE
         MenuOption[] empty = {};
         //initinalize empty
         OptionsMenu optionsMenu = new OptionsMenu(empty);
@@ -304,13 +298,6 @@ public class Game extends Canvas implements Runnable {
         }, "Saves", 100, 250), new MenuOption(() -> {
             menuHandler.setCurrentMenu(optionsMenu);
         }, "Options", 100, 400), new MenuOption(() -> {
-            /*
-            try {
-                stop();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            */
             Game.getGame().setGamestate(Gamestate.INMENU);
             Game.getGame().getMenuHandler().setCurrentMenu(new FlyConfirmationMenu());
 
@@ -379,6 +366,10 @@ public class Game extends Canvas implements Runnable {
 
     //Getter and setter
 
+
+    public SafeManager getSafeManager() {
+        return safeManager;
+    }
 
     public LvLHandler getLvLHandler() {
         return lvLHandler;

@@ -1,5 +1,6 @@
 package gameDA.objects;
 
+import gameDA.Game;
 import gameDA.objects.model.Player;
 
 import java.awt.*;
@@ -32,13 +33,24 @@ public class ObjectHandler {
         lastRenderObject.render(g);
 
     }
+
+    public Player getPlayer() {
+        Player player = null;
+        for (int j = 0; j < Game.getGame().getObjectHandler().gameObjects.size(); j++) {
+            GameObject tempObj = Game.getGame().getObjectHandler().gameObjects.get(j);
+            if (tempObj.getId() == ObjectID.PLAYER) {
+                player = (Player) tempObj;
+                break;
+            }
+        }
+        return player;
+    }
     public void addObj(GameObject tempObj){
         gameObjects.add(tempObj);
     }
     public void removeObj(GameObject tempObj){
         gameObjects.remove(tempObj);
     }
-
     public char getDirection() {
         return direction;
     }
