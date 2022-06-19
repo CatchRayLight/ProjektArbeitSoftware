@@ -69,6 +69,8 @@ public class Healthbar{
         g.drawString(String.valueOf(getPlayerCoins()),camera.getX()+37,camera.getY()+ Game.SCREEN_HEIGHT - 164);
     }
     public void render(Graphics g,int x,int y, int offsetX, int offsetY,int size,int height){
+        g.setColor(Color.black);
+        g.fillRect(x + offsetX-2, y + offsetY-2, (hp * size / 100)+4, height+4);
         g.setColor(Color.red);
         g.fillRect(x + offsetX, y + offsetY, hp * size / 100, height);
     }

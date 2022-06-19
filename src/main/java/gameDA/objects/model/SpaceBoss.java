@@ -153,7 +153,7 @@ public class SpaceBoss extends GameObject {
         int test = (int) (Math.random() * 10);
         switch (test) {
             case 0:
-                objectHandler.addObj(new Bullet((int)(getX()* (Math.random())), getY(), ObjectID.ENEMYBULLET,
+                objectHandler.addObj(new Bullet((int)(getX()* (Math.random())), getY()-100, ObjectID.ENEMYBULLET,
                         spriteSheet, objectHandler, bulletSpeed, 'D', false));
                 break;
             case 1:
@@ -161,41 +161,37 @@ public class SpaceBoss extends GameObject {
                         spriteSheet, objectHandler, bulletSpeed, 'D', false));
                 break;
             case 2:
-                objectHandler.addObj(new Bullet((int)(getX()* (Math.random()))+100, getY(), ObjectID.ENEMYBULLET,
-                        spriteSheet, objectHandler, bulletSpeed, 'D', false));
-                break;
-            case 3:
                 objectHandler.addObj(new Bullet((int)(getX()* (Math.random()))+200, getY(), ObjectID.ENEMYBULLET,
                         spriteSheet, objectHandler, bulletSpeed, 'D', false));
                 break;
-            case 4:
+            case 3:
                 objectHandler.addObj(new Bullet((int)(getX()* (Math.random()))-200, getY(), ObjectID.ENEMYBULLET,
                         spriteSheet, objectHandler, bulletSpeed, 'D', false));
                 break;
-            case 5:
+            case 4:
                 objectHandler.addObj(new Bullet((int)(getX()* (Math.random()))+300, getY(), ObjectID.ENEMYBULLET,
                         spriteSheet, objectHandler, bulletSpeed, 'D', false));
                 break;
-            case 6:
-                objectHandler.addObj(new Bullet((int)(getX()* (Math.random()))-300, getY(), ObjectID.ENEMYBULLET,
-                        spriteSheet, objectHandler, bulletSpeed, 'D', false));
-                break;
-            case 7:
-                objectHandler.addObj(new Bullet((int)(getX()* (Math.random()))+400, getY(), ObjectID.ENEMYBULLET,
-                        spriteSheet, objectHandler, bulletSpeed, 'D', false));
-                break;
-            case 8:
+            case 5:
                 objectHandler.addObj(new Bullet((int)(getX()* (Math.random()))-400, getY(), ObjectID.ENEMYBULLET,
                         spriteSheet, objectHandler, bulletSpeed, 'D', false));
                 break;
+            case 6:
+                objectHandler.addObj(new Bullet((int)(getX()* (Math.random()))+400, getY(), ObjectID.ENEMYBULLET,
+                        spriteSheet, objectHandler, bulletSpeed, 'D', false));
+                break;
+            case 7:
+                objectHandler.addObj(new Bullet((int)(getX()* (Math.random()))+500, getY(), ObjectID.ENEMYBULLET,
+                        spriteSheet, objectHandler, bulletSpeed, 'D', false));
+                break;
+            case 8:
+                objectHandler.addObj(new Bullet((int)(getX()* (Math.random()))+600, getY(), ObjectID.ENEMYBULLET,
+                        spriteSheet, objectHandler, bulletSpeed, 'D', false));
+                break;
             case 9:
-            objectHandler.addObj(new Bullet((int)(getX()* (Math.random()))+500, getY(), ObjectID.ENEMYBULLET,
+            objectHandler.addObj(new Bullet((int)(getX()* (Math.random()))-600, getY(), ObjectID.ENEMYBULLET,
                     spriteSheet, objectHandler, bulletSpeed, 'D', false));
                 break;
-            case 10:
-                objectHandler.addObj(new Bullet((int)(getX()* (Math.random()))-500, getY(), ObjectID.ENEMYBULLET,
-                        spriteSheet, objectHandler, bulletSpeed, 'D', false));
-            break;
         }
     }
 }
