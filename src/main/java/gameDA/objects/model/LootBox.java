@@ -36,7 +36,6 @@ public class LootBox extends GameObject {
                     playerHealthbar.setHp(player.getHp());
                     playerHealthbar.setAmmo(player.getAmmo());
                     playerHealthbar.setPlayerCoins(player.getPlayerCoins());
-                    System.out.println(player.getAmmo());
                 }
             }
         }
