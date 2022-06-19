@@ -65,14 +65,14 @@ public class GasStationAttendant extends GameObject {
             x++;
             shopKeeperR.drawAnimation(g, x, y, 0);
         }
-        if (counter <= 250 && counter >= 100) {
+        if (counter <= 200 && counter >= 100) {
             x--;
             shopKeeperL.drawAnimation(g, x, y, 0);
         }
-        if (counter <= 340 && counter >= 250) {
+        if (counter <= 300 && counter >= 200) {
             shopKeeperWait.drawAnimation(g, x, y, 0);
         }
-        if (counter <= 500 && counter >= 340) {
+        if (counter <= 500 && counter >= 300) {
             counter = 0;
         }
 

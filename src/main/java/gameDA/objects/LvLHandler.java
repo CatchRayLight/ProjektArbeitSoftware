@@ -74,6 +74,8 @@ public class LvLHandler {
             }
         }
         //Autosave
-        Game.getGame().getSafeManager().safe(1);
+        if((Game.getGame().getLvLInt() == 0 || Game.getGame().getLvLInt() % 3 == 0) && Game.getGame().getOptions().isAutoSave() ) {
+            Game.getGame().getSafeManager().safe(1);
+        }
     }
 }

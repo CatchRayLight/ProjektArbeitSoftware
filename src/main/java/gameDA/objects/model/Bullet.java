@@ -94,6 +94,9 @@ public class Bullet extends GameObject {
 //                    objectHandler.removeObj(tempObject);
                 }
             }
+            if(Game.getGame().isBossLvl() && (y > 900 || x < 0 || x > 1300)){
+                objectHandler.removeObj(this);
+            }
         }
     }
     @Override

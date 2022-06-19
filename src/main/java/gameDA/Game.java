@@ -182,7 +182,7 @@ public class Game extends Canvas implements Runnable {
                 graphics2D.translate(camera.getX(), camera.getY());
                 g.setColor(Color.yellow);
                 g.setFont(new Font("Courier New",Font.BOLD,10));
-                g.drawString("Frames :" + outputFrames,10,10);
+                g.drawString("Level :" + getLvLInt() / 3,10,10);
                 break;
             case INMENU:
                 menuHandler.render(g);
@@ -232,7 +232,7 @@ public class Game extends Canvas implements Runnable {
                     if (red == 255 && green == 255 && blue == 255) {
                         //bosshit
                         if (Game.game.isBossLvl() && !isOnPlanet()) {
-                            objectHandler.addObj(new SpaceBoss(xAxis * 32, yAxis * 32, ObjectID.SPACEBOSS, spriteS, objectHandler, 1000, 5, 10, 5 * getLvLInt()));
+                            objectHandler.addObj(new SpaceBoss(xAxis * 32, yAxis * 32, ObjectID.SPACEBOSS, spriteS, objectHandler, 1000, 5, 9 - getLvLInt(), 5 * getLvLInt()));
                         }
                     }
                     if (isOnPlanet()) {

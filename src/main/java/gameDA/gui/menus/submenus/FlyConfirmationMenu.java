@@ -17,17 +17,18 @@ public class FlyConfirmationMenu extends Menu {
             LvLHandler lvLHandler = new LvLHandler();
             lvLHandler.nextLvL(Game.getGame().getObjectHandler());
             Game.getGame().setGamestate(Gamestate.INGAME);
-        }, "Yes", 100, 150), new MenuOption(() -> {
+        }, "Yes", 275, 350), new MenuOption(() -> {
             Game.getGame().setGamestate(Gamestate.INGAME);
-        }, "No", 100, 300)});
+        }, "No", 275, 500)});
         Game.getGame().getMenuHandler().setLoadBackground(false);
     }
 
     @Override
     public void render(Graphics g) {
         //Render Question: "Do you want to leave?"
+        g.setColor(Color.RED);
+        g.drawString("Leave  the  planet",300,300);
         g.setColor(Color.BLUE);
-        g.drawString("Leave  the  planet",115,100);
         //Render MenuOptions
         for(int i = 0; i < getMenuOptions().length; i++) {
             MenuOption op = getMenuOptions()[i];

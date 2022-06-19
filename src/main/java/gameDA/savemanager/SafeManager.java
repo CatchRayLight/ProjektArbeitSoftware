@@ -79,7 +79,7 @@ public class SafeManager {
         //get Player
         Player player = Game.getGame().getObjectHandler().getPlayer();
         //objecthandler clearen
-        Game.getGame().getObjectHandler().gameObjects = new LinkedList<>();
+        Game.getGame().getObjectHandler().gameObjects.clear();
         for(int i = 0; i < data.size(); i++) {
             String key;
             String value;
@@ -141,16 +141,26 @@ public class SafeManager {
                     //go to last on planet (0,durch 3 teilbar)
                     //immer onplanet 2 also 3 oder 6 (immer 3 oder 6 )
                     System.out.println("Level to load: " + value);
-                    if(Integer.parseInt(value) == 0)Game.getGame().levelBuilder(Game.getGame().getLvLHandler().getLvLImage(3));
-                    else Game.getGame().levelBuilder(Game.getGame().getLvLHandler().getLvLImage(Integer.parseInt(value)));
-
-
+                    Game.getGame().setLvLInt(Integer.parseInt(value));
+                    Game.getGame().setOnPlanet(true);
+                    if(Integer.parseInt(value) == 0) {
+                        Game.getGame().levelBuilder(Game.getGame().getLvLHandler().getLvLImage(3));
+                    }
+                    else {
+                        Game.getGame().levelBuilder(Game.getGame().getLvLHandler().getLvLImage(Integer.parseInt(value)));
+                    }
                     //Set player coordinates
                     break;
 
             }
         }
+        Game.getGame().getCamera().setX(0);
+        Game.getGame().getCamera().setY(0);
+        player.setOnPlanet(true);
+        player.setX(300);
+        player.setY(400);
         Game.getGame().getObjectHandler().addObj(player);
+        Game.getGame().getObjectHandler().getPlayer().getPlayerHealthbar().update();
         System.out.println("am loading?");
     }
     public void safe(){
