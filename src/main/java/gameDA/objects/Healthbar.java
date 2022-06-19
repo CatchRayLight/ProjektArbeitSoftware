@@ -21,6 +21,7 @@ public class Healthbar{
     private int fuel;
     private int playerCoins;
     private Camera camera;
+    private boolean player;
 
 
     public Healthbar(SpriteSheet spriteSheet, int hp, int ammo, int fuel, Camera camera,int playerCoins) {
@@ -29,15 +30,22 @@ public class Healthbar{
         this.ammo = ammo;
         this.fuel = fuel;
         this.playerCoins = playerCoins;
+        this.player = true;
         playerHealthbar = spriteSheet.getImage(7, 3, 192, 96);
         playerCoin = spriteSheet.getImage(14,2,32,32);
     }
     public Healthbar(int hp) {
         this.hp = hp;
+        this.player = false;
     }
 
     public void update() {
-
+        if(player) {
+            this.hp = Game.getGame().getObjectHandler().getPlayer().getHp();
+            this.fuel = Game.getGame().getObjectHandler().getPlayer().getFuel();
+            this.ammo = Game.getGame().getObjectHandler().getPlayer().getAmmo();
+            this.playerCoins = Game.getGame().getObjectHandler().getPlayer().getPlayerCoins();
+        }
     }
     public void render(Graphics g) {
         g.setFont(Objects.requireNonNull(loadFont()).deriveFont(24f));
@@ -93,8 +101,11 @@ public class Healthbar{
 
     public void setPlayerCoins(int playerCoins) {
         this.playerCoins = playerCoins;
-
     }
+    public boolean isPlayer() {
+        return player;
+    }
+
     private Font loadFont(){
         try {
             //create the font to use. Specify the size!

@@ -4,33 +4,30 @@ import gameDA.Game;
 import gameDA.config.output.SpriteSheet;
 import gameDA.gui.Gamestate;
 import gameDA.gui.menus.submenus.DialogueMenu;
-import gameDA.gui.menus.submenus.ShopMenu;
 import gameDA.objects.Animation;
 import gameDA.objects.GameObject;
-import gameDA.objects.ObjectHandler;
 import gameDA.objects.ObjectID;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class ShopKeeper extends GameObject {
+public class Character1 extends GameObject {
     private final Animation shopKeeperR;
     private final Animation shopKeeperL;
     private final Animation shopKeeperWait;
     private int counter;
     private int couldown;
-    private boolean firstTalk = false;
-    public ShopKeeper(int x, int y, ObjectID id, SpriteSheet spriteSheet) {
+    public Character1(int x, int y, ObjectID id, SpriteSheet spriteSheet) {
         super(x, y, id, spriteSheet);
         BufferedImage[] shopKeeperRimg = new BufferedImage[2];
         BufferedImage[] shopKeeperLimg = new BufferedImage[2];
         BufferedImage[] shopkeeperWaitimg = new BufferedImage[2];
-        shopKeeperRimg[0] = spriteSheet.getImage(3,8,32,32);
-        shopKeeperRimg[1] = spriteSheet.getImage(4,8,32,32);
-        shopKeeperLimg[0] = spriteSheet.getImage(5,8,32,32);
-        shopKeeperLimg[1] = spriteSheet.getImage(6,8,32,32);
-        shopkeeperWaitimg[0] = spriteSheet.getImage(1,8,32,32);
-        shopkeeperWaitimg[1] = spriteSheet.getImage(2,8,32,32);
+        shopKeeperRimg[0] = spriteSheet.getImage(3,4,32,32);
+        shopKeeperRimg[1] = spriteSheet.getImage(4,4,32,32);
+        shopKeeperLimg[0] = spriteSheet.getImage(5,4,32,32);
+        shopKeeperLimg[1] = spriteSheet.getImage(6,4,32,32);
+        shopkeeperWaitimg[0] = spriteSheet.getImage(1,4,32,32);
+        shopkeeperWaitimg[1] = spriteSheet.getImage(2,4,32,32);
         shopKeeperL = new Animation(10,shopKeeperLimg);
         shopKeeperR = new Animation(10,shopKeeperRimg);
         shopKeeperWait = new Animation(20,shopkeeperWaitimg);
@@ -45,37 +42,40 @@ public class ShopKeeper extends GameObject {
         if(couldown >= 100 && Game.getGame().getObjectHandler().isSpace()) {
             if (getBounds().intersects(Game.getGame().getObjectHandler().getPlayer().getBounds())) {
                 Game.getGame().setGamestate(Gamestate.INMENU);
-                if(!firstTalk) {
-                    String[][] sampleDialogue = new String[][]{{"Upgrade Dealer Roberto"}, {"Hier bekommst du die besten Ugrades fuer dein Spaceship",
-                            "es kostet dich nicht viel", "Komm wieder wennn du 10 Coins hast"}};
+                if(Game.getGame().getObjectHandler().getPlayer().getPlayerHealthbar().getHp() !=100) {
+                    String[][] sampleDialogue = new String[][]{{"Hobby Arzt John"}, {"Oof ",
+                            "du siehst aber ramponiert aus", "komm Bro ich verarzt dich"}};
                     Game.getGame().getMenuHandler().setCurrentMenu(new DialogueMenu(sampleDialogue));
-                    firstTalk = true;
+                    Game.getGame().getObjectHandler().getPlayer().setHp(100);
+                    Game.getGame().getObjectHandler().getPlayer().getPlayerHealthbar().update();
                 }else {
-                    Game.getGame().getMenuHandler().setCurrentMenu(new ShopMenu());
+                    String[][] sampleDialogue = new String[][]{{"Hobby Arzt Tobi John"}, {"Haja siehst gut aus",
+                            "Pass auf dich auf im Space", "und bring mir mal was cooles mit"}};
+                    Game.getGame().getMenuHandler().setCurrentMenu(new DialogueMenu(sampleDialogue));
                 }
-                couldown = 0;
             }
         }
-
     }
 
     @Override
     public void render(Graphics g) {
         counter++;
-            if (counter <= 100) {
-                x--;
-                shopKeeperL.drawAnimation(g, x, y, 0);
-            }
-            if (counter <= 200 && counter >= 100) {
-                x++;
-                shopKeeperR.drawAnimation(g, x, y, 0);
-            }
-            if (counter <= 300 && counter >= 200) {
-                shopKeeperWait.drawAnimation(g, x, y, 0);
-            }
-            if (counter <= 500 && counter >= 300) {
-                counter = 0;
-            }
+        if (counter <= 50) {
+            x++;
+            y++;
+            shopKeeperL.drawAnimation(g, x, y, 0);
+        }
+        if (counter <= 100 && counter >= 50) {
+            x--;
+            y--;
+            shopKeeperR.drawAnimation(g, x, y, 0);
+        }
+        if (counter <= 500 && counter >= 100) {
+            shopKeeperWait.drawAnimation(g, x, y, 0);
+        }
+        if (counter <= 1000 && counter >= 500) {
+            counter = 0;
+        }
 
     }
 
@@ -105,3 +105,4 @@ public class ShopKeeper extends GameObject {
     }
 
 }
+

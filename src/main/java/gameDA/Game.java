@@ -210,13 +210,15 @@ public class Game extends Canvas implements Runnable {
                                     20, 10, 20, 0));
                         }
                     }
-                    if (green == 255 && blue != 255 && red != 255) {
-                        objectHandler.addObj(new SpaceEnemy(xAxis * 32, yAxis * 32, ObjectID.ENEMY, spriteS,
-                                objectHandler, 100, 5, 10, 5 * getLvLInt()));
-                    }
-                    if (green == 255 && blue == 255 && red != 255) {
-                        //cyan
-                        objectHandler.addObj(new LootBox(xAxis * 32, yAxis * 32, ObjectID.LOOTBOX, spriteS, objectHandler));
+                    if(!isOnPlanet()) {
+                        if (green == 255 && blue != 255 && red != 255) {
+                            objectHandler.addObj(new SpaceEnemy(xAxis * 32, yAxis * 32, ObjectID.ENEMY, spriteS,
+                                    objectHandler, 100, 5, 10, 2 * getLvLInt()));
+                        }
+                        if (green == 255 && blue == 255 && red != 255) {
+                            //cyan
+                            objectHandler.addObj(new LootBox(xAxis * 32, yAxis * 32, ObjectID.LOOTBOX, spriteS, objectHandler));
+                        }
                     }
                     if (red == 255 && green == 255 && blue != 255) {
                         //yel
@@ -226,9 +228,29 @@ public class Game extends Canvas implements Runnable {
                 if (red == 255 && green != 255 && blue != 255) {
                     objectHandler.addObj(new Walls(xAxis * 32, yAxis * 32, ObjectID.BLOCK, spriteS, isOnPlanet()));
                 }
-                if(red == 255 && green == 255 && blue == 255){
-                    //bosshit
-                    objectHandler.addObj(new SpaceBoss(xAxis * 32, yAxis * 32,ObjectID.SPACEBOSS,spriteS,objectHandler,100));
+                if (getLvLInt() <= 9) {
+                    if (red == 255 && green == 255 && blue == 255) {
+                        //bosshit
+                        if (Game.game.isBossLvl() && !isOnPlanet()) {
+                            objectHandler.addObj(new SpaceBoss(xAxis * 32, yAxis * 32, ObjectID.SPACEBOSS, spriteS, objectHandler, 1000, 5, 10, 5 * getLvLInt()));
+                        }
+                    }
+                    if (isOnPlanet()) {
+                        if (red == 255 && blue == 255 && green != 255) {
+                            objectHandler.addObj(new GasStationAttendant(xAxis * 32, yAxis * 32, ObjectID.ENTITY, spriteS));
+                        }
+                        //Cyan
+                        if (green == 255 && blue == 255 && red != 255) {
+                            objectHandler.addObj(new Character1(xAxis * 32, yAxis * 32, ObjectID.ENTITY, spriteS));
+                        }
+                        //green
+                        if (green == 255 && blue != 255 && red != 255) {
+                            objectHandler.addObj(new Character2(xAxis * 32, yAxis * 32, ObjectID.ENTITY, spriteS));
+                        }
+                        if (red == 255 && green == 255 && blue == 255) {
+                            objectHandler.addObj(new ShopKeeper(xAxis * 32, yAxis * 32, ObjectID.SHOPKEEPER, spriteS));
+                        }
+                    }
                 }
             }
         }
@@ -299,15 +321,12 @@ public class Game extends Canvas implements Runnable {
         }, "Saves", 100, 250), new MenuOption(() -> {
             menuHandler.setCurrentMenu(optionsMenu);
         }, "Options", 100, 400), new MenuOption(() -> {
-            /*
             try {
                 stop();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             System.exit(0);
-             */
-            menuHandler.setCurrentMenu(new ShopMenu());
         }, "Exit", 100, 550)
         };
 

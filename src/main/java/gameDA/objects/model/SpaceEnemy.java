@@ -51,12 +51,13 @@ public class SpaceEnemy extends GameObject{
             if (tempObject.getId() == ObjectID.PLAYERBULLET) {
                 if (getBounds().intersects(tempObject.getBounds())) {
                     setHp(Math.min(getHp() - player.getBulletDmg(), 100));
-                    enemyHealthbar.setHp(getHp());
-                    if (getHp() == 0) {
+                    if (getHp() <= 0) {
+                        enemyHealthbar.setHp(0);
                         objectHandler.removeObj(this);
                         player.setPlayerCoins(player.getPlayerCoins()+5);
                         player.getPlayerHealthbar().setPlayerCoins(player.getPlayerCoins());
                     }
+                    enemyHealthbar.setHp(getHp());
                     objectHandler.removeObj(tempObject);
                 }
             }
@@ -91,28 +92,28 @@ public class SpaceEnemy extends GameObject{
                 if (getLeftBounds(100).intersects(tempObject.getBounds())) {
                     if (coolDownCounter > bulletCooldown) {
                         objectHandler.addObj(new Bullet(getX(), getY(), ObjectID.ENEMYBULLET,
-                                spriteSheet, objectHandler, 5, 'L', false));
+                                spriteSheet, objectHandler, bulletSpeed, 'L', false));
                         coolDownCounter = 0;
                     }
                 }
                 if (getRightBounds(100).intersects(tempObject.getBounds())) {
                     if (coolDownCounter > bulletCooldown) {
                         objectHandler.addObj(new Bullet(getX(), getY(), ObjectID.ENEMYBULLET,
-                                spriteSheet, objectHandler, 5, 'R', false));
+                                spriteSheet, objectHandler, bulletSpeed, 'R', false));
                         coolDownCounter = 0;
                     }
                 }
                 if (getTopBounds(100).intersects(tempObject.getBounds())) {
                     if (coolDownCounter > bulletCooldown) {
                         objectHandler.addObj(new Bullet(getX(), getY(), ObjectID.ENEMYBULLET,
-                                spriteSheet, objectHandler, 5, 'U', false));
+                                spriteSheet, objectHandler, bulletSpeed, 'U', false));
                         coolDownCounter = 0;
                     }
                 }
                 if (getBotBounds(100).intersects(tempObject.getBounds())) {
                     if (coolDownCounter > bulletCooldown) {
                         objectHandler.addObj(new Bullet(getX(), getY(), ObjectID.ENEMYBULLET,
-                                spriteSheet, objectHandler, 5, 'D', false));
+                                spriteSheet, objectHandler, bulletSpeed, 'D', false));
                         coolDownCounter = 0;
                     }
                 }

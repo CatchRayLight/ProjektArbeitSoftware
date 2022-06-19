@@ -43,12 +43,12 @@ public class Bullet extends GameObject {
 
          }else {
              BufferedImage[] enemyBulletH = new BufferedImage[2];
-             enemyBulletH[0] = spriteSheet.getImage(11, 11, 32, 32);
-             enemyBulletH[1] = spriteSheet.getImage(12, 11, 32, 32);
+             enemyBulletH[0] = spriteSheet.getImage(11, 9, 32, 32);
+             enemyBulletH[1] = spriteSheet.getImage(11, 10, 32, 32);
 
              BufferedImage[] enemyBulletV = new BufferedImage[2];
-             enemyBulletV[0] = spriteSheet.getImage(11, 11, 32, 32);
-             enemyBulletV[1] = spriteSheet.getImage(12, 11, 32, 32);
+             enemyBulletV[0] = spriteSheet.getImage(12, 9, 32, 32);
+             enemyBulletV[1] = spriteSheet.getImage(12, 10, 32, 32);
 
              enemyAnimationBulletV = new Animation(3,enemyBulletV);
              enemyAnimationBulletH = new Animation( 3, enemyBulletH);

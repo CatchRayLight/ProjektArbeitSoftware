@@ -195,75 +195,75 @@ public class Player extends GameObject {
    public void setOnPlanet(boolean onPlanet) {
         this.onPlanet = onPlanet;
     }
-    public void toggleOnPlanet(){
+   public void toggleOnPlanet(){
         onPlanet = !onPlanet;
     }
 
-    public int getHp() {
+   public int getHp() {
         return hp;
-    }
+   }
 
-    public void setHp(int hp) {
+   public void setHp(int hp) {
         this.hp = hp;
-    }
+   }
 
-    public int getAmmo() {
+   public int getAmmo() {
         return ammo;
-    }
+   }
 
-    public int getPlayerCoins() {
+   public int getPlayerCoins() {
         return playerCoins;
-    }
+   }
 
-    public Player setPlayerCoins(int playerCoins) {
+   public Player setPlayerCoins(int playerCoins) {
         this.playerCoins = playerCoins;
         return this;
-    }
+   }
 
-    public Player setAmmo(int ammo) {
+   public Player setAmmo(int ammo) {
         this.ammo = ammo;
         return this;
-    }
+   }
 
-    public int getFuel() {
+   public int getFuel() {
         return fuel;
-    }
+   }
 
-    public Player setFuel(int fuel) {
+   public Player setFuel(int fuel) {
         this.fuel = fuel;
         return this;
-    }
+   }
 
-    public int getBulletSpeed() {
+   public int getBulletSpeed() {
         return bulletSpeed;
-    }
+   }
 
-    public Player setBulletSpeed(int bulletSpeed) {
+   public Player setBulletSpeed(int bulletSpeed) {
         this.bulletSpeed = bulletSpeed;
         return this;
-    }
+   }
 
-    public int getSpeed() {
+   public int getSpeed() {
         return speed;
-    }
+   }
 
-    public int getBulletDmg() {
+   public int getBulletDmg() {
         return bulletDmg;
-    }
+   }
 
-    public int getBulletCost() {
+   public int getBulletCost() {
         return bulletCost;
-    }
+   }
 
-    public Player setBulletCost(int bulletCost) {
+   public Player setBulletCost(int bulletCost) {
         this.bulletCost = bulletCost;
         return this;
-    }
+   }
 
-    public Player setBulletDmg(int bulletDmg) {
+   public Player setBulletDmg(int bulletDmg) {
         this.bulletDmg = bulletDmg;
         return this;
-    }
+   }
     public int getCooldownBullet() {
         return cooldownBullet;
     }
@@ -274,7 +274,7 @@ public class Player extends GameObject {
     public Healthbar getPlayerHealthbar(){
         return playerHealthbar;
     }
-    private void motionCancelCollision(int offset, ObjectID objectID) {
+    public void motionCancelCollision(int offset, ObjectID objectID) {
         for (int i = 0; i < objectHandler.gameObjects.size(); i++) {
             GameObject tempObject = objectHandler.gameObjects.get(i);
             if (tempObject.getId() == objectID) {

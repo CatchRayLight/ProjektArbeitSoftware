@@ -11,4 +11,8 @@ public enum ObjectID {
 
     SPACEBOSS,
 
+    SHOPKEEPER,
+
+    ENTITY,
+
 }

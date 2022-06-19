@@ -7,20 +7,18 @@ import gameDA.gui.menus.submenus.DialogueMenu;
 import gameDA.gui.menus.submenus.ShopMenu;
 import gameDA.objects.Animation;
 import gameDA.objects.GameObject;
-import gameDA.objects.ObjectHandler;
 import gameDA.objects.ObjectID;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class ShopKeeper extends GameObject {
+public class GasStationAttendant extends GameObject {
     private final Animation shopKeeperR;
     private final Animation shopKeeperL;
     private final Animation shopKeeperWait;
     private int counter;
     private int couldown;
-    private boolean firstTalk = false;
-    public ShopKeeper(int x, int y, ObjectID id, SpriteSheet spriteSheet) {
+    public GasStationAttendant(int x, int y, ObjectID id, SpriteSheet spriteSheet) {
         super(x, y, id, spriteSheet);
         BufferedImage[] shopKeeperRimg = new BufferedImage[2];
         BufferedImage[] shopKeeperLimg = new BufferedImage[2];
@@ -45,37 +43,38 @@ public class ShopKeeper extends GameObject {
         if(couldown >= 100 && Game.getGame().getObjectHandler().isSpace()) {
             if (getBounds().intersects(Game.getGame().getObjectHandler().getPlayer().getBounds())) {
                 Game.getGame().setGamestate(Gamestate.INMENU);
-                if(!firstTalk) {
-                    String[][] sampleDialogue = new String[][]{{"Upgrade Dealer Roberto"}, {"Hier bekommst du die besten Ugrades fuer dein Spaceship",
-                            "es kostet dich nicht viel", "Komm wieder wennn du 10 Coins hast"}};
+                if(Game.getGame().getObjectHandler().getPlayer().getPlayerHealthbar().getFuel() != 15600) {
+                    String[][] sampleDialogue = new String[][]{{"Tankwart Tobi"}, {"Ahh ",
+                            "dein Tank ist ja fast Leer", "komm Bro ich mach ihn dir voll"}};
                     Game.getGame().getMenuHandler().setCurrentMenu(new DialogueMenu(sampleDialogue));
-                    firstTalk = true;
+                    Game.getGame().getObjectHandler().getPlayer().setFuel(15600);
+                    Game.getGame().getObjectHandler().getPlayer().getPlayerHealthbar().update();
                 }else {
-                    Game.getGame().getMenuHandler().setCurrentMenu(new ShopMenu());
+                    String[][] sampleDialogue = new String[][]{{"Tankwart Tobi"}, {"Dein tank ist aber diesmal voll",
+                            "kennst du schon Robertos Tacos ", "vertrau mir die sind gut"}};
+                    Game.getGame().getMenuHandler().setCurrentMenu(new DialogueMenu(sampleDialogue));
                 }
-                couldown = 0;
             }
         }
-
     }
 
     @Override
     public void render(Graphics g) {
         counter++;
-            if (counter <= 100) {
-                x--;
-                shopKeeperL.drawAnimation(g, x, y, 0);
-            }
-            if (counter <= 200 && counter >= 100) {
-                x++;
-                shopKeeperR.drawAnimation(g, x, y, 0);
-            }
-            if (counter <= 300 && counter >= 200) {
-                shopKeeperWait.drawAnimation(g, x, y, 0);
-            }
-            if (counter <= 500 && counter >= 300) {
-                counter = 0;
-            }
+        if (counter <= 100) {
+            x++;
+            shopKeeperR.drawAnimation(g, x, y, 0);
+        }
+        if (counter <= 250 && counter >= 100) {
+            x--;
+            shopKeeperL.drawAnimation(g, x, y, 0);
+        }
+        if (counter <= 340 && counter >= 250) {
+            shopKeeperWait.drawAnimation(g, x, y, 0);
+        }
+        if (counter <= 500 && counter >= 340) {
+            counter = 0;
+        }
 
     }
 
@@ -105,3 +104,4 @@ public class ShopKeeper extends GameObject {
     }
 
 }
+

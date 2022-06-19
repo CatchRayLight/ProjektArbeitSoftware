@@ -18,33 +18,39 @@ public class ShopMenu extends Menu {
     public ShopMenu() {
         super(new MenuOption[]{new MenuOption(() -> {
             //Speichere dass die Option gekauft wurde und ziehe Geld ab
-            if(!tempo) {
+            if(!tempo && (Game.getGame().getObjectHandler().getPlayer().getPlayerCoins() >= 20)) {
                 tempo = true;
-                Game.getGame().getObjectHandler().getPlayer().setPlayerCoins( Game.getGame().getObjectHandler().getPlayer().getPlayerCoins() - 10);
+                Game.getGame().getObjectHandler().getPlayer().setPlayerCoins( Game.getGame().getObjectHandler().getPlayer().getPlayerCoins() - 20);
                 Game.getGame().getObjectHandler().getPlayer().setBulletSpeed(6 + 6);
+                Game.getGame().getObjectHandler().getPlayer().getPlayerHealthbar().update();
             }
-        }, "Tempo", 100, 100), new MenuOption(() -> {
+        }, "Schusstempo", 100, 100), new MenuOption(() -> {
             //Speichere dass die Option gekauft wurde und ziehe Geld ab
-            if(!schaden) {
+            if(!schaden && (Game.getGame().getObjectHandler().getPlayer().getPlayerCoins() >= 20)) {
                 schaden = true;
-                Game.getGame().getObjectHandler().getPlayer().setPlayerCoins( Game.getGame().getObjectHandler().getPlayer().getPlayerCoins() - 10);
+                Game.getGame().getObjectHandler().getPlayer().setPlayerCoins( Game.getGame().getObjectHandler().getPlayer().getPlayerCoins() - 20);
                 Game.getGame().getObjectHandler().getPlayer().setBulletDmg(20 + 20);
+                Game.getGame().getObjectHandler().getPlayer().getPlayerHealthbar().update();
+
             }
         }, "Schaden", 100, 250), new MenuOption(() -> {
             //Speichere dass die Option gekauft wurde und ziehe Geld ab
-            if(!haeufigkeit) {
+            if(!haeufigkeit && (Game.getGame().getObjectHandler().getPlayer().getPlayerCoins() >= 20)) {
                 haeufigkeit = true;
-                Game.getGame().getObjectHandler().getPlayer().setPlayerCoins( Game.getGame().getObjectHandler().getPlayer().getPlayerCoins() - 10);
+                Game.getGame().getObjectHandler().getPlayer().setPlayerCoins( Game.getGame().getObjectHandler().getPlayer().getPlayerCoins() - 20);
                 Game.getGame().getObjectHandler().getPlayer().setCooldownBullet(20 - 10);
+                Game.getGame().getObjectHandler().getPlayer().getPlayerHealthbar().update();
+
             }
-        }, "Haeufigkeit", 100, 400), new MenuOption(() -> {
+        }, "Schussrate", 100, 400), new MenuOption(() -> {
             //Speichere dass die Option gekauft wurde und ziehe Geld ab
-            if(!kosten) {
+            if(!kosten && (Game.getGame().getObjectHandler().getPlayer().getPlayerCoins() >= 20)) {
                 kosten = true;
-                Game.getGame().getObjectHandler().getPlayer().setPlayerCoins( Game.getGame().getObjectHandler().getPlayer().getPlayerCoins() - 10);
+                Game.getGame().getObjectHandler().getPlayer().setPlayerCoins( Game.getGame().getObjectHandler().getPlayer().getPlayerCoins() - 20);
                 Game.getGame().getObjectHandler().getPlayer().setBulletCost(10 - 5);
+                Game.getGame().getObjectHandler().getPlayer().getPlayerHealthbar().update();
             }
-        }, "Kosten", 100, 550), new MenuOption(() -> {
+        }, "Mutionskosten", 100, 550), new MenuOption(() -> {
             //Verlasse das Menu
             Game.getGame().getSound().stop();
             Game.getGame().setGamestate(Gamestate.INGAME);
