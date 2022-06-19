@@ -4,8 +4,10 @@ import gameDA.Game;
 import gameDA.gui.Gamestate;
 import gameDA.gui.menus.Menu;
 import gameDA.gui.menus.MenuOption;
+import gameDA.savemanager.SaveKey;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class DeathMenu extends Menu {
 
@@ -16,6 +18,11 @@ public class DeathMenu extends Menu {
             Game.getGame().getSafeManager().load(0);
             Game.getGame().setGamestate(Gamestate.INGAME);
         },"Load save 1", 400, 400), new MenuOption(() -> {
+            ArrayList<String> data = new ArrayList<>();
+            for(SaveKey key : SaveKey.values()) {
+                data.add(key.identifier + ":" + key.startValue);
+            }
+            Game.getGame().getSafeManager().load(data);
             Game.getGame().getMenuHandler().openMainMenu();
         }, "Exit to Mainmenu", 400, 500)
         }, 1);
@@ -25,7 +32,6 @@ public class DeathMenu extends Menu {
     @Override
     public void render(Graphics g) {
 
-        System.out.println(Game.getGame().getMenuHandler().isLoadBackground());
         for(int i = 0; i < getMenuOptions().length; i++) {
             MenuOption op = getMenuOptions()[i];
             op.render(g);

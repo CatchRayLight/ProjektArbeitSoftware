@@ -81,7 +81,9 @@ public class MenuHandler {
             } else {
                 if(Game.getGame().isBossLvl()) {
                     g.drawImage(Game.getGame().getLvLHandler().getLvLImage(Game.getGame().getLvLInt()), 0, 0, null);
-                } else g.drawImage(backgroundSpace, 0, 0, null);
+                } else {
+                    g.drawImage(backgroundSpace, 0, 0, null);
+                }
             }
             game.getObjectHandler().render(g);
             graphics2D.translate(camera.getX(), camera.getY());

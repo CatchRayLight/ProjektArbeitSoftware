@@ -163,6 +163,97 @@ public class SafeManager {
         Game.getGame().getObjectHandler().getPlayer().getPlayerHealthbar().update();
         System.out.println("am loading?");
     }
+
+    public void load(ArrayList<String> data) {
+        //get Player
+        Player player = Game.getGame().getObjectHandler().getPlayer();
+        //objecthandler clearen
+        Game.getGame().getObjectHandler().gameObjects.clear();
+        for(int i = 0; i < data.size(); i++) {
+            String key;
+            String value;
+            String[] splitData = data.get(i).split(":");
+            key = splitData[0];
+            value = splitData[1];
+            //Exchange currently used Data for the data in the safe file
+            System.out.println("Key:" + key);
+            System.out.println("Value" + value);
+            switch(key){
+                case "bulletDmg":
+                    if("true".equalsIgnoreCase(value)) {
+                        ShopMenu.setSchaden(true);
+                        player.setBulletDmg(20 + 20);
+                    } else {
+                        ShopMenu.setSchaden(false);
+                        player.setBulletDmg(20);
+                    }
+                    break;
+                case "bulletCost":
+                    if("true".equalsIgnoreCase(value)) {
+                        ShopMenu.setKosten(true);
+                        player.setBulletCost(10 - 5);
+                    } else {
+                        ShopMenu.setKosten(false);
+                        player.setBulletCost(10);
+                    }
+                    break;
+                case "cooldownBullet":
+                    if("true".equalsIgnoreCase(value)) {
+                        ShopMenu.setHaeufigkeit(true);
+                        player.setCooldownBullet(20 - 10);
+                    } else {
+                        ShopMenu.setHaeufigkeit(false);
+                        player.setCooldownBullet(20);
+                    }
+                    break;
+                case "bulletSpeed":
+                    if("true".equalsIgnoreCase(value)) {
+                        ShopMenu.setTempo(true);
+                        player.setBulletSpeed(6 + 6);
+                    } else {
+                        ShopMenu.setTempo(false);
+                        player.setBulletSpeed(6);
+                    }
+                    break;
+                case "fuel":
+                    player.setFuel(Integer.parseInt(value));
+                    break;
+                case "Ammunition":
+                    player.setAmmo(Integer.parseInt(value));
+                    break;
+                case "Health":
+                    player.setHp(Integer.parseInt(value));
+                    break;
+                case "Money":
+                    player.setPlayerCoins(Integer.parseInt(value));
+                    break;
+                case "Level":
+                    //Ask: How to load?
+                    //go to last on planet (0,durch 3 teilbar)
+                    //immer onplanet 2 also 3 oder 6 (immer 3 oder 6 )
+                    System.out.println("Level to load: " + value);
+                    Game.getGame().setLvLInt(Integer.parseInt(value));
+                    Game.getGame().setOnPlanet(true);
+                    if(Integer.parseInt(value) == 0) {
+                        Game.getGame().levelBuilder(Game.getGame().getLvLHandler().getLvLImage(3));
+                    }
+                    else {
+                        Game.getGame().levelBuilder(Game.getGame().getLvLHandler().getLvLImage(Integer.parseInt(value)));
+                    }
+                    //Set player coordinates
+                    break;
+
+            }
+        }
+        Game.getGame().getCamera().setX(0);
+        Game.getGame().getCamera().setY(0);
+        player.setOnPlanet(true);
+        player.setX(300);
+        player.setY(400);
+        Game.getGame().getObjectHandler().addObj(player);
+        Game.getGame().getObjectHandler().getPlayer().getPlayerHealthbar().update();
+        System.out.println("am loading?");
+    }
     public void safe(){
         safe(currentSaveToUse);
     }
