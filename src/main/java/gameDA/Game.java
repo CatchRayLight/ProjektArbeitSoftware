@@ -210,7 +210,7 @@ public class Game extends Canvas implements Runnable {
                                     20, 10, 20, 0));
                         }
                     }
-                    if(!isOnPlanet()) {
+                    if (!isOnPlanet()) {
                         if (green == 255 && blue != 255 && red != 255) {
                             objectHandler.addObj(new SpaceEnemy(xAxis * 32, yAxis * 32, ObjectID.ENEMY, spriteS,
                                     objectHandler, 100, 5, 10, 2 * getLvLInt()));
@@ -222,41 +222,43 @@ public class Game extends Canvas implements Runnable {
                     }
                     if (red == 255 && green == 255 && blue != 255) {
                         //yel
-                        System.out.println("should make it");
                         objectHandler.addObj(new EventTeleportLVL(xAxis * 32, yAxis * 32, ObjectID.EVENT, spriteS, objectHandler));
                     }
                 }
+                //bosshit
+                if (red == 255 && green == 255 && blue == 255) {
+                    if (Game.game.isBossLvl() && !isOnPlanet()) {
+                        if (getLvLInt() == 8)
+                            objectHandler.addObj(new SpaceBoss((xAxis * 32) + 320, (yAxis * 32) + 100, ObjectID.SPACEBOSS, spriteS, objectHandler, 1000, 5, 9 - getLvLInt(), 5 * getLvLInt()));
+                        if (getLvLInt() == 5)
+                            objectHandler.addObj(new SpaceBoss((xAxis * 32), yAxis * 32, ObjectID.SPACEBOSS, spriteS, objectHandler, 1000, 5, 9 - getLvLInt(), 5 * getLvLInt()));
+                        if (getLvLInt() == 2)
+                            objectHandler.addObj(new SpaceBoss((xAxis * 32) - 20, yAxis * 32, ObjectID.SPACEBOSS, spriteS, objectHandler, 1000, 5, 9 - getLvLInt(), 5 * getLvLInt()));
+                    }
+                }
+                if (isOnPlanet()) {
+                    if (red == 255 && green == 255 && blue != 255) {
+                        //yel
+                        objectHandler.addObj(new EventTeleportLVL(xAxis * 32, yAxis * 32, ObjectID.EVENT, spriteS, objectHandler));
+                    }
+                    if (red == 255 && blue == 255 && green != 255) {
+                        objectHandler.addObj(new GasStationAttendant(xAxis * 32, yAxis * 32, ObjectID.ENTITY, spriteS));
+                    }
+                    //Cyan
+                    if (green == 255 && blue == 255 && red != 255) {
+                        objectHandler.addObj(new Character1(xAxis * 32, yAxis * 32, ObjectID.ENTITY, spriteS));
+                    }
+                    //green
+                    if (green == 255 && blue != 255 && red != 255) {
+                        objectHandler.addObj(new Character2(xAxis * 32, yAxis * 32, ObjectID.ENTITY, spriteS));
+                    }
+                    if (red == 255 && green == 255 && blue == 255) {
+                        objectHandler.addObj(new ShopKeeper(xAxis * 32, yAxis * 32, ObjectID.SHOPKEEPER, spriteS));
+                    }
+
+                }
                 if (red == 255 && green != 255 && blue != 255) {
                     objectHandler.addObj(new Walls(xAxis * 32, yAxis * 32, ObjectID.BLOCK, spriteS, isOnPlanet()));
-                }
-                if (getLvLInt() <= 9) {
-                    if (red == 255 && green == 255 && blue == 255) {
-                        //bosshit
-                        if (Game.game.isBossLvl() && !isOnPlanet()) {
-                            objectHandler.addObj(new SpaceBoss(xAxis * 32, yAxis * 32, ObjectID.SPACEBOSS, spriteS, objectHandler, 1000, 5, 9 - getLvLInt(), 5 * getLvLInt()));
-                        }
-                    }
-                    if (isOnPlanet()) {
-                        if (red == 255 && green == 255 && blue != 255) {
-                            //yel
-                            System.out.println("should make it");
-                            objectHandler.addObj(new EventTeleportLVL(xAxis * 32, yAxis * 32, ObjectID.EVENT, spriteS, objectHandler));
-                        }
-                        if (red == 255 && blue == 255 && green != 255) {
-                            objectHandler.addObj(new GasStationAttendant(xAxis * 32, yAxis * 32, ObjectID.ENTITY, spriteS));
-                        }
-                        //Cyan
-                        if (green == 255 && blue == 255 && red != 255) {
-                            objectHandler.addObj(new Character1(xAxis * 32, yAxis * 32, ObjectID.ENTITY, spriteS));
-                        }
-                        //green
-                        if (green == 255 && blue != 255 && red != 255) {
-                            objectHandler.addObj(new Character2(xAxis * 32, yAxis * 32, ObjectID.ENTITY, spriteS));
-                        }
-                        if (red == 255 && green == 255 && blue == 255) {
-                            objectHandler.addObj(new ShopKeeper(xAxis * 32, yAxis * 32, ObjectID.SHOPKEEPER, spriteS));
-                        }
-                    }
                 }
             }
         }

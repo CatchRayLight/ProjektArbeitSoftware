@@ -31,17 +31,17 @@ public class LvLHandler {
 
     public BufferedImage getLvLImage(int lvl) {
         if(lvl == 0) return onPlanet;
-        if(lvl % 3 == 0)return onPlanet2;
+        if(lvl % 3 == 0 && lvl != 9)return onPlanet2;
         if(lvl == 1)return lvL1;
         if(lvl == 2||lvl == 5||lvl == 8)return bossLvL;
         if (lvl == 4)return lvL2;
         if (lvl == 7)return lvL3;
-        return victory;
+        if(lvl >= 9)return victory;
+        return null;
     }
     public void nextLvL(ObjectHandler objectHandler){
         Game.getGame().setLvLInt(
                 Game.getGame().getLvLInt() + 1);
-        System.out.println(Game.getGame().getLvLInt());
         for (int i = 0; i <objectHandler.gameObjects.size() ; i++) {
             GameObject tempObj = objectHandler.gameObjects.get(i);
             if(tempObj.getId() == ObjectID.PLAYER){
@@ -63,7 +63,6 @@ public class LvLHandler {
                     player.setX(300);
                     player.setY(400);
                 }
-                System.out.println(Game.getGame().isBossLvl());
                 objectHandler.setLeft(false);
                 objectHandler.setRight(false);
                 objectHandler.setUp(false);

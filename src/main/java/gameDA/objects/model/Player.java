@@ -109,7 +109,6 @@ public class Player extends GameObject {
             }
         }
         if ((getHp() <= 0) || (getFuel() <= 0)) {
-            System.out.println(Game.getGamestate());
             playerHealthbar.setHp(0);
             playerHealthbar.setFuel(0);
             Game.getGame().setGamestate(Gamestate.INMENU);
@@ -312,7 +311,7 @@ public class Player extends GameObject {
         }
        if((velocityY != 0) || (velocityX != 0)){
            if (!isOnPlanet()) {
-               setFuel(getFuel() - 2);
+               setFuel(getFuel() - 4);
                playerHealthbar.setFuel(getFuel());
            }
        }
@@ -321,7 +320,7 @@ public class Player extends GameObject {
        if(!onPlanet) {
            couldownCounter++;
            if (objectHandler.isSpace() && couldownCounter > cooldownBullet) {
-               if (playerHealthbar.getAmmo() > 0) {
+               if (getAmmo() > 0 || Game.getGame().isBossLvl()) {
                    objectHandler.addObj(new Bullet(getX(), getY(), ObjectID.PLAYERBULLET,
                            spriteSheet, objectHandler, bulletSpeed, objectHandler.getDirection(),true));
                    if(!Game.getGame().isBossLvl()) {

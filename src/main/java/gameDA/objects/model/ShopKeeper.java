@@ -45,14 +45,11 @@ public class ShopKeeper extends GameObject {
         if(couldown >= 100 && Game.getGame().getObjectHandler().isSpace()) {
             if (getBounds().intersects(Game.getGame().getObjectHandler().getPlayer().getBounds())) {
                 Game.getGame().setGamestate(Gamestate.INMENU);
-                if(!firstTalk) {
-                    String[][] sampleDialogue = new String[][]{{"Upgrade Dealer Roberto"}, {"Hier bekommst du die besten Ugrades fuer dein Spaceship",
-                            "es kostet dich nicht viel", "Komm wieder wennn du 10 Coins hast"}};
-                    Game.getGame().getMenuHandler().setCurrentMenu(new DialogueMenu(sampleDialogue));
-                    firstTalk = true;
-                }else {
-                    Game.getGame().getMenuHandler().setCurrentMenu(new ShopMenu());
-                }
+                String[][] sampleDialogue = new String[][]{{"Upgrade Dealer Roberto"}, {"Hier bekommst du die besten Ugrades fuer dein Spaceship",
+                            "es kostet dich nicht viel", "für 20 Coins bekommst du Baba Upgrades"}};
+                Game.getGame().getMenuHandler().setCurrentMenu(new DialogueMenu(sampleDialogue));
+
+                Game.getGame().getMenuHandler().setCurrentMenu(new ShopMenu());
                 couldown = 0;
             }
         }
