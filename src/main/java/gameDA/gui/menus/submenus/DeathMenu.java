@@ -25,6 +25,7 @@ public class DeathMenu extends Menu {
     @Override
     public void render(Graphics g) {
 
+        System.out.println(Game.getGame().getMenuHandler().isLoadBackground());
         for(int i = 0; i < getMenuOptions().length; i++) {
             MenuOption op = getMenuOptions()[i];
             op.render(g);

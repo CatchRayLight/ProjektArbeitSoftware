@@ -222,6 +222,7 @@ public class Game extends Canvas implements Runnable {
                     }
                     if (red == 255 && green == 255 && blue != 255) {
                         //yel
+                        System.out.println("should make it");
                         objectHandler.addObj(new EventTeleportLVL(xAxis * 32, yAxis * 32, ObjectID.EVENT, spriteS, objectHandler));
                     }
                 }
@@ -236,6 +237,11 @@ public class Game extends Canvas implements Runnable {
                         }
                     }
                     if (isOnPlanet()) {
+                        if (red == 255 && green == 255 && blue != 255) {
+                            //yel
+                            System.out.println("should make it");
+                            objectHandler.addObj(new EventTeleportLVL(xAxis * 32, yAxis * 32, ObjectID.EVENT, spriteS, objectHandler));
+                        }
                         if (red == 255 && blue == 255 && green != 255) {
                             objectHandler.addObj(new GasStationAttendant(xAxis * 32, yAxis * 32, ObjectID.ENTITY, spriteS));
                         }
@@ -313,6 +319,7 @@ public class Game extends Canvas implements Runnable {
 
         menuOptionsStartmenu = new MenuOption[]{new MenuOption(() -> {
             Game.getGame().getSound().stop();
+            Game.getGame().getMenuHandler().setLoadBackground(false);
             setGamestate(Gamestate.INGAME);
         }, "Play", 100, 100), new MenuOption(() -> {
             saveMenu.setCurrentOption(0);
