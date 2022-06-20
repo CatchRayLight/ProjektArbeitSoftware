@@ -47,9 +47,10 @@ public class ShopKeeper extends GameObject {
                 Game.getGame().setGamestate(Gamestate.INMENU);
                 String[][] sampleDialogue = new String[][]{{"Upgrade Dealer Roberto"}, {"Hier bekommst du die besten Ugrades fuer dein Spaceship",
                             "es kostet dich nicht viel", "für 20 Coins bekommst du Baba Upgrades"}};
-                Game.getGame().getMenuHandler().setCurrentMenu(new DialogueMenu(sampleDialogue));
+                Game.getGame().getMenuHandler().setCurrentMenu(new DialogueMenu(sampleDialogue, () -> {
+                    Game.getGame().getMenuHandler().setCurrentMenu(new ShopMenu());
+                }));
 
-                Game.getGame().getMenuHandler().setCurrentMenu(new ShopMenu());
                 couldown = 0;
             }
         }

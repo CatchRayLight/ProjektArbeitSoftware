@@ -35,6 +35,19 @@ public class DialogueMenu extends Menu {
         Game.getGame().getMenuHandler().setLoadBackground(false);
     }
 
+    public DialogueMenu(String[][] dialogueText, Runnable runnable) {
+        super(new MenuOption[]{});
+        setMenuOptions(new MenuOption[]{new MenuOption(() -> {
+            if(currentDialoguePosition + 1 >= dialogueText.length) {
+                runnable.run();
+            } else currentDialoguePosition++;
+        }, "Next", 100, 100), new MenuOption(() -> {
+            if(currentDialoguePosition - 1 < 0) {
+            } else currentDialoguePosition--;
+        }, "Previous", 100, 250)});
+        this.dialogueText = dialogueText;
+        Game.getGame().getMenuHandler().setLoadBackground(false);
+    }
 
     @Override
     public void render(Graphics g) {
