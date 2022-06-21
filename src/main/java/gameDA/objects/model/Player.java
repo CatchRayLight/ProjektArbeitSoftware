@@ -87,10 +87,10 @@ public class Player extends GameObject {
         if(isOnPlanet()) {
             animL.runAnimation();
             animR.runAnimation();
-            speed = 2;
+            speed = 3;
         }
         if(!onPlanet){
-            speed = 5;
+            speed = 8;
         }
         playerShooting();
         for (int i = 0; i < objectHandler.gameObjects.size(); i++) {

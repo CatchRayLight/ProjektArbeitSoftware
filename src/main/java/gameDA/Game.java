@@ -80,7 +80,6 @@ public class Game extends Canvas implements Runnable {
         camera = new Camera(0, 0);
         keyListener = new KeyListener(objectHandler, menuHandler, gamestate);
         this.addKeyListener(keyListener);
-
         //Starten des Spieles und laden des Levels
         start();
         //setting the Start Level on 1 and declaring onPlanet boolean
@@ -115,32 +114,34 @@ public class Game extends Canvas implements Runnable {
     public void run() {
         this.requestFocus();
         long lastTime = System.nanoTime();
-        double FPS = 60.0;
-        double ns = 1000000000 / FPS;
+        double amountOfTicks = 30.0;
+        double ns = 1000000000 / amountOfTicks;
         double delta = 0;
         long timer = System.currentTimeMillis();
         int frames = 0;
         while (isRunning) {
-            long currentTime = System.nanoTime();
-            delta += (currentTime - lastTime) / ns;
-            timer += (currentTime - lastTime);
-            lastTime = currentTime;
+            long now = System.nanoTime();
+            delta += (now - lastTime) /ns;
+            lastTime = now;
             while(delta >= 1) {
-                delta--;
                 update();
+                delta--;
                 render();
                 frames++;
             }
-            if (timer >= 1000000000) {
+
+
+            if (System.currentTimeMillis() - timer > 1000) {
                 outputFrames = frames;
+                System.out.println(frames);
+                timer += 1000;
                 frames = 0;
-                timer = 0;
             }
         }
         try {
             stop();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -149,7 +150,6 @@ public class Game extends Canvas implements Runnable {
         if (gamestate.equals(Gamestate.INGAME)) {
             for (int i = 0; i < objectHandler.gameObjects.size(); i++) {
                 if (objectHandler.gameObjects.get(i).getId() == ObjectID.PLAYER) {
-                    GameObject tempObj = objectHandler.gameObjects.get(i);
                     if(!isOnPlanet())camera.update(objectHandler.gameObjects.get(i));
                     if(isOnPlanet() || getLvLInt() == 2 || getLvLInt() == 5|| getLvLInt() == 8){
                         camera.setX(0);
@@ -168,7 +168,7 @@ public class Game extends Canvas implements Runnable {
     public void render() {
         BufferStrategy bufferStrategy = this.getBufferStrategy();
         if (bufferStrategy == null) {
-            this.createBufferStrategy(3);
+            this.createBufferStrategy(2);
             return;
         }
         Graphics g = bufferStrategy.getDrawGraphics();
@@ -176,7 +176,6 @@ public class Game extends Canvas implements Runnable {
             case INGAME:
                 Graphics2D graphics2D = (Graphics2D) g;
                 graphics2D.translate(-camera.getX(), -camera.getY());
-                // getLvL int %2 == 0 dann image on planet
                 drawBackground(g);
                 objectHandler.render(g);
                 graphics2D.translate(camera.getX(), camera.getY());
@@ -206,14 +205,14 @@ public class Game extends Canvas implements Runnable {
                     if (blue == 255 && green != 255 && red != 255) {
                         if (getLvLInt() == 0) {
                             objectHandler.addObj(new Player(xAxis * 32, yAxis * 32, ObjectID.PLAYER, spriteS,
-                                    objectHandler, isOnPlanet(), camera, 100, 90, 15600, 6,
+                                    objectHandler, isOnPlanet(), camera, 100, 90, 15600, 9,
                                     20, 10, 20, 0));
                         }
                     }
                     if (!isOnPlanet()) {
                         if (green == 255 && blue != 255 && red != 255) {
                             objectHandler.addObj(new SpaceEnemy(xAxis * 32, yAxis * 32, ObjectID.ENEMY, spriteS,
-                                    objectHandler, 100, 5, 10, 2 * getLvLInt()));
+                                    objectHandler, 100, 6 + getLvLInt(), 10, 3 * getLvLInt()));
                         }
                         if (green == 255 && blue == 255 && red != 255) {
                             //cyan
@@ -229,11 +228,14 @@ public class Game extends Canvas implements Runnable {
                 if (red == 255 && green == 255 && blue == 255) {
                     if (Game.game.isBossLvl() && !isOnPlanet()) {
                         if (getLvLInt() == 8)
-                            objectHandler.addObj(new SpaceBoss((xAxis * 32) + 320, (yAxis * 32) + 100, ObjectID.SPACEBOSS, spriteS, objectHandler, 1000, 5, 9 - getLvLInt(), 5 * getLvLInt()));
+                            objectHandler.addObj(new SpaceBoss((xAxis * 32) + 320, (yAxis * 32) + 100, ObjectID.SPACEBOSS,
+                                    spriteS, objectHandler, 800, 6+ getLvLInt(), 9 - getLvLInt(), 5 * getLvLInt()));
                         if (getLvLInt() == 5)
-                            objectHandler.addObj(new SpaceBoss((xAxis * 32), yAxis * 32, ObjectID.SPACEBOSS, spriteS, objectHandler, 1000, 5, 9 - getLvLInt(), 5 * getLvLInt()));
+                            objectHandler.addObj(new SpaceBoss((xAxis * 32), yAxis * 32, ObjectID.SPACEBOSS, spriteS,
+                                    objectHandler, 1000, 6+ getLvLInt(), 9 - getLvLInt(), 5 * getLvLInt()));
                         if (getLvLInt() == 2)
-                            objectHandler.addObj(new SpaceBoss((xAxis * 32) - 20, yAxis * 32, ObjectID.SPACEBOSS, spriteS, objectHandler, 1000, 5, 9 - getLvLInt(), 5 * getLvLInt()));
+                            objectHandler.addObj(new SpaceBoss((xAxis * 32) - 20, yAxis * 32, ObjectID.SPACEBOSS,
+                                    spriteS, objectHandler, 1200, 6 + getLvLInt(), 9 - getLvLInt(), 5 * getLvLInt()));
                     }
                 }
                 if (isOnPlanet()) {

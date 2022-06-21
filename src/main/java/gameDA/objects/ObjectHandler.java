@@ -13,8 +13,6 @@ public class ObjectHandler {
     public LinkedList<GameObject> gameObjects = new LinkedList<GameObject>();
     private char direction = 'N';
     private boolean up,down,right,left,space;
-    private GameObject lastRenderObject;
-
     public void update(){
         for(int i = 0; i < gameObjects.size(); i++){
             GameObject tempObj = gameObjects.get(i);
@@ -22,22 +20,19 @@ public class ObjectHandler {
         }
     }
     public void render(Graphics g){
-        for(int i = 0; i < gameObjects.size(); i++){
-            GameObject tempObj = gameObjects.get(i);
-            if(!(tempObj.getId() == ObjectID.PLAYER)) {
-                tempObj.render(g);
-            }else{
-                lastRenderObject = gameObjects.get(i);
+            for (int j = 0; j < gameObjects.size(); j++) {
+                GameObject tempObj = gameObjects.get(j);
+                if(tempObj.getId() != ObjectID.PLAYER) {
+                    tempObj.render(g);
+                }
             }
-        }
-        lastRenderObject.render(g);
-
+        getPlayer().render(g);
     }
 
     public Player getPlayer() {
         Player player = null;
-        for (int j = 0; j < Game.getGame().getObjectHandler().gameObjects.size(); j++) {
-            GameObject tempObj = Game.getGame().getObjectHandler().gameObjects.get(j);
+        for (int j = 0; j < gameObjects.size(); j++) {
+            GameObject tempObj = gameObjects.get(j);
             if (tempObj.getId() == ObjectID.PLAYER) {
                 player = (Player) tempObj;
                 break;

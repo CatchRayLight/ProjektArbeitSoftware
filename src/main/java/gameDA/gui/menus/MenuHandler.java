@@ -3,14 +3,14 @@ package gameDA.gui.menus;
 import gameDA.Game;
 import gameDA.config.output.BufferedImageLoader;
 import gameDA.config.output.Camera;
-import gameDA.config.output.SpriteSheet;
 import gameDA.gui.Gamestate;
 import gameDA.objects.Animation;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+
 
 public class MenuHandler {
 
@@ -31,8 +31,6 @@ public class MenuHandler {
     private int yy;
     private int xx = Game.SCREEN_WIDTH *4;
 
-    private Font customFont = loadFont();
-
 
 
     public MenuHandler(Menu startMenu) {
@@ -51,7 +49,7 @@ public class MenuHandler {
         currentMenu.update(this);
         animation.runAnimation();
     }
-    public void render(Graphics g){
+    public void render(Graphics g) {
         if(loadBackground) {
             //Lade Menu hintergrund
             yy++;
@@ -66,9 +64,9 @@ public class MenuHandler {
             if (xx <= Game.SCREEN_WIDTH) xx = 4 * Game.SCREEN_WIDTH;
             animation.drawAnimation(g, -140, 170, 0);
             g.setColor(Color.GREEN);
-            g.setFont(customFont.deriveFont(128f));
+            g.setFont(new Font("Gloucester MT Extra Condensed",Font.BOLD,128));
             g.drawString("Cool Game", Game.SCREEN_WIDTH / 2 - 20, Game.SCREEN_HEIGHT / 2 - 100);
-            g.setFont(customFont.deriveFont(50f));
+            g.setFont(new Font("Gloucester MT Extra Condensed",Font.BOLD,30));
         } else {
             //Lade Gameobjects zum rendern
 
@@ -85,9 +83,10 @@ public class MenuHandler {
                     g.drawImage(backgroundSpace, 0, 0, null);
                 }
             }
-            game.getObjectHandler().render(g);
+//            game.getObjectHandler().render(g);
             graphics2D.translate(camera.getX(), camera.getY());
-            g.setFont(customFont.deriveFont(35f));
+            g.setFont(new Font("Gloucester MT Extra Condensed",Font.BOLD,32));
+
         }
         currentMenu.render(g);
     }
@@ -154,16 +153,5 @@ public class MenuHandler {
         this.currentMenu = startMenu;
         currentMenu.startMusic();
         game.setGamestate(Gamestate.INMENU);
-    }
-    private Font loadFont(){
-        try {
-            //create the font to use. Specify the size!
-            customFont = Font.createFont(Font.TRUETYPE_FONT,
-                    new File("src/main/resources/font/ARCADECLASSIC.TTF")).deriveFont(30f);
-            return customFont;
-        } catch (IOException | FontFormatException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 }
