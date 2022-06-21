@@ -12,8 +12,6 @@ import java.awt.image.BufferedImage;
 public class SpaceBoss extends GameObject {
     private ObjectHandler objectHandler;
     private final Animation bossAnimationEnemy;
-    private final Animation bossAnimationEnemy2;
-    private final Animation bossAnimationEnemy3;
     private Healthbar bossHealtbar;
     private int hp;
     private Player player;
@@ -31,11 +29,19 @@ public class SpaceBoss extends GameObject {
         this.bulletDmg = bulletDmg;
         this.bulletSpeed = bulletSpeed;
         BufferedImage[] bossEnemyInSpace = new BufferedImage[2];
-        bossEnemyInSpace[0] = spriteSheet.getImage(13,3,64,64);
-        bossEnemyInSpace[1] = spriteSheet.getImage(15,3,64,64);
+        if(Game.getGame().getLvLInt() == 2) {
+            bossEnemyInSpace[0] = spriteSheet.getImage(13, 3, 64, 64);
+            bossEnemyInSpace[1] = spriteSheet.getImage(15, 3, 64, 64);
+        }
+        if(Game.getGame().getLvLInt() == 5) {
+            bossEnemyInSpace[0] = spriteSheet.getImage(16, 3, 64, 64);
+            bossEnemyInSpace[1] = spriteSheet.getImage(18, 3, 64, 64);
+        }
+        if(Game.getGame().getLvLInt() == 8) {
+            bossEnemyInSpace[0] = spriteSheet.getImage(15, 1, 64, 64);
+            bossEnemyInSpace[1] = spriteSheet.getImage(17, 1, 64, 64);
+        }
         bossAnimationEnemy = new Animation(20, bossEnemyInSpace);
-        bossAnimationEnemy2 = new Animation(20, bossEnemyInSpace);
-        bossAnimationEnemy3 = new Animation(20, bossEnemyInSpace);
         bossHealtbar = new Healthbar(hp);
         lvLHandler = new LvLHandler();
     }
@@ -48,9 +54,7 @@ public class SpaceBoss extends GameObject {
                 bulletShooting();
                 counter = 0;
             }
-            if (Game.getGame().getLvLInt() == 2)bossAnimationEnemy.runAnimation();
-            if (Game.getGame().getLvLInt() == 5)bossAnimationEnemy2.runAnimation();
-            if (Game.getGame().getLvLInt() == 8)bossAnimationEnemy3.runAnimation();
+            bossAnimationEnemy.runAnimation();
             for (int i = 0; i < objectHandler.gameObjects.size(); i++) {
                 GameObject tempObject = objectHandler.gameObjects.get(i);
                 if (tempObject.getId() == ObjectID.PLAYER) {
@@ -80,9 +84,7 @@ public class SpaceBoss extends GameObject {
     @Override
     public void render(Graphics g) {
         if(Game.getGame().isBossLvl()) {
-            if (Game.getGame().getLvLInt() == 2) bossAnimationEnemy.drawAnimation(g, x, y, 0);
-            if (Game.getGame().getLvLInt() == 5) bossAnimationEnemy2.drawAnimation(g, x, y, 0);
-            if (Game.getGame().getLvLInt() == 8) bossAnimationEnemy3.drawAnimation(g, x, y, 0);
+            bossAnimationEnemy.drawAnimation(g, x, y, 0);
             bossHealtbar.render(g,x-333,y-50,-16,-18,70,12);
             //draw bullets
         }
