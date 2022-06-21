@@ -116,13 +116,11 @@ public class Player extends GameObject {
             Game.getGame().getMenuHandler().setCurrentMenu(new DeathMenu());
         }
     }
-
-
     @Override
     public void render(Graphics g) {
         if((!isOnPlanet() &&!(Game.getGame().getLvLInt() == 2 || Game.getGame().getLvLInt() == 5 ||
                 Game.getGame().getLvLInt() == 8) )&&!(Game.getGame().getLvLInt() >= 9)){
-//            g.drawImage(viewIMG,x- (viewIMG.getWidth() /2) + 15,y - (viewIMG.getHeight()/2) + 20,null);
+            g.drawImage(viewIMG,x- (viewIMG.getWidth() /2) + 15,y - (viewIMG.getHeight()/2) + 20,null);
         }
         playerHealthbar.render(g);
         if(!frameChange){

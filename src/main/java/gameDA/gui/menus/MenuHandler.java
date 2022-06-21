@@ -22,7 +22,7 @@ public class MenuHandler {
     private boolean up = false, down = false, enter = false;
 
     //Speichert das Spiel, um Informationen abzurufen und zu verändern
-    private Game game;
+    private final Game game;
 
     //Speichert, ob der Hintergrund für die Menus gerendert werden soll.
     private boolean loadBackground = true;

@@ -104,12 +104,13 @@ public class Game extends Canvas implements Runnable {
     }
     //game-Loop
     /**
-     * lastime: Time since the last iteration of the loop. Helps compute delta.
-     * AmountOfTicks: The max FPS for the game.
-     * ns: The number of nanoseconds per frame.
-     * delta: The 'progress' that must be elapsed until the next frame.
-     * frames: The number of frames elapsed since the last time we displayed the FPS.
-     * time: The current time. Used to know when to display next the FPS.
+     * "Frame": Das gerade angezeigte Bild
+     * lastime: Die Zeit seit der letzten Wiederholung der Schleife.
+     * AmountOfTicks: Maximale Tick rate, Frequenz wie oft in der Sekunde erneuert wird
+     * ns: Wie viele Nanosekunden per Frame verlaufen
+     * delta: Der Fortschritt der geschehen muss bis zum nächsten Frame
+     * frames: Wie viele Frames in einer Sekunde gezeigt wurden
+     * time: Die derzeitige Zeit,sie wird benötigt um zu Wissen, wann der nächste Frame gezeigt wird.
      **/
     @Override
     public void run() {
@@ -122,18 +123,18 @@ public class Game extends Canvas implements Runnable {
         int frames = 0;
         while (isRunning) {
             long now = System.nanoTime();
-            delta += (now - lastTime) /ns;
+            delta += (now - lastTime) / ns;
             lastTime = now;
-            while (delta >= 1) {
-                update();
+            if (delta >= 1) {
                 delta--;
+                update();
                 render();
                 frames++;
-            }
-            if (System.currentTimeMillis() - timer > 1000) {
-                System.out.println(frames);
-                timer += 1000;
-                frames = 0;
+                if (System.currentTimeMillis() - timer > 1000) {
+                    System.out.println(frames);
+                    timer += 1000;
+                    frames = 0;
+                }
             }
         }
         try {
