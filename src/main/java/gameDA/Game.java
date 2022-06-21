@@ -212,7 +212,7 @@ public class Game extends Canvas implements Runnable {
                     if (!isOnPlanet()) {
                         if (green == 255 && blue != 255 && red != 255) {
                             objectHandler.addObj(new SpaceEnemy(xAxis * 32, yAxis * 32, ObjectID.ENEMY, spriteS,
-                                    objectHandler, 100, 6 + getLvLInt(), 10, 3 * getLvLInt()));
+                                    objectHandler, 100, 3 + getLvLInt(), 10, 2 * getLvLInt()));
                         }
                         if (green == 255 && blue == 255 && red != 255) {
                             //cyan
@@ -227,15 +227,15 @@ public class Game extends Canvas implements Runnable {
                 //bosshit
                 if (red == 255 && green == 255 && blue == 255) {
                     if (Game.game.isBossLvl() && !isOnPlanet()) {
-                        if (getLvLInt() == 8)
+                        if (getLvLInt() == 8 )
                             objectHandler.addObj(new SpaceBoss((xAxis * 32) + 320, (yAxis * 32) + 100, ObjectID.SPACEBOSS,
-                                    spriteS, objectHandler, 800, 6+ getLvLInt(), 9 - getLvLInt(), 5 * getLvLInt()));
+                                    spriteS, objectHandler, 1200, 6+ getLvLInt(), 9 - getLvLInt(), 4 * getLvLInt()));
                         if (getLvLInt() == 5)
                             objectHandler.addObj(new SpaceBoss((xAxis * 32), yAxis * 32, ObjectID.SPACEBOSS, spriteS,
                                     objectHandler, 1000, 6+ getLvLInt(), 9 - getLvLInt(), 5 * getLvLInt()));
                         if (getLvLInt() == 2)
                             objectHandler.addObj(new SpaceBoss((xAxis * 32) - 20, yAxis * 32, ObjectID.SPACEBOSS,
-                                    spriteS, objectHandler, 1200, 6 + getLvLInt(), 9 - getLvLInt(), 5 * getLvLInt()));
+                                    spriteS, objectHandler, 800, 7 + getLvLInt(), 9 - getLvLInt(), 5 * getLvLInt()));
                     }
                 }
                 if (isOnPlanet()) {

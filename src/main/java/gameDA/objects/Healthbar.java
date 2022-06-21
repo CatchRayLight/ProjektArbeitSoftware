@@ -72,6 +72,8 @@ public class Healthbar{
         g.fillRect(x + offsetX-2, y + offsetY-2, (hp * size / 100)+4, height+4);
         g.setColor(Color.red);
         g.fillRect(x + offsetX, y + offsetY, hp * size / 100, height);
+        g.setColor(Color.black);
+        g.drawString(String.valueOf(getHp()),x-15,y-7);
     }
     public int getHp() {
         return hp;
