@@ -5,19 +5,23 @@ import gameDA.Game;
 import java.awt.*;
 
 public abstract class Menu {
+    //Die Stelle der momentan ausgewählten MenuOption
     private int currentOption;
+    //Die Wartezeit bis zum nächsten möglichen Wechsel der momentan ausgewählten MenuOption
     private int changeCurrentoptionCooldown = 20;
+    //Die Wartezeit bis zur nächsten möglichen Auswahl der momentan ausgewählten MenuOption
     private int enterCooldown = 20;
+    //Die Stelle der letzten MenuOption
     private int maxOption;
+    //Die Stelle an der die Hintergrundmusik in Sound zu finden ist
     private int backgroundMusic;
-    private final int minOption;
+    //Alle MenuOptions des Menus
     private MenuOption[] menuOptions;
 
 
     public Menu(MenuOption[] menuOptions) {
         this.currentOption = 0;
         this.maxOption = menuOptions.length - 1;
-        this.minOption = 0;
         this.menuOptions = menuOptions;
         this.backgroundMusic = -1;
     }
@@ -25,15 +29,24 @@ public abstract class Menu {
     public Menu(MenuOption[] menuOptions, int backgroundMusic) {
         this.currentOption = 0;
         this.maxOption = menuOptions.length - 1;
-        this.minOption = 0;
         this.menuOptions = menuOptions;
         this.backgroundMusic = backgroundMusic;
     }
 
+    /**
+     * Startet die Musik des Menus und spielt diese dauerhaft
+     */
     public void startMusic() {
         if(backgroundMusic >= 0 && (Game.getGame().getSound() != null )&& Game.getGame().getOptions().isMusic()) {
+            //Falls eine Hintergrundmusik für das Menu gegeben ist und
+            //Musik in den Einstellungen nicht ausgestellt ist, sowie
+            //Sound schon initialisiert wurde
+
+            //Setze den Clip auf die Hintergrundmusik
             Game.getGame().getSound().setClip(backgroundMusic);
+            //Spiele den Clip ab
             Game.getGame().getSound().play();
+            //Mache den Clip in Dauerschleife
             Game.getGame().getSound().loop();
         }
     }
@@ -51,13 +64,13 @@ public abstract class Menu {
         menuOptions[currentOption].setSelected(false);
         currentOption++;
         if(currentOption > maxOption) {
-            currentOption = minOption;
+            currentOption = 0;
         }
     }
     private void previousOption() {
         menuOptions[currentOption].setSelected(false);
         currentOption--;
-        if(currentOption < minOption) {
+        if(currentOption < 0) {
             currentOption = maxOption;
         }
     }
@@ -119,9 +132,6 @@ public abstract class Menu {
         return maxOption;
     }
 
-    public int getMinOption() {
-        return minOption;
-    }
 
     public MenuOption[] getMenuOptions() {
         return menuOptions;
