@@ -1,9 +1,9 @@
-Level:9
-Money:57
-Health:30
-Ammunition:100
-fuel:10458
+Level:3
+Money:30
+Health:92
+Ammunition:90
+fuel:12476
 bulletSpeed:true
 cooldownBullet:false
 bulletCost:false
-bulletDmg:true
+bulletDmg:false
