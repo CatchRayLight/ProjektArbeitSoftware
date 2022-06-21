@@ -83,7 +83,7 @@ public class SpaceBoss extends GameObject {
             if (Game.getGame().getLvLInt() == 2) bossAnimationEnemy.drawAnimation(g, x, y, 0);
             if (Game.getGame().getLvLInt() == 5) bossAnimationEnemy2.drawAnimation(g, x, y, 0);
             if (Game.getGame().getLvLInt() == 8) bossAnimationEnemy3.drawAnimation(g, x, y, 0);
-            bossHealtbar.render(g,x-300,y-50,-16,-18,70,12);
+            bossHealtbar.render(g,x-333,y-50,-16,-18,70,12);
             //draw bullets
         }
     }

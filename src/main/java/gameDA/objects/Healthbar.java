@@ -48,15 +48,14 @@ public class Healthbar{
         }
     }
     public void render(Graphics g) {
-        g.setFont(Objects.requireNonNull(loadFont()).deriveFont(24f));
-
+        g.setFont(new Font("Goudy Stout",Font.BOLD,10));
         g.setColor(Color.red);
         g.fillRect(camera.getX() + 43, camera.getY() + Game.SCREEN_HEIGHT - 150, (getHp()* 156) / 100, 20);
         g.drawString(String.valueOf(getHp()),camera.getX() + 150, camera.getY() + Game.SCREEN_HEIGHT-150);
 
         g.setColor(Color.orange);
         g.fillRect(camera.getX() + 43, camera.getY() + Game.SCREEN_HEIGHT - 113, (getAmmo() * 156) / 100, 20);
-        g.drawString(String.valueOf(getAmmo()),camera.getX() + 150, camera.getY() + Game.SCREEN_HEIGHT-113);
+        g.drawString(String.valueOf(getAmmo()),camera.getX() + 150, camera.getY() + Game.SCREEN_HEIGHT-115);
 
         g.setColor(Color.LIGHT_GRAY);
         g.fillRect(camera.getX() + 43, camera.getY() + Game.SCREEN_HEIGHT - 75, (getFuel()) / 100, 20);
@@ -64,9 +63,9 @@ public class Healthbar{
         g.drawString(String.valueOf(getFuel()/156),camera.getX() + 150, camera.getY() + Game.SCREEN_HEIGHT-75);
 
         g.setColor(Color.white);
-        g.setFont(Objects.requireNonNull(loadFont()).deriveFont(30f));
+        g.setFont(new Font("Goudy Stout",Font.BOLD,10));
         g.drawImage(playerCoin,camera.getX()+5,camera.getY()+ Game.SCREEN_HEIGHT - 190,null);
-        g.drawString(String.valueOf(getPlayerCoins()),camera.getX()+37,camera.getY()+ Game.SCREEN_HEIGHT - 164);
+        g.drawString(String.valueOf(getPlayerCoins()),camera.getX()+37,camera.getY()+ Game.SCREEN_HEIGHT - 165);
     }
     public void render(Graphics g,int x,int y, int offsetX, int offsetY,int size,int height){
         g.setColor(Color.black);
@@ -108,14 +107,5 @@ public class Healthbar{
         return player;
     }
 
-    private Font loadFont(){
-        try {
-            //create the font to use. Specify the size!
-            return Font.createFont(Font.TRUETYPE_FONT,
-                    new File("src/main/resources/font/ARCADECLASSIC.TTF")).deriveFont(30f);
-        } catch (IOException | FontFormatException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+
 }

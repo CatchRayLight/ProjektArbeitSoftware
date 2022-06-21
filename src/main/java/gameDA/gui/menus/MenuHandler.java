@@ -3,14 +3,14 @@ package gameDA.gui.menus;
 import gameDA.Game;
 import gameDA.config.output.BufferedImageLoader;
 import gameDA.config.output.Camera;
-import gameDA.config.output.SpriteSheet;
 import gameDA.gui.Gamestate;
 import gameDA.objects.Animation;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+
 
 public class MenuHandler {
     //Das momentan benutzte Menu
@@ -110,12 +110,9 @@ public class MenuHandler {
 
             //Wähle die Farbe
             g.setColor(Color.GREEN);
-            //Setze die Schriftart auf die des Titels
-            g.setFont(customFont.deriveFont(128f));
-            //Zeichne den Titel
+            g.setFont(new Font("Gloucester MT Extra Condensed",Font.BOLD,128));
             g.drawString("Cool Game", Game.SCREEN_WIDTH / 2 - 20, Game.SCREEN_HEIGHT / 2 - 100);
-            //Setze die Schriftart zurück zu dem normalen Font
-            g.setFont(customFont.deriveFont(50f));
+            g.setFont(new Font("Gloucester MT Extra Condensed",Font.BOLD,30));
         } else {
             //Rendere keinen Hintergrund
 
@@ -140,13 +137,10 @@ public class MenuHandler {
                     g.drawImage(backgroundSpace, 0, 0, null);
                 }
             }
-
-            //Rendere die GameObjects, da diese auf dem Hintergrund benötigt werden.
-            game.getObjectHandler().render(g);
-            //Setze das Koordinatensystem der Grafik zurück
+//            game.getObjectHandler().render(g);
             graphics2D.translate(camera.getX(), camera.getY());
-            //Setzen der Schriftart auf eine passende Größe
-            g.setFont(customFont.deriveFont(35f));
+            g.setFont(new Font("Gloucester MT Extra Condensed",Font.BOLD,32));
+
         }
         //Rendere das momentan ausgewählte Menu
         currentMenu.render(g);
@@ -242,10 +236,6 @@ public class MenuHandler {
         //Starte die Musik des Menus
         currentMenu.startMusic();
     }
-
-    /**
-     * @return Die geladene Schriftart
-     */
     private Font loadFont(){
         try {
             //create the font to use. Specify the size!
