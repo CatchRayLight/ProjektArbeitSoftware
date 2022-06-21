@@ -1,12 +1,8 @@
 package gameDA.gui.menus.submenus;
 
-import gameDA.config.output.BufferedImageLoader;
 import gameDA.gui.menus.Menu;
 import gameDA.gui.menus.MenuOption;
-import gameDA.objects.Animation;
-
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 public class SaveMenu extends Menu {
 

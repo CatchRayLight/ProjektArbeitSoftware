@@ -9,11 +9,11 @@ public class MenuOption {
     private final Runnable runnable;
     private boolean selected = false;
     private String text;
-    private int positionX;
-    private int positionY;
-    private BufferedImageLoader loader = new BufferedImageLoader();
-    private BufferedImage selectedButton = loader.loadImage("/menu/selectedMainMenuButton.png");
-    private BufferedImage unselectedButton = loader.loadImage("/menu/MainMenuButton.png");
+    private final int positionX;
+    private final int positionY;
+    private final BufferedImageLoader loader = new BufferedImageLoader();
+    private final BufferedImage selectedButton = loader.loadImage("/menu/selectedMainMenuButton.png");
+    private final BufferedImage unselectedButton = loader.loadImage("/menu/MainMenuButton.png");
 
     public MenuOption(Runnable runnable, String text, int positionX, int positionY) {
         this.runnable = runnable;
@@ -29,15 +29,13 @@ public class MenuOption {
     public void render(Graphics g) {
         if(selected) {
             g.drawImage(selectedButton, positionX,positionY,400,96,null);
-            g.setColor(Color.BLUE);
-            g.drawString(text,positionX+30,positionY+70);
             //g.drawRect(positionX,positionY,400,96);
         } else {
             g.drawImage(unselectedButton, positionX,positionY,400,96,null);
-            g.setColor(Color.BLUE);
-            g.drawString(text,positionX+30,positionY+70);
             //g.drawRect(positionX,positionY,400,96);
         }
+        g.setColor(Color.BLUE);
+        g.drawString(text,positionX+30,positionY+70);
     }
     public void execute() {
         runnable.run();

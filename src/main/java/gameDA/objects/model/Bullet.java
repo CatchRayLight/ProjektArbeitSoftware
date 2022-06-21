@@ -111,11 +111,18 @@ public class Bullet extends GameObject {
                 else enemyAnimationBulletV.drawAnimation(g,x,y,0);
                 break;
         }
+        /*
+
+        //hitbox
+        g.setColor(Color.red);
+        g.drawRect(x+10,y+10,10,10);
+
+         */
     }
 
     @Override
     public Rectangle getBounds() {
-        return new Rectangle(x,y,10,10);
+        return new Rectangle(x+10,y+10,10,10);
     }
 
     @Override

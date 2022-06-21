@@ -7,7 +7,6 @@ import gameDA.gui.menus.submenus.DialogueMenu;
 import gameDA.gui.menus.submenus.ShopMenu;
 import gameDA.objects.Animation;
 import gameDA.objects.GameObject;
-import gameDA.objects.ObjectHandler;
 import gameDA.objects.ObjectID;
 
 import java.awt.*;
@@ -19,7 +18,6 @@ public class ShopKeeper extends GameObject {
     private final Animation shopKeeperWait;
     private int counter;
     private int couldown;
-    private boolean firstTalk = false;
     public ShopKeeper(int x, int y, ObjectID id, SpriteSheet spriteSheet) {
         super(x, y, id, spriteSheet);
         BufferedImage[] shopKeeperRimg = new BufferedImage[2];

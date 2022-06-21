@@ -3,25 +3,19 @@ package gameDA.objects;
 import gameDA.config.output.Camera;
 import gameDA.config.output.SpriteSheet;
 import gameDA.Game;
-import gameDA.objects.model.Player;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.Objects;
+
 
 public class Healthbar{
     private BufferedImage playerHealthbar;
     private BufferedImage playerCoin;
-    private int x;
-    private int y;
     private int hp;
     private int ammo;
     private int fuel;
     private int playerCoins;
     private Camera camera;
-    private boolean player;
+    private final boolean player;
 
 
     public Healthbar(SpriteSheet spriteSheet, int hp, int ammo, int fuel, Camera camera,int playerCoins) {

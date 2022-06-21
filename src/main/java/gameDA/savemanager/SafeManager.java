@@ -7,11 +7,11 @@ import gameDA.objects.ObjectID;
 import gameDA.objects.model.Player;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.Objects;
 
 public class SafeManager {
 
-    private Save[] saves;
+    private final Save[] saves;
     private int currentSaveToUse; //The save to save to for the safe methode without parameters
 
     public SafeManager(Save[] saves) {
@@ -47,7 +47,7 @@ public class SafeManager {
         //Level Player is on
         currentSave.safe(SaveKey.LEVEL, String.valueOf(Game.getGame().getLvLInt()));
         //Saving Money (Note: This throws Nullpointerexception when there is no Player in Objecthandler)
-        currentSave.safe(SaveKey.MONEY, String.valueOf(player.getPlayerCoins()));
+        currentSave.safe(SaveKey.MONEY, String.valueOf(Objects.requireNonNull(player).getPlayerCoins()));
         //Health
         currentSave.safe(SaveKey.HEALTH, String.valueOf(player.getHp()));
         //Ammunition
@@ -109,19 +109,19 @@ public class SafeManager {
                 case "cooldownBullet":
                     if("true".equalsIgnoreCase(value)) {
                         ShopMenu.setHaeufigkeit(true);
-                        player.setCooldownBullet(20 - 10);
+                        player.setCooldownBullet(5 - 3);
                     } else {
                         ShopMenu.setHaeufigkeit(false);
-                        player.setCooldownBullet(20);
+                        player.setCooldownBullet(5);
                     }
                     break;
                 case "bulletSpeed":
                     if("true".equalsIgnoreCase(value)) {
                         ShopMenu.setTempo(true);
-                        player.setBulletSpeed(6 + 6);
+                        player.setBulletSpeed(9 + 6);
                     } else {
                         ShopMenu.setTempo(false);
-                        player.setBulletSpeed(6);
+                        player.setBulletSpeed(9);
                     }
                     break;
                 case "fuel":
@@ -142,6 +142,7 @@ public class SafeManager {
                     //immer onplanet 2 also 3 oder 6 (immer 3 oder 6 )
                     System.out.println("Level to load: " + value);
                     Game.getGame().setLvLInt(Integer.parseInt(value));
+                    Game.getGame().setBossLvl(false);
                     Game.getGame().setOnPlanet(true);
                     if(Integer.parseInt(value) == 0) {
                         Game.getGame().levelBuilder(Game.getGame().getLvLHandler().getLvLImage(3));
@@ -200,19 +201,19 @@ public class SafeManager {
                 case "cooldownBullet":
                     if("true".equalsIgnoreCase(value)) {
                         ShopMenu.setHaeufigkeit(true);
-                        player.setCooldownBullet(20 - 10);
+                        player.setCooldownBullet(5 - 2);
                     } else {
                         ShopMenu.setHaeufigkeit(false);
-                        player.setCooldownBullet(20);
+                        player.setCooldownBullet(5);
                     }
                     break;
                 case "bulletSpeed":
                     if("true".equalsIgnoreCase(value)) {
                         ShopMenu.setTempo(true);
-                        player.setBulletSpeed(6 + 6);
+                        player.setBulletSpeed(9 + 6);
                     } else {
                         ShopMenu.setTempo(false);
-                        player.setBulletSpeed(6);
+                        player.setBulletSpeed(9);
                     }
                     break;
                 case "fuel":
@@ -233,6 +234,7 @@ public class SafeManager {
                     //immer onplanet 2 also 3 oder 6 (immer 3 oder 6 )
                     System.out.println("Level to load: " + value);
                     Game.getGame().setLvLInt(Integer.parseInt(value));
+                    Game.getGame().setBossLvl(false);
                     Game.getGame().setOnPlanet(true);
                     if(Integer.parseInt(value) == 0) {
                         Game.getGame().levelBuilder(Game.getGame().getLvLHandler().getLvLImage(3));

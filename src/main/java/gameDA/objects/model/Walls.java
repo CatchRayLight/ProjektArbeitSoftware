@@ -2,9 +2,7 @@ package gameDA.objects.model;
 
 import gameDA.Game;
 import gameDA.config.output.SpriteSheet;
-import gameDA.objects.Animation;
 import gameDA.objects.GameObject;
-import gameDA.objects.ObjectHandler;
 import gameDA.objects.ObjectID;
 
 import java.awt.*;
@@ -12,12 +10,10 @@ import java.awt.image.BufferedImage;
 
 public class Walls extends GameObject {
     private final BufferedImage sprite;
-    private final boolean onPlanet;
 
-    public Walls(int x, int y, ObjectID id, SpriteSheet spriteSheet, boolean onPlanet) {
+    public Walls(int x, int y, ObjectID id, SpriteSheet spriteSheet) {
         super(x, y, id,spriteSheet);
-        this.onPlanet = onPlanet;
-                sprite = spriteSheet.getImage(1,1,32,32);
+        sprite = spriteSheet.getImage(1,1,32,32);
     }
 
     @Override
@@ -29,9 +25,24 @@ public class Walls extends GameObject {
         if(!Game.getGame().isOnPlanet() && !Game.getGame().isBossLvl()) {
             g.drawImage(sprite,x,y,null);
         }
-//        //hitbox
-//        g.setColor(Color.red);
-//        g.drawRect(x,y,32,32);
+    /*
+        //Hitbox
+        //top
+        g.setColor(Color.cyan);
+        g.drawRect(x, y-5, 32, 5);
+        //right
+        g.setColor(Color.blue);
+        g.drawRect(x+27+5, y, 5, 32);
+        //left
+        g.setColor(Color.orange);
+        g.drawRect(x-5 , y, 5, 32);
+        //bot
+        g.setColor(Color.pink);
+        g.drawRect(x, y+27+5, 32, 5);
+
+        g.setColor(Color.red);
+        g.drawRect(x,y,32,32);
+    */
     }
 
     @Override
@@ -39,8 +50,7 @@ public class Walls extends GameObject {
         return new Rectangle(x,y,32,32);
     }
 
-    @Override
-    public Rectangle getTopBounds(int offset) {
+    @Override    public Rectangle getTopBounds(int offset) {
         return new Rectangle(x, y-offset, 32, 5);
     }
 

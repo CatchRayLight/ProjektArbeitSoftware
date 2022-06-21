@@ -1,16 +1,13 @@
 package gameDA.objects;
 
-import gameDA.Game;
 import gameDA.objects.model.Player;
 
 import java.awt.*;
 import java.util.LinkedList;
 
-
-
 public class ObjectHandler {
 
-    public LinkedList<GameObject> gameObjects = new LinkedList<GameObject>();
+    public LinkedList<GameObject> gameObjects = new LinkedList<>();
     private char direction = 'N';
     private boolean up,down,right,left,space;
     public void update(){
@@ -20,12 +17,12 @@ public class ObjectHandler {
         }
     }
     public void render(Graphics g){
-            for (int j = 0; j < gameObjects.size(); j++) {
-                GameObject tempObj = gameObjects.get(j);
-                if(tempObj.getId() != ObjectID.PLAYER) {
-                    tempObj.render(g);
-                }
+        for (int j = 0; j < gameObjects.size(); j++) {
+            GameObject tempObj = gameObjects.get(j);
+            if(tempObj.getId() != ObjectID.PLAYER) {
+                tempObj.render(g);
             }
+        }
         getPlayer().render(g);
     }
 

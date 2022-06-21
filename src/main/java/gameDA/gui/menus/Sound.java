@@ -6,7 +6,7 @@ import java.net.URL;
 
 public class Sound {
     private Clip clip;
-    URL soundUrl[] = new URL[30];
+    URL[] soundUrl = new URL[30];
 
     public Sound() {
         soundUrl[0] = getClass().getResource("/sounds/Music.wav");
@@ -18,11 +18,7 @@ public class Sound {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundUrl[i]);
             clip = AudioSystem.getClip();
             clip.open(audioInputStream);
-        } catch (UnsupportedAudioFileException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (LineUnavailableException e) {
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             e.printStackTrace();
         }
     }

@@ -69,20 +69,27 @@ public class SpaceEnemy extends GameObject{
     public void render(Graphics g) {
         if(!(Game.getGame().getLvLInt() == 2|| Game.getGame().getLvLInt() == 5|| Game.getGame().getLvLInt() == 8))animationEnemy.drawAnimation(g,x,y,0);
         enemyHealthbar.render(g,x,y,-16,-18,70,12);
-//        //Hitbox-PlayerDetection
-//        //top
-//        int offset = 100;
-//        g.setColor(Color.cyan);
-//        g.drawRect(x-(offset/2), y-offset, (32+offset), 5);
-//        //right
-//        g.setColor(Color.blue);
-//        g.drawRect((x+27)+offset, y-(offset/2), 5, 32+offset);
-//        //left
-//        g.setColor(Color.orange);
-//        g.drawRect(x-offset, y-(offset/2), 5, 32+offset);
-//        //bot
-//        g.setColor(Color.pink);
-//        g.drawRect(x-(offset/2), y+27+offset, 32+offset, 5);
+    /*
+        //Hitbox-PlayerDetection
+        //top
+        int offset = 100;
+        g.setColor(Color.cyan);
+        g.drawRect(x-(offset/2), y-offset, (32+offset), 5);
+        //right
+        g.setColor(Color.blue);
+        g.drawRect((x+27)+offset, y-(offset/2), 5, 32+offset);
+        //left
+        g.setColor(Color.orange);
+        g.drawRect(x-offset, y-(offset/2), 5, 32+offset);
+        //bot
+        g.setColor(Color.pink);
+        g.drawRect(x-(offset/2), y+27+offset, 32+offset, 5);
+
+        SpaceEnemy Hitbox
+        g.setColor(Color.red);
+        g.drawRect(x,y,32,32);
+
+     */
     }
     private void bulletShooting() {
         coolDownCounter++;
@@ -156,9 +163,8 @@ public class SpaceEnemy extends GameObject{
         return bulletCooldown;
     }
 
-    public SpaceEnemy setBulletCooldown(int bulletCooldown) {
+    public void setBulletCooldown(int bulletCooldown) {
         this.bulletCooldown = bulletCooldown;
-        return this;
     }
 
     public int getBulletSpeed() {
@@ -174,9 +180,8 @@ public class SpaceEnemy extends GameObject{
         return bulletDmg;
     }
 
-    public SpaceEnemy setBulletDmg(int bulletDmg) {
+    public void setBulletDmg(int bulletDmg) {
         this.bulletDmg = bulletDmg;
-        return this;
     }
 }
 

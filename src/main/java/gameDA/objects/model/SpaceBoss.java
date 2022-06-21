@@ -8,18 +8,21 @@ import gameDA.objects.*;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 public class SpaceBoss extends GameObject {
-    private ObjectHandler objectHandler;
+    private final ObjectHandler objectHandler;
     private final Animation bossAnimationEnemy;
-    private Healthbar bossHealtbar;
+    private final Healthbar bossHealtbar;
     private int hp;
-    private Player player;
+    private final Player player;
     private final LvLHandler lvLHandler;
     private int bulletSpeed;
     private int bulletCooldown;
     private int bulletDmg;
-    private int counter = 0;
+    private int counter;
+    private final Random random;
+    private int offset = 0;
     public SpaceBoss(int x, int y, ObjectID id, SpriteSheet spriteSheet,ObjectHandler objectHandler, int hp,
                      int bulletSpeed,int bulletCooldown,int bulletDmg) {
         super(x, y, id, spriteSheet);
@@ -34,32 +37,29 @@ public class SpaceBoss extends GameObject {
             bossEnemyInSpace[1] = spriteSheet.getImage(15, 3, 64, 64);
         }
         if(Game.getGame().getLvLInt() == 5) {
-            bossEnemyInSpace[0] = spriteSheet.getImage(16, 3, 64, 64);
-            bossEnemyInSpace[1] = spriteSheet.getImage(18, 3, 64, 64);
+            bossEnemyInSpace[0] = spriteSheet.getImage(17, 3, 64, 64);
+            bossEnemyInSpace[1] = spriteSheet.getImage(19, 3, 64, 64);
         }
         if(Game.getGame().getLvLInt() == 8) {
+            offset = -320;
             bossEnemyInSpace[0] = spriteSheet.getImage(15, 1, 64, 64);
             bossEnemyInSpace[1] = spriteSheet.getImage(17, 1, 64, 64);
         }
         bossAnimationEnemy = new Animation(20, bossEnemyInSpace);
         bossHealtbar = new Healthbar(hp);
         lvLHandler = new LvLHandler();
+        random = new Random();
+        counter = 0;
+        player = objectHandler.getPlayer();
     }
 
     @Override
     public void update() {
         if(Game.getGame().isBossLvl()) {
-            counter++;
-            if(counter > bulletCooldown) {
-                bulletShooting();
-                counter = 0;
-            }
+            bulletShooting(offset);
             bossAnimationEnemy.runAnimation();
             for (int i = 0; i < objectHandler.gameObjects.size(); i++) {
                 GameObject tempObject = objectHandler.gameObjects.get(i);
-                if (tempObject.getId() == ObjectID.PLAYER) {
-                    player = (Player) tempObject;
-                }
                 if (tempObject.getId() == ObjectID.PLAYERBULLET) {
                     if (getBounds().intersects(tempObject.getBounds())) {
                         setHp(Math.min(getHp() - player.getBulletDmg(), hp));
@@ -119,81 +119,39 @@ public class SpaceBoss extends GameObject {
         return hp;
     }
 
-    public SpaceBoss setHp(int hp) {
+    public void setHp(int hp) {
         this.hp = hp;
-        return this;
     }
 
     public int getBulletSpeed() {
         return bulletSpeed;
     }
 
-    public SpaceBoss setBulletSpeed(int bulletSpeed) {
+    public void setBulletSpeed(int bulletSpeed) {
         this.bulletSpeed = bulletSpeed;
-        return this;
     }
 
     public int getBulletCooldown() {
         return bulletCooldown;
     }
 
-    public SpaceBoss setBulletCooldown(int bulletCooldown) {
+    public void setBulletCooldown(int bulletCooldown) {
         this.bulletCooldown = bulletCooldown;
-        return this;
     }
 
     public int getBulletDmg() {
         return bulletDmg;
     }
 
-    public SpaceBoss setBulletDmg(int bulletDmg) {
+    public void setBulletDmg(int bulletDmg) {
         this.bulletDmg = bulletDmg;
-        return this;
     }
-
-    private void bulletShooting() {
-        int test = (int) (Math.random() * 10);
-        switch (test) {
-            case 0:
-                objectHandler.addObj(new Bullet((int)(getX()* (Math.random())), getY()-100, ObjectID.ENEMYBULLET,
-                        spriteSheet, objectHandler, bulletSpeed, 'D', false));
-                break;
-            case 1:
-                objectHandler.addObj(new Bullet((int)(getX()* (Math.random()))-100, getY(), ObjectID.ENEMYBULLET,
-                        spriteSheet, objectHandler, bulletSpeed, 'D', false));
-                break;
-            case 2:
-                objectHandler.addObj(new Bullet((int)(getX()* (Math.random()))+200, getY(), ObjectID.ENEMYBULLET,
-                        spriteSheet, objectHandler, bulletSpeed, 'D', false));
-                break;
-            case 3:
-                objectHandler.addObj(new Bullet((int)(getX()* (Math.random()))-200, getY(), ObjectID.ENEMYBULLET,
-                        spriteSheet, objectHandler, bulletSpeed, 'D', false));
-                break;
-            case 4:
-                objectHandler.addObj(new Bullet((int)(getX()* (Math.random()))+300, getY(), ObjectID.ENEMYBULLET,
-                        spriteSheet, objectHandler, bulletSpeed, 'D', false));
-                break;
-            case 5:
-                objectHandler.addObj(new Bullet((int)(getX()* (Math.random()))-400, getY(), ObjectID.ENEMYBULLET,
-                        spriteSheet, objectHandler, bulletSpeed, 'D', false));
-                break;
-            case 6:
-                objectHandler.addObj(new Bullet((int)(getX()* (Math.random()))+400, getY(), ObjectID.ENEMYBULLET,
-                        spriteSheet, objectHandler, bulletSpeed, 'D', false));
-                break;
-            case 7:
-                objectHandler.addObj(new Bullet((int)(getX()* (Math.random()))+500, getY(), ObjectID.ENEMYBULLET,
-                        spriteSheet, objectHandler, bulletSpeed, 'D', false));
-                break;
-            case 8:
-                objectHandler.addObj(new Bullet((int)(getX()* (Math.random()))+600, getY(), ObjectID.ENEMYBULLET,
-                        spriteSheet, objectHandler, bulletSpeed, 'D', false));
-                break;
-            case 9:
-            objectHandler.addObj(new Bullet((int)(getX()* (Math.random()))-600, getY(), ObjectID.ENEMYBULLET,
+    private void bulletShooting(int offset){
+        counter++;
+        if(counter > bulletCooldown) {
+            objectHandler.addObj(new Bullet(getX() + random.nextInt(1200) - 600 + offset, getY(), ObjectID.ENEMYBULLET,
                     spriteSheet, objectHandler, bulletSpeed, 'D', false));
-                break;
+            counter = 0;
         }
     }
 }

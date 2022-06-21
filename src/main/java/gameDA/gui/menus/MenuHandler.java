@@ -8,16 +8,15 @@ import gameDA.objects.Animation;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
+
 
 
 public class MenuHandler {
 
     private Menu currentMenu;
-    private Menu startMenu;
+    private final Menu startMenu;
     private boolean up = false, down = false, enter = false;
-    private Game game;
+    private final Game game;
     private boolean loadBackground = true;
     private final BufferedImageLoader loader = new BufferedImageLoader();
     private final BufferedImage background1 = loader.loadImage("/menu/MainMenueBackground.png");
@@ -25,7 +24,6 @@ public class MenuHandler {
     private final BufferedImage background3 = loader.loadImage("/menu/MainMenueBackground2.png");
     private final BufferedImage backgroundSpace = loader.loadImage("/maps/backgroundTest.png");
     private final BufferedImage backgroundPlanet = loader.loadImage("/maps/Planet1.png");
-    private Camera camera;
 
     private final Animation animation;
     private int yy;
@@ -70,7 +68,7 @@ public class MenuHandler {
         } else {
             //Lade Gameobjects zum rendern
 
-            camera = game.getCamera();
+            Camera camera = game.getCamera();
 
             Graphics2D graphics2D = (Graphics2D) g;
             graphics2D.translate(-camera.getX(), -camera.getY());
@@ -83,7 +81,7 @@ public class MenuHandler {
                     g.drawImage(backgroundSpace, 0, 0, null);
                 }
             }
-//            game.getObjectHandler().render(g);
+            game.getObjectHandler().render(g);
             graphics2D.translate(camera.getX(), camera.getY());
             g.setFont(new Font("Gloucester MT Extra Condensed",Font.BOLD,32));
 

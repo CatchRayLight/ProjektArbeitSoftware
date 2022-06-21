@@ -21,7 +21,7 @@ public class Player extends GameObject {
     private final BufferedImage playerSpaceSL;
     private final BufferedImage playerSpaceSU;
     private final BufferedImage playerSpaceSD;
-    private int speed = 5;
+    private int unitMove;
 
     private final ObjectHandler objectHandler;
     private final BufferedImage[] playerOnPlanetL = new BufferedImage[3];
@@ -35,9 +35,10 @@ public class Player extends GameObject {
     private int hp;
     private int ammo;
     private int fuel;
-    private  int couldownCounter = 0;
+    private  int couldownCounter;
     private int bulletSpeed;
     private int cooldownBullet;
+    private int offsetS;
 
     private int bulletCost;
 
@@ -76,19 +77,22 @@ public class Player extends GameObject {
         animR = new Animation(6, playerOnPlanetR);
         playerHealthbar = new Healthbar(spriteSheet, hp,ammo,fuel, camera,playerCoins);
         viewIMG = loader.loadImage("/textures/viewtest.png");
+        couldownCounter = 0;
     }
 
     @Override
     public void update() {
         x += velocityX;
         y += velocityY;
-        motionCancelCollision(5,ObjectID.BLOCK);
-        playerMovement();
         if(isOnPlanet()) {
             animL.runAnimation();
             animR.runAnimation();
+            unitMove = 5;
+        } else {
+            unitMove = 8;
         }
-
+        motionCancelCollision(unitMove,ObjectID.BLOCK);
+        playerMovement();
         playerShooting();
         for (int i = 0; i < objectHandler.gameObjects.size(); i++) {
             GameObject tempObject = objectHandler.gameObjects.get(i);
@@ -118,7 +122,7 @@ public class Player extends GameObject {
     public void render(Graphics g) {
         if((!isOnPlanet() &&!(Game.getGame().getLvLInt() == 2 || Game.getGame().getLvLInt() == 5 ||
                 Game.getGame().getLvLInt() == 8) )&&!(Game.getGame().getLvLInt() >= 9)){
-            g.drawImage(viewIMG,x- (viewIMG.getWidth() /2) + 15,y - (viewIMG.getHeight()/2) + 20,null);
+//            g.drawImage(viewIMG,x- (viewIMG.getWidth() /2) + 15,y - (viewIMG.getHeight()/2) + 20,null);
         }
         playerHealthbar.render(g);
         if(!frameChange){
@@ -148,19 +152,24 @@ public class Player extends GameObject {
                     g.drawImage(playerSpaceSU, x, y, null);
                 break;
         }
-//        //Hitbox
-//        //top
-//        g.setColor(Color.cyan);
-//        g.drawRect(x, y, 32, 5);
-//        //right
-//        g.setColor(Color.blue);
-//        g.drawRect(x+27, y, 5, 32);
-//        //left
-//        g.setColor(Color.orange);
-//        g.drawRect(x , y, 5, 32);
-//        //bot
-//        g.setColor(Color.pink);
-//        g.drawRect(x, y+27, 32, 5);
+    /*
+            //Hitbox
+            //top
+        g.setColor(Color.cyan);
+        g.drawRect(x, y-unitMove, 32, 5);
+        //right
+        g.setColor(Color.blue);
+        g.drawRect(x+unitMove+27, y, 5, 32);
+        //left
+        g.setColor(Color.orange);
+        g.drawRect(x-unitMove , y, 5, 32);
+        //bot
+        g.setColor(Color.pink);
+        g.drawRect(x, y+27+ unitMove, 32, 5);
+
+        g.setColor(Color.red);
+        g.drawRect(x,y,32,32);
+    */
     }
     @Override
     public Rectangle getBounds() {
@@ -211,36 +220,32 @@ public class Player extends GameObject {
         return playerCoins;
    }
 
-   public Player setPlayerCoins(int playerCoins) {
+   public void setPlayerCoins(int playerCoins) {
         this.playerCoins = playerCoins;
-        return this;
    }
 
-   public Player setAmmo(int ammo) {
+   public void setAmmo(int ammo) {
         this.ammo = ammo;
-        return this;
    }
 
    public int getFuel() {
         return fuel;
    }
 
-   public Player setFuel(int fuel) {
+   public void setFuel(int fuel) {
         this.fuel = fuel;
-        return this;
    }
 
    public int getBulletSpeed() {
         return bulletSpeed;
    }
 
-   public Player setBulletSpeed(int bulletSpeed) {
+   public void setBulletSpeed(int bulletSpeed) {
         this.bulletSpeed = bulletSpeed;
-        return this;
    }
 
-   public int getSpeed() {
-        return speed;
+   public int getUnitMove() {
+        return unitMove;
    }
 
    public int getBulletDmg() {
@@ -251,14 +256,12 @@ public class Player extends GameObject {
         return bulletCost;
    }
 
-   public Player setBulletCost(int bulletCost) {
+   public void setBulletCost(int bulletCost) {
         this.bulletCost = bulletCost;
-        return this;
    }
 
-   public Player setBulletDmg(int bulletDmg) {
+   public void setBulletDmg(int bulletDmg) {
         this.bulletDmg = bulletDmg;
-        return this;
    }
     public int getCooldownBullet() {
         return cooldownBullet;
@@ -286,6 +289,11 @@ public class Player extends GameObject {
                 if (getBotBounds(offset).intersects(tempObject.getTopBounds(0))) {
                     y += velocityY *= -1;
                 }
+                else if(getBounds().intersects(tempObject.getBounds())) {
+                    x += velocityX *= -1;
+                    y += velocityY *= -1;
+                    System.out.println("o.o");
+                }
             }
         }
     }
@@ -299,11 +307,11 @@ public class Player extends GameObject {
            objectHandler.setDown(false);
            objectHandler.setSpace(false);
        }else {
-           if (objectHandler.isLeft()){ velocityX = -speed;}
-           if (objectHandler.isRight()){ velocityX = speed;}
+           if (objectHandler.isLeft()){ velocityX = -unitMove;}
+           if (objectHandler.isRight()){ velocityX = unitMove;}
            else if (!(objectHandler.isLeft() || objectHandler.isRight())) {velocityX = 0;}
-           if (objectHandler.isUp()) {velocityY = -speed;}
-           if (objectHandler.isDown()) {velocityY = speed;}
+           if (objectHandler.isUp()) {velocityY = -unitMove;}
+           if (objectHandler.isDown()) {velocityY = unitMove;}
            else if (!(objectHandler.isUp() || objectHandler.isDown())) {velocityY = 0;}
         }
        if((velocityY != 0) || (velocityX != 0)){

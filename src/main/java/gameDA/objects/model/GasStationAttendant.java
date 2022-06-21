@@ -4,7 +4,6 @@ import gameDA.Game;
 import gameDA.config.output.SpriteSheet;
 import gameDA.gui.Gamestate;
 import gameDA.gui.menus.submenus.DialogueMenu;
-import gameDA.gui.menus.submenus.ShopMenu;
 import gameDA.objects.Animation;
 import gameDA.objects.GameObject;
 import gameDA.objects.ObjectID;
@@ -17,7 +16,7 @@ public class GasStationAttendant extends GameObject {
     private final Animation shopKeeperL;
     private final Animation shopKeeperWait;
     private int counter;
-    private int couldown;
+    private int cooldown;
     public GasStationAttendant(int x, int y, ObjectID id, SpriteSheet spriteSheet) {
         super(x, y, id, spriteSheet);
         BufferedImage[] shopKeeperRimg = new BufferedImage[2];
@@ -36,11 +35,11 @@ public class GasStationAttendant extends GameObject {
 
     @Override
     public void update() {
-        couldown++;
+        cooldown++;
         shopKeeperR.runAnimation();
         shopKeeperWait.runAnimation();
         shopKeeperL.runAnimation();
-        if(couldown >= 100 && Game.getGame().getObjectHandler().isSpace()) {
+        if(cooldown >= 100 && Game.getGame().getObjectHandler().isSpace()) {
             if (getBounds().intersects(Game.getGame().getObjectHandler().getPlayer().getBounds())) {
                 Game.getGame().setGamestate(Gamestate.INMENU);
                 if(Game.getGame().getObjectHandler().getPlayer().getPlayerHealthbar().getFuel() != 15600) {
