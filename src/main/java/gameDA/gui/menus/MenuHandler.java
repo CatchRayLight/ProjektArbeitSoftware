@@ -134,7 +134,7 @@ public class MenuHandler {
                     g.drawImage(backgroundSpace, 0, 0, null);
                 }
             }
-//            game.getObjectHandler().render(g);
+            game.getObjectHandler().render(g);
             graphics2D.translate(camera.getX(), camera.getY());
             g.setFont(new Font("Gloucester MT Extra Condensed",Font.BOLD,32));
 
