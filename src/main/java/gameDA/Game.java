@@ -12,6 +12,10 @@ import gameDA.gui.menus.submenus.*;
 import gameDA.objects.*;
 import gameDA.objects.model.*;
 import gameDA.config.input.KeyListener;
+import gameDA.objects.model.NPCS.NPC1;
+import gameDA.objects.model.NPCS.NPC2;
+import gameDA.objects.model.NPCS.NPC3;
+import gameDA.objects.model.NPCS.ShopKeeper;
 import gameDA.savemanager.Options;
 import gameDA.savemanager.SafeManager;
 import gameDA.savemanager.Save;
@@ -218,13 +222,13 @@ public class Game extends Canvas implements Runnable {
                         }
                     } else {
                         if (red == 255 && blue == 255 && green != 255) {
-                            objectHandler.addObj(new GasStationAttendant(xAxis * 32, yAxis * 32, ObjectID.ENTITY, spriteS));
+                            objectHandler.addObj(new NPC1(xAxis * 32, yAxis * 32, ObjectID.ENTITY, spriteS));
                         }
                         if (green == 255 && blue == 255 && red != 255) {
-                            objectHandler.addObj(new Character1(xAxis * 32, yAxis * 32, ObjectID.ENTITY, spriteS));
+                            objectHandler.addObj(new NPC3(xAxis * 32, yAxis * 32, ObjectID.ENTITY, spriteS));
                         }
                         if (green == 255 && blue != 255 && red != 255) {
-                            objectHandler.addObj(new Character2(xAxis * 32, yAxis * 32, ObjectID.ENTITY, spriteS));
+                            objectHandler.addObj(new NPC2(xAxis * 32, yAxis * 32, ObjectID.ENTITY, spriteS));
                         }
                         if (red == 255 && green == 255 && blue == 255) {
                             objectHandler.addObj(new ShopKeeper(xAxis * 32, yAxis * 32, ObjectID.SHOPKEEPER, spriteS));

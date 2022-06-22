@@ -1,23 +1,24 @@
-package gameDA.objects.model;
+package gameDA.objects.model.NPCS;
 
 import gameDA.Game;
 import gameDA.config.output.SpriteSheet;
 import gameDA.gui.Gamestate;
 import gameDA.gui.menus.submenus.DialogueMenu;
+import gameDA.gui.menus.submenus.ShopMenu;
 import gameDA.objects.Animation;
-import gameDA.objects.GameObject;
 import gameDA.objects.ObjectID;
+import gameDA.objects.model.NPC;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class GasStationAttendant extends GameObject {
+public class ShopKeeper extends NPC {
     private final Animation shopKeeperR;
     private final Animation shopKeeperL;
     private final Animation shopKeeperWait;
     private int counter;
     private int cooldown;
-    public GasStationAttendant(int x, int y, ObjectID id, SpriteSheet spriteSheet) {
+    public ShopKeeper(int x, int y, ObjectID id, SpriteSheet spriteSheet) {
         super(x, y, id, spriteSheet);
         BufferedImage[] shopKeeperRimg = new BufferedImage[2];
         BufferedImage[] shopKeeperLimg = new BufferedImage[2];
@@ -33,40 +34,45 @@ public class GasStationAttendant extends GameObject {
         shopKeeperWait = new Animation(20,shopkeeperWaitimg);
     }
 
+
     @Override
     public void update() {
-        cooldown++;
         shopKeeperR.runAnimation();
         shopKeeperWait.runAnimation();
         shopKeeperL.runAnimation();
-        if(cooldown >= 100 && Game.getGame().getObjectHandler().isSpace()) {
-            if (getBounds().intersects(Game.getGame().getObjectHandler().getPlayer().getBounds())) {
-                Game.getGame().setGamestate(Gamestate.INMENU);
-                if(Game.getGame().getObjectHandler().getPlayer().getPlayerHealthbar().getFuel() != 15600) {
-                    String[][] sampleDialogue = new String[][]{{"Tankwart Tobi"}, {"Ahh ",
-                            "dein Tank ist ja fast Leer", "komm Bro ich mach ihn dir voll"}};
-                    Game.getGame().getMenuHandler().setCurrentMenu(new DialogueMenu(sampleDialogue));
-                    Game.getGame().getObjectHandler().getPlayer().setFuel(15600);
-                    Game.getGame().getObjectHandler().getPlayer().getPlayerHealthbar().update();
-                }else {
-                    String[][] sampleDialogue = new String[][]{{"Tankwart Tobi"}, {"Dein tank ist aber diesmal voll",
-                            "kennst du schon Robertos Tacos ", "vertrau mir die sind gut"}};
-                    Game.getGame().getMenuHandler().setCurrentMenu(new DialogueMenu(sampleDialogue));
-                }
-            }
-        }
+        speak();
     }
 
     @Override
     public void render(Graphics g) {
+        walk(g);
+    }
+    @Override
+    protected void speak() {
+        cooldown++;
+        if(cooldown >= 100 && Game.getGame().getObjectHandler().isSpace()) {
+            if (getBounds().intersects(Game.getGame().getObjectHandler().getPlayer().getBounds())) {
+                Game.getGame().setGamestate(Gamestate.INMENU);
+                String[][] sampleDialogue = new String[][]{{"Upgrade Dealer Roberto"}, {"Hier bekommst du die besten Ugrades fuer dein Spaceship",
+                        "es kostet dich nicht viel", "für 20 Coins bekommst du Baba Upgrades"}};
+                Game.getGame().getMenuHandler().setCurrentMenu(new DialogueMenu(sampleDialogue, () -> {
+                    Game.getGame().getMenuHandler().setCurrentMenu(new ShopMenu());
+                }));
+
+                cooldown = 0;
+            }
+        }
+    }
+    @Override
+    protected void walk(Graphics g) {
         counter++;
         if (counter <= 100) {
-            x++;
-            shopKeeperR.drawAnimation(g, x, y, 0);
-        }
-        if (counter <= 200 && counter >= 100) {
             x--;
             shopKeeperL.drawAnimation(g, x, y, 0);
+        }
+        if (counter <= 200 && counter >= 100) {
+            x++;
+            shopKeeperR.drawAnimation(g, x, y, 0);
         }
         if (counter <= 300 && counter >= 200) {
             shopKeeperWait.drawAnimation(g, x, y, 0);
@@ -74,33 +80,5 @@ public class GasStationAttendant extends GameObject {
         if (counter <= 500 && counter >= 300) {
             counter = 0;
         }
-
     }
-
-    @Override
-    public Rectangle getBounds() {
-        return new Rectangle(x,y,32,32);
-    }
-
-    @Override
-    public Rectangle getTopBounds(int offset) {
-        return new Rectangle(x, y-offset, 32, 5);
-    }
-
-    @Override
-    public Rectangle getRightBounds(int offset) {
-        return new Rectangle(x+offset+27, y, 5, 32);
-    }
-
-    @Override
-    public Rectangle getLeftBounds(int offset) {
-        return new Rectangle(x - offset, y, 5, 32);
-    }
-
-    @Override
-    public Rectangle getBotBounds(int offset) {
-        return new Rectangle(x, y+27+ offset, 32, 5);
-    }
-
 }
-
