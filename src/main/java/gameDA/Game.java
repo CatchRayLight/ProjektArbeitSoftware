@@ -275,48 +275,48 @@ public class Game extends Canvas implements Runnable {
         //StartMenu
         MenuOption[] menuOptionsStartmenu;
         MenuOption[] menuOptionsOptionsMenu;
+        MenuOption[] menuOptionsSaveMenu2;
         MenuOption[] menuOptionsSaveMenu1;
-        MenuOption[] menuOptionsSaveMenu;
 
-        menuOptionsSaveMenu1 = new MenuOption[]{new MenuOption(() -> {
+        menuOptionsSaveMenu2 = new MenuOption[]{new MenuOption(() -> {
             safeManager.safe();
             menuHandler.setCurrentMenu(mainMenu);
-        }, "Save", 100, 100), new MenuOption(() -> {
+        }, "Speichere", 100, 100), new MenuOption(() -> {
             safeManager.load();
             menuHandler.setCurrentMenu(mainMenu);
-        }, "Load", 100, 250), new MenuOption(() -> {
+        }, "Lade", 100, 250), new MenuOption(() -> {
             menuHandler.setCurrentMenu(mainMenu);
-        }, "Back", 100, 550)
+        }, "Zurück", 100, 550)
         };
 
-        menuOptionsSaveMenu = new MenuOption[]{new MenuOption(() -> {
+        menuOptionsSaveMenu1 = new MenuOption[]{new MenuOption(() -> {
             safeManager.setCurrentSaveToUse(0);
             saveMenu.setCurrentOption(0);
-            saveMenu.setMenuOptions(menuOptionsSaveMenu1);
+            saveMenu.setMenuOptions(menuOptionsSaveMenu2);
         }, "Save 1", 100, 100), new MenuOption(() -> {
             safeManager.setCurrentSaveToUse(1);
             saveMenu.setCurrentOption(0);
-            saveMenu.setMenuOptions(menuOptionsSaveMenu1);
+            saveMenu.setMenuOptions(menuOptionsSaveMenu2);
         }, "Save 2", 100, 250), new MenuOption(() -> {
             safeManager.setCurrentSaveToUse(2);
             saveMenu.setCurrentOption(0);
-            saveMenu.setMenuOptions(menuOptionsSaveMenu1);
+            saveMenu.setMenuOptions(menuOptionsSaveMenu2);
         }, "Save 3", 100, 400), new MenuOption(() -> {
             menuHandler.setCurrentMenu(mainMenu);
-        }, "Back", 100, 550)
+        }, "Zurück", 100, 550)
         };
 
         menuOptionsStartmenu = new MenuOption[]{new MenuOption(() -> {
             Game.getGame().getSound().stop();
             Game.getGame().getMenuHandler().setLoadBackground(false);
             setGamestate(Gamestate.INGAME);
-        }, "Play", 100, 100), new MenuOption(() -> {
+        }, "Spiele", 100, 100), new MenuOption(() -> {
             saveMenu.setCurrentOption(0);
-            saveMenu.setMenuOptions(menuOptionsSaveMenu);
+            saveMenu.setMenuOptions(menuOptionsSaveMenu1);
             menuHandler.setCurrentMenu(saveMenu);
         }, "Saves", 100, 250), new MenuOption(() -> {
             menuHandler.setCurrentMenu(optionsMenu);
-        }, "Options", 100, 400), new MenuOption(() -> {
+        }, "Optionen", 100, 400), new MenuOption(() -> {
             try {
                 stop();
             } catch (InterruptedException e) {
@@ -329,8 +329,8 @@ public class Game extends Canvas implements Runnable {
         //OptionsMenu
         String music;
         if(options.isMusic()) {
-            music = "Music On";
-        } else music = "Music Off";
+            music = "Musik On";
+        } else music = "Musik Off";
         String autoSave;
         if(options.isAutoSave()) {
             autoSave = "AutoSave On";
@@ -349,8 +349,8 @@ public class Game extends Canvas implements Runnable {
                 //reset this menu option of options menu
                 String changeonOff;
                 if(options.isMusic()) {
-                    changeonOff = "Music On";
-                } else changeonOff = "Music Off";
+                    changeonOff = "Musik On";
+                } else changeonOff = "Musik Off";
                 Game.getGame().getMenuHandler().getCurrentMenu().getMenuOptions()[0].setText(changeonOff);
             }, music, 100, 100), new MenuOption(() -> {
 
@@ -368,14 +368,14 @@ public class Game extends Canvas implements Runnable {
                 //Sicher Options zu den Files
             safeManager.saveOptions(Game.game.getOptions());
             menuHandler.setCurrentMenu(mainMenu);
-            }, "Back", 100, 550)
+            }, "Zurück", 100, 550)
             };
         //SaveMenu
 
         //set new menuoptions
         mainMenu.setMenuOptions(menuOptionsStartmenu);
         optionsMenu.setMenuOptions(menuOptionsOptionsMenu);
-        saveMenu.setMenuOptions(menuOptionsSaveMenu);
+        saveMenu.setMenuOptions(menuOptionsSaveMenu1);
 
         menuHandler = new MenuHandler(mainMenu);
 
