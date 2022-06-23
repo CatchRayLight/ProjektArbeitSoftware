@@ -62,7 +62,6 @@ public class LvLHandler {
             Game.getGame().togglePlanet();
             Game.getGame().setBossLvl(false);
         }
-
         if(player.isOnPlanet()){
             Game.getGame().setBossLvl(false);
             player.setX(300);

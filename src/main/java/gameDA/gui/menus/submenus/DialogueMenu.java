@@ -78,7 +78,7 @@ public class DialogueMenu extends Menu {
         //render Gameobjects
         Game.getGame().getObjectHandler().render(g);
         //Rendere die dialog box und den Text
-        if(getMenuOptions()[0].isSelected() && getMenuOptions()[0].getText().equalsIgnoreCase("Next") ) {
+        if(getMenuOptions()[0].isSelected()) {
             g.drawImage(backgroundNext,-7,-39,null);
         } else {
             g.drawImage(backgroundPrev,-7,-39,null);
