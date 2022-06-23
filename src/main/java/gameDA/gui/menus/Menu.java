@@ -8,9 +8,9 @@ public abstract class Menu {
     //Die Stelle der momentan ausgewählten MenuOption
     private int currentOption;
     //Die Wartezeit bis zum nächsten möglichen Wechsel der momentan ausgewählten MenuOption
-    private int changeCurrentoptionCooldown = 20;
+    private int changeCurrentoptionCooldown = 10;
     //Die Wartezeit bis zur nächsten möglichen Auswahl der momentan ausgewählten MenuOption
-    private int enterCooldown = 20;
+    private int enterCooldown = 10;
     //Die Stelle der letzten MenuOption
     private int maxOption;
     //Die Stelle an der die Hintergrundmusik in Sound zu finden ist
@@ -78,11 +78,11 @@ public abstract class Menu {
     public void update(MenuHandler menuHandler) {
         if(changeCurrentoptionCooldown <= 0) {
             if (menuHandler.isUp()) {
-                changeCurrentoptionCooldown = 20;
+                changeCurrentoptionCooldown = 10;
                 previousOption();
             }
             if (menuHandler.isDown()) {
-                changeCurrentoptionCooldown = 20;
+                changeCurrentoptionCooldown = 10;
                 nextOption();
             }
             menuOptions[currentOption].setSelected(true);
@@ -90,7 +90,7 @@ public abstract class Menu {
         if(enterCooldown <= 0) {
             if (menuHandler.isEnter()) {
                 menuHandler.setEnter(false);
-                enterCooldown = 20;
+                enterCooldown = 10;
                 select();
             }
         } else enterCooldown--;

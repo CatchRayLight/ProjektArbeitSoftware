@@ -21,7 +21,7 @@ public class ShopMenu extends Menu {
             if(!tempo && (Game.getGame().getObjectHandler().getPlayer().getPlayerCoins() >= 20)) {
                 tempo = true;
                 Game.getGame().getObjectHandler().getPlayer().setPlayerCoins( Game.getGame().getObjectHandler().getPlayer().getPlayerCoins() - 20);
-                Game.getGame().getObjectHandler().getPlayer().setBulletSpeed(6 + 6);
+                Game.getGame().getObjectHandler().getPlayer().setBulletSpeed(9 + 3);
                 Game.getGame().getObjectHandler().getPlayer().getPlayerHealthbar().update();
             }
         }, "Schusstempo", 100, 100), new MenuOption(() -> {
@@ -38,7 +38,7 @@ public class ShopMenu extends Menu {
             if(!haeufigkeit && (Game.getGame().getObjectHandler().getPlayer().getPlayerCoins() >= 20)) {
                 haeufigkeit = true;
                 Game.getGame().getObjectHandler().getPlayer().setPlayerCoins( Game.getGame().getObjectHandler().getPlayer().getPlayerCoins() - 20);
-                Game.getGame().getObjectHandler().getPlayer().setCooldownBullet(20 - 10);
+                Game.getGame().getObjectHandler().getPlayer().setCooldownBullet(9-2);
                 Game.getGame().getObjectHandler().getPlayer().getPlayerHealthbar().update();
 
             }

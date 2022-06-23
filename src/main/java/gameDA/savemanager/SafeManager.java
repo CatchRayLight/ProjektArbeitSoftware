@@ -102,10 +102,10 @@ public class SafeManager {
                 case "cooldownBullet":
                     if("true".equalsIgnoreCase(value)) {
                         ShopMenu.setHaeufigkeit(true);
-                        player.setCooldownBullet(5 - 3);
+                        player.setCooldownBullet(9 - 2);
                     } else {
                         ShopMenu.setHaeufigkeit(false);
-                        player.setCooldownBullet(5);
+                        player.setCooldownBullet(9);
                     }
                     break;
                 case "bulletSpeed":
@@ -189,10 +189,10 @@ public class SafeManager {
                 case "cooldownBullet":
                     if("true".equalsIgnoreCase(value)) {
                         ShopMenu.setHaeufigkeit(true);
-                        player.setCooldownBullet(5 - 2);
+                        player.setCooldownBullet(9 - 2);
                     } else {
                         ShopMenu.setHaeufigkeit(false);
-                        player.setCooldownBullet(5);
+                        player.setCooldownBullet(9);
                     }
                     break;
                 case "bulletSpeed":

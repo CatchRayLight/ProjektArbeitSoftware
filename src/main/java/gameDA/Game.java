@@ -210,14 +210,14 @@ public class Game extends Canvas implements Runnable {
                             //blue
                             objectHandler.addObj(new Player(xAxis * 32, yAxis * 32, ObjectID.PLAYER, spriteS,
                                     objectHandler, isOnPlanet(), camera, 100, 90, 15600, 9,
-                                    5, 10, 20, 0));
+                                    9, 10, 20, 0));
                         }
                     }
                     if (!isOnPlanet()) {
                         //green
                         if (green == 255 && blue != 255 && red != 255) {
                             objectHandler.addObj(new SpaceEnemy(xAxis * 32, yAxis * 32, ObjectID.ENEMY, spriteS,
-                                    objectHandler, 100, 3 + getLvLInt(), 10, 2 * getLvLInt()));
+                                    objectHandler, 100, 4 + getLvLInt(), 8, 4 * getLvLInt()));
                         }
                         //cyan
                         if (green == 255 && blue == 255 && red != 255) {
@@ -250,7 +250,7 @@ public class Game extends Canvas implements Runnable {
                 if(isBossLvl() && !isOnPlanet()) {
                     if (red == 255 && green == 255 && blue == 255) {
                         objectHandler.addObj(new SpaceBoss((xAxis * 32) + xBoss[getLvLInt()/3], (yAxis * 32) + yBoss[getLvLInt()/3], ObjectID.SPACEBOSS,
-                                    spriteS, objectHandler, 1200, 6 + getLvLInt(), 9 - getLvLInt(), 5 * getLvLInt()));
+                                    spriteS, objectHandler, 1300, 7 + getLvLInt(), 5 - getLvLInt()/2, 6 * getLvLInt()));
                     }
                 }
                 //red
