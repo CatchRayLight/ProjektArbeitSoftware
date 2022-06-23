@@ -23,28 +23,12 @@ public abstract class GameObject {
         this.x = x;
     }
 
-    public float getVelocityX() {
-        return velocityX;
-    }
-
-    public void setVelocityX(float velocityX) {
-        this.velocityX = velocityX;
-    }
-
     public int getY() {
         return y;
     }
 
     public void setY(int y) {
         this.y = y;
-    }
-
-    public float getVelocityY() {
-        return velocityY;
-    }
-
-    public void setVelocityY(float velocityY) {
-        this.velocityY = velocityY;
     }
 
     public ObjectID getId(){

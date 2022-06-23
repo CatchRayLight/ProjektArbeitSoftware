@@ -28,7 +28,7 @@ public class LvLHandler {
         bossLvL = loader.loadImage("/level/bossLvL.png");
 
     }
-
+    //get PNG of lvl by sorting by parameter lvl
     public BufferedImage getLvLImage(int lvl) {
         if(lvl == 0) return onPlanet;
         if(lvl % 3 == 0 && lvl != 9)return onPlanet2;
@@ -40,17 +40,24 @@ public class LvLHandler {
         return null;
     }
     public void nextLvL(ObjectHandler objectHandler){
+        //next lvl
         Game.getGame().setLvLInt(
                 Game.getGame().getLvLInt() + 1);
+        //gets player
         for (int i = 0; i <objectHandler.gameObjects.size() ; i++) {
             GameObject tempObj = objectHandler.gameObjects.get(i);
             if(tempObj.getId() == ObjectID.PLAYER){
+                //clearing current level from objects
                 objectHandler.gameObjects.clear();
+                //saving the player in new lvl
                 objectHandler.gameObjects.add(tempObj);
                 Player player = (Player) tempObj;
+                //default setting player  in middle of screen
                 player.setX(Game.SCREEN_WIDTH/2);
                 player.setY(Game.SCREEN_HEIGHT/2);
+                //if is default equals bosslvl
                 Game.getGame().setBossLvl(true);
+                //if space
                 if(!(Game.getGame().getLvLInt() == 2 || Game.getGame().getLvLInt() == 5 || Game.getGame().getLvLInt() == 8)){
                     player.toggleOnPlanet();
                     player.setX(100);
@@ -58,16 +65,19 @@ public class LvLHandler {
                     Game.getGame().togglePlanet();
                     Game.getGame().setBossLvl(false);
                 }
+                //if planet
                 if(player.isOnPlanet()){
                     Game.getGame().setBossLvl(false);
                     player.setX(300);
                     player.setY(400);
                 }
+                //always set directions false (if not its moving)
                 objectHandler.setLeft(false);
                 objectHandler.setRight(false);
                 objectHandler.setUp(false);
                 objectHandler.setDown(false);
                 objectHandler.setSpace(false);
+                //build new lvl after incrementing lvl by 1
                 Game.getGame().levelBuilder(getLvLImage(Game.getGame().getLvLInt()));
                 break;
             }

@@ -20,7 +20,5 @@ public class GameWindow extends JFrame {
         setLocationRelativeTo(null);
         setIconImage(loader.loadImage("/Icon.png"));
         setVisible(true);
-
-
     }
 }
