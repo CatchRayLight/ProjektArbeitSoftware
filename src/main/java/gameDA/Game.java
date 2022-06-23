@@ -219,7 +219,7 @@ public class Game extends Canvas implements Runnable {
                             objectHandler.addObj(new SpaceEnemy(xAxis * 32, yAxis * 32, ObjectID.ENEMY, spriteS,
                                     objectHandler, 100, 3 + getLvLInt(), 10, 2 * getLvLInt()));
                         }
-                        //yellow
+                        //cyan
                         if (green == 255 && blue == 255 && red != 255) {
                             objectHandler.addObj(new LootBox(xAxis * 32, yAxis * 32, ObjectID.LOOTBOX, spriteS, objectHandler));
                         }
@@ -228,27 +228,32 @@ public class Game extends Canvas implements Runnable {
                         if (red == 255 && blue == 255 && green != 255) {
                             objectHandler.addObj(new NPC1(xAxis * 32, yAxis * 32, ObjectID.ENTITY, spriteS));
                         }
-                        //
+                        //cyan
                         if (green == 255 && blue == 255 && red != 255) {
                             objectHandler.addObj(new NPC3(xAxis * 32, yAxis * 32, ObjectID.ENTITY, spriteS));
                         }
+                        //green
                         if (green == 255 && blue != 255 && red != 255) {
                             objectHandler.addObj(new NPC2(xAxis * 32, yAxis * 32, ObjectID.ENTITY, spriteS));
                         }
+                        //white
                         if (red == 255 && green == 255 && blue == 255) {
                             objectHandler.addObj(new ShopKeeper(xAxis * 32, yAxis * 32, ObjectID.ENTITY, spriteS));
                         }
                     }
+                    //yellow
                     if (red == 255 && green == 255 && blue != 255) {
                         objectHandler.addObj(new EventTeleportLVL(xAxis * 32, yAxis * 32, ObjectID.EVENT, spriteS, objectHandler));
                     }
                 }
+                //white
                 if(isBossLvl() && !isOnPlanet()) {
                     if (red == 255 && green == 255 && blue == 255) {
                         objectHandler.addObj(new SpaceBoss((xAxis * 32) + xBoss[getLvLInt()/3], (yAxis * 32) + yBoss[getLvLInt()/3], ObjectID.SPACEBOSS,
                                     spriteS, objectHandler, 1200, 6 + getLvLInt(), 9 - getLvLInt(), 5 * getLvLInt()));
                     }
                 }
+                //red
                 if (red == 255 && green != 255 && blue != 255) {
                     objectHandler.addObj(new Walls(xAxis * 32, yAxis * 32, ObjectID.BLOCK, spriteS));
                 }
