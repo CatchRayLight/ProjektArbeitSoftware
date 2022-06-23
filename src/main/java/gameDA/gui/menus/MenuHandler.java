@@ -91,6 +91,7 @@ public class MenuHandler {
         //Unterscheidung ob, Hintergrund geladen werden muss oder nicht
         if(loadBackground) {
             //Lade Menu hintergrund
+            //Background wird nach links in einem unendlichen Kreislauf verschoben
             yy++;
             if (yy >= 2) {
                 xx--;
@@ -104,8 +105,6 @@ public class MenuHandler {
             animation.drawAnimation(g, -140, 170, 0);
 
             //Rendern des Titels: "Cool Game"
-
-            //Wähle die Farbe
             g.setColor(Color.GREEN);
             g.setFont(new Font("Gloucester MT Extra Condensed",Font.BOLD,128));
             g.drawString("Cool Game", Game.SCREEN_WIDTH / 2 - 20, Game.SCREEN_HEIGHT / 2 - 100);
@@ -141,42 +140,6 @@ public class MenuHandler {
         }
         //Rendere das momentan ausgewählte Menu
         currentMenu.render(g);
-    }
-
-    public boolean isLoadBackground() {
-        return loadBackground;
-    }
-
-    public void setLoadBackground(boolean loadBackground) {
-        this.loadBackground = loadBackground;
-    }
-
-    public boolean isUp() {
-        return up;
-    }
-
-    public boolean isDown() {
-        return down;
-    }
-
-    public boolean isEnter() {
-        return enter;
-    }
-
-    public void setUp(boolean up) {
-        this.up = up;
-    }
-
-    public void setDown(boolean down) {
-        this.down = down;
-    }
-
-    public void setEnter(boolean enter) {
-        this.enter = enter;
-    }
-
-    public Menu getCurrentMenu() {
-        return currentMenu;
     }
 
     /**
@@ -233,4 +196,38 @@ public class MenuHandler {
         //Starte die Musik des Menus
         currentMenu.startMusic();
     }
+
+    public void setLoadBackground(boolean loadBackground) {
+        this.loadBackground = loadBackground;
+    }
+
+    public boolean isUp() {
+        return up;
+    }
+
+    public boolean isDown() {
+        return down;
+    }
+
+    public boolean isEnter() {
+        return enter;
+    }
+
+    public void setUp(boolean up) {
+        this.up = up;
+    }
+
+    public void setDown(boolean down) {
+        this.down = down;
+    }
+
+    public void setEnter(boolean enter) {
+        this.enter = enter;
+    }
+
+    public Menu getCurrentMenu() {
+        return currentMenu;
+    }
+
+
 }

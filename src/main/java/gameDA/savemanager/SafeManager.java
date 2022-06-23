@@ -2,8 +2,6 @@ package gameDA.savemanager;
 
 import gameDA.Game;
 import gameDA.gui.menus.submenus.ShopMenu;
-import gameDA.objects.GameObject;
-import gameDA.objects.ObjectID;
 import gameDA.objects.model.Player;
 
 import java.util.ArrayList;
@@ -11,167 +9,103 @@ import java.util.Objects;
 
 public class SafeManager {
 
-    private final Save[] saves;
-    private int currentSaveToUse; //The save to save to for the safe methode without parameters
+    private final Save[] saves; //Die Saves zu denen gespeichert/ von denen geladen wird
+    private int currentSaveToUse;//Der Save zu dem gespeichert wird bei Aufruf der Safe-Methode ohne Parameter
 
     public SafeManager(Save[] saves) {
         this.saves = saves;
         this.currentSaveToUse = 0;
+        //Gehe durch alle Saves und initiallisiere sie falls sie neu erstellt wurden
         for(int i = 0; i < 4; i++) {
-            for(SaveKey key : SaveKey.values()) {
-            if(saves[i].isNewlyCreated() && i < 3) {
-                //it is a Save so put start values in it
-                saves[i].safe(key, key.startValue);
-            }
-            if(saves[i].isNewlyCreated() && i == 3) {
-                //it is the config so put start values in it
-                saves[i].safeOptions(Game.getGame().getOptions());
-            }
+            if(saves[i].isNewlyCreated()) {
+                if (i < 3) {
+                    for (SaveKey key : SaveKey.values()) {
+                        //Es ist ein normaler Save also belade es mit den Startwerten
+                        saves[i].safe(key, key.startValue);
+                    }
+                }
+                if (i == 3) {
+                    //Es ist die Config also belade es mit den Optionen
+                    saves[i].safeOptions(Game.getGame().getOptions());
+                }
             }
         }
     }
+
+    /**
+     * Speichere das momentan geladene Spiel
+     * @param save Save zu dem gespeichert werden soll
+     */
     public void safe(int save) {
         Save currentSave = saves[save];
+        //Löschen der vorherigen Daten
         currentSave.delete();
 
-        //Getting Player:
         Player player = Game.getGame().getObjectHandler().getPlayer();
-        //Safe all relevant data
-        //Level Player is on
+        //Sicher alle relevanten daten
+        //Level
         currentSave.safe(SaveKey.LEVEL, String.valueOf(Game.getGame().getLvLInt()));
-        //Saving Money (Note: This throws Nullpointerexception when there is no Player in Objecthandler)
+        //Münzen
         currentSave.safe(SaveKey.MONEY, String.valueOf(Objects.requireNonNull(player).getPlayerCoins()));
-        //Health
+        //Leben
         currentSave.safe(SaveKey.HEALTH, String.valueOf(player.getHp()));
-        //Ammunition
+        //Munition
         currentSave.safe(SaveKey.AMMUNITION, String.valueOf(player.getAmmo()));
-        //fuel
+        //Tank
         currentSave.safe(SaveKey.FUEL, String.valueOf(player.getFuel()));
-        //Shop (whats bought and stuff) (boolean as save, load just inc stats)
-        //int bulletSpeed
-        if(player.getBulletSpeed() > 6) {
+        //Der Laden
+        //Kugel Geschwindigkeit
+        if(ShopMenu.isTempo()) {
             currentSave.safe(SaveKey.BULLETSPEED, "true");
         } else currentSave.safe(SaveKey.BULLETSPEED, "false");
-        //int cooldownBullet
-        if(player.getCooldownBullet() > 20) {
+        //Häufigkeit
+        if(ShopMenu.isHaeufigkeit()) {
             currentSave.safe(SaveKey.COOLDOWNBULLET, "true");
         } else currentSave.safe(SaveKey.COOLDOWNBULLET, "false");
-        //int bulletCost
-        if(player.getBulletCost() > 10) {
+        //Munitions Verbrauch
+        if(ShopMenu.isKosten()) {
             currentSave.safe(SaveKey.BULLETCOST, "true");
         } else currentSave.safe(SaveKey.BULLETCOST, "false");
-        //int bulletDmg
-        if(player.getBulletDmg() > 20) {
+        //Schaden
+        if(ShopMenu.isSchaden()) {
             currentSave.safe(SaveKey.BULLETDMG, "true");
         } else currentSave.safe(SaveKey.BULLETDMG, "false");
     }
+
+    /**
+     * Lädt die Daten aus dem Save
+     * @param save der Save
+     */
     public void load(int save) {
-        //Get the data out of the save file
+        //Lade die Daten aus der Save Datei
         Save currentSave = saves[save];
         ArrayList<String> data = currentSave.load();
-        //get Player
-        Player player = Game.getGame().getObjectHandler().getPlayer();
-        //objecthandler clearen
-        Game.getGame().getObjectHandler().gameObjects.clear();
-        for(int i = 0; i < data.size(); i++) {
-            String key;
-            String value;
-            String[] splitData = data.get(i).split(":");
-            key = splitData[0];
-            value = splitData[1];
-            //Exchange currently used Data for the data in the safe file
-            switch(key){
-                case "bulletDmg":
-                    if("true".equalsIgnoreCase(value)) {
-                        ShopMenu.setSchaden(true);
-                        player.setBulletDmg(20 + 20);
-                    } else {
-                        ShopMenu.setSchaden(false);
-                        player.setBulletDmg(20);
-                    }
-                    break;
-                case "bulletCost":
-                    if("true".equalsIgnoreCase(value)) {
-                        ShopMenu.setKosten(true);
-                        player.setBulletCost(10 - 5);
-                    } else {
-                        ShopMenu.setKosten(false);
-                        player.setBulletCost(10);
-                    }
-                    break;
-                case "cooldownBullet":
-                    if("true".equalsIgnoreCase(value)) {
-                        ShopMenu.setHaeufigkeit(true);
-                        player.setCooldownBullet(9 - 2);
-                    } else {
-                        ShopMenu.setHaeufigkeit(false);
-                        player.setCooldownBullet(9);
-                    }
-                    break;
-                case "bulletSpeed":
-                    if("true".equalsIgnoreCase(value)) {
-                        ShopMenu.setTempo(true);
-                        player.setBulletSpeed(9 + 6);
-                    } else {
-                        ShopMenu.setTempo(false);
-                        player.setBulletSpeed(9);
-                    }
-                    break;
-                case "fuel":
-                    player.setFuel(Integer.parseInt(value));
-                    break;
-                case "Ammunition":
-                    player.setAmmo(Integer.parseInt(value));
-                    break;
-                case "Health":
-                    player.setHp(Integer.parseInt(value));
-                    break;
-                case "Money":
-                    player.setPlayerCoins(Integer.parseInt(value));
-                    break;
-                case "Level":
-                    //Ask: How to load?
-                    //go to last on planet (0,durch 3 teilbar)
-                    //immer onplanet 2 also 3 oder 6 (immer 3 oder 6 )
-                    Game.getGame().setLvLInt(Integer.parseInt(value));
-                    Game.getGame().setBossLvl(false);
-                    Game.getGame().setOnPlanet(true);
-                    if(Integer.parseInt(value) == 0) {
-                        Game.getGame().levelBuilder(Game.getGame().getLvLHandler().getLvLImage(3));
-                    }
-                    else {
-                        Game.getGame().levelBuilder(Game.getGame().getLvLHandler().getLvLImage(Integer.parseInt(value)));
-                    }
-                    //Set player coordinates
-                    break;
-            }
-        }
-        Game.getGame().getCamera().setX(0);
-        Game.getGame().getCamera().setY(0);
-        player.setOnPlanet(true);
-        player.setX(300);
-        player.setY(400);
-        Game.getGame().getObjectHandler().addObj(player);
-        Game.getGame().getObjectHandler().getPlayer().getPlayerHealthbar().update();
+        load(data);
     }
 
+    /**
+     * Lädt die Daten aus
+     * @param data diesen gegebenen Informationen
+     */
     public void load(ArrayList<String> data) {
-        //get Player
+        //Spieler kriegen
         Player player = Game.getGame().getObjectHandler().getPlayer();
-        //objecthandler clearen
+        //objecthandler leeren
         Game.getGame().getObjectHandler().gameObjects.clear();
+        //Alle Daten durchgehen und die momentan geladenen Daten durch sie ersetzten
         for(int i = 0; i < data.size(); i++) {
+            //Daten in Identifier und Information aufteilen
             String key;
             String value;
             String[] splitData = data.get(i).split(":");
             key = splitData[0];
             value = splitData[1];
-            //Exchange currently used Data for the data in the safe file
+            //Die momentan geladenen Daten durch die gegebenen ersetzten
             switch(key){
                 case "bulletDmg":
                     if("true".equalsIgnoreCase(value)) {
                         ShopMenu.setSchaden(true);
-                        player.setBulletDmg(20 + 20);
+                        player.setBulletDmg(20 + ShopMenu.getSchadenIncrease());
                     } else {
                         ShopMenu.setSchaden(false);
                         player.setBulletDmg(20);
@@ -180,7 +114,7 @@ public class SafeManager {
                 case "bulletCost":
                     if("true".equalsIgnoreCase(value)) {
                         ShopMenu.setKosten(true);
-                        player.setBulletCost(10 - 5);
+                        player.setBulletCost(10 + ShopMenu.getKostenIncrease());
                     } else {
                         ShopMenu.setKosten(false);
                         player.setBulletCost(10);
@@ -189,7 +123,7 @@ public class SafeManager {
                 case "cooldownBullet":
                     if("true".equalsIgnoreCase(value)) {
                         ShopMenu.setHaeufigkeit(true);
-                        player.setCooldownBullet(9 - 2);
+                        player.setCooldownBullet(9 + ShopMenu.getHaeufigkeitIncrease());
                     } else {
                         ShopMenu.setHaeufigkeit(false);
                         player.setCooldownBullet(9);
@@ -198,7 +132,7 @@ public class SafeManager {
                 case "bulletSpeed":
                     if("true".equalsIgnoreCase(value)) {
                         ShopMenu.setTempo(true);
-                        player.setBulletSpeed(9 + 6);
+                        player.setBulletSpeed(9 + ShopMenu.getTempoIncrease());
                     } else {
                         ShopMenu.setTempo(false);
                         player.setBulletSpeed(9);
@@ -217,52 +151,60 @@ public class SafeManager {
                     player.setPlayerCoins(Integer.parseInt(value));
                     break;
                 case "Level":
-                    //Ask: How to load?
-                    //go to last on planet (0,durch 3 teilbar)
-                    //immer onplanet 2 also 3 oder 6 (immer 3 oder 6 )
-                    System.out.println("Level to load: " + value);
                     Game.getGame().setLvLInt(Integer.parseInt(value));
                     Game.getGame().setBossLvl(false);
                     Game.getGame().setOnPlanet(true);
+                    player.setOnPlanet(true);
                     if(Integer.parseInt(value) == 0) {
                         Game.getGame().levelBuilder(Game.getGame().getLvLHandler().getLvLImage(3));
                     }
                     else {
                         Game.getGame().levelBuilder(Game.getGame().getLvLHandler().getLvLImage(Integer.parseInt(value)));
                     }
-                    //Set player coordinates
                     break;
 
             }
         }
+        //Setze Koordinaten der anderen nötigen Gameobjects neu
         Game.getGame().getCamera().setX(0);
         Game.getGame().getCamera().setY(0);
-        player.setOnPlanet(true);
         player.setX(300);
         player.setY(400);
+        //Gib dem Objecthandler den Player mit den neuen Werten und lass die Healthbar anzeigen
         Game.getGame().getObjectHandler().addObj(player);
         Game.getGame().getObjectHandler().getPlayer().getPlayerHealthbar().update();
-        System.out.println("am loading?");
     }
+
+    /**
+     * Safe zu currentSaveToUse
+     */
     public void safe(){
         safe(currentSaveToUse);
     }
+    /**
+     * Lade von currentSaveToUse
+     */
     public void load(){
-        //Get the data out of the save file
         load(currentSaveToUse);
     }
+
+    /**
+     * Speichere die Optionen
+     * @param options Optionen die gespeichert werden
+     */
     public void saveOptions(Options options) {
+        //Lösche vorherige Daten und speichere neue
         Save currentSave = saves[3];
         currentSave.delete();
         currentSave.safeOptions(options);
     }
 
+    /**
+     * Lade gespeicherte Optionen
+     * @return gespeicherte Optionen
+     */
     public Options loadOptions() {
         return saves[3].loadOptions();
-    }
-
-    public int getCurrentSaveToUse() {
-        return currentSaveToUse;
     }
 
     public void setCurrentSaveToUse(int currentSaveToUse) {

@@ -11,7 +11,9 @@ public class OptionsMenu extends Menu {
         super(menuOptions, 0);
     }
 
+    /**
+     * Updated das Menu
+     */
     @Override
-    public void updateMenu() {
-    }
+    public void updateMenu() {}
 }

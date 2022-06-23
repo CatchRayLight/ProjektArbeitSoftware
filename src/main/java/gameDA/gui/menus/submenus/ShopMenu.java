@@ -9,11 +9,17 @@ import java.awt.*;
 
 public class ShopMenu extends Menu {
 
+    //Speichere bereits gekaufte Verbesserungen
     private static boolean tempo = false;
     private static boolean schaden = false;
     private static boolean haeufigkeit = false;
     private static boolean kosten = false;
 
+    //Veränderungen nach Verbesserung
+    private static final int tempoIncrease = 3;
+    private static final int schadenIncrease = 20;
+    private static final int haeufigkeitIncrease = -2;
+    private static final int kostenIncrease = -5;
 
     public ShopMenu() {
         super(new MenuOption[]{new MenuOption(() -> {
@@ -21,7 +27,7 @@ public class ShopMenu extends Menu {
             if(!tempo && (Game.getGame().getObjectHandler().getPlayer().getPlayerCoins() >= 20)) {
                 tempo = true;
                 Game.getGame().getObjectHandler().getPlayer().setPlayerCoins( Game.getGame().getObjectHandler().getPlayer().getPlayerCoins() - 20);
-                Game.getGame().getObjectHandler().getPlayer().setBulletSpeed(9 + 3);
+                Game.getGame().getObjectHandler().getPlayer().setBulletSpeed(9 + tempoIncrease);
                 Game.getGame().getObjectHandler().getPlayer().getPlayerHealthbar().update();
             }
         }, "Schusstempo", 100, 100), new MenuOption(() -> {
@@ -29,36 +35,37 @@ public class ShopMenu extends Menu {
             if(!schaden && (Game.getGame().getObjectHandler().getPlayer().getPlayerCoins() >= 20)) {
                 schaden = true;
                 Game.getGame().getObjectHandler().getPlayer().setPlayerCoins( Game.getGame().getObjectHandler().getPlayer().getPlayerCoins() - 20);
-                Game.getGame().getObjectHandler().getPlayer().setBulletDmg(20 + 20);
+                Game.getGame().getObjectHandler().getPlayer().setBulletDmg(20 + schadenIncrease);
                 Game.getGame().getObjectHandler().getPlayer().getPlayerHealthbar().update();
-
             }
         }, "Schaden", 100, 250), new MenuOption(() -> {
             //Speichere dass die Option gekauft wurde und ziehe Geld ab
             if(!haeufigkeit && (Game.getGame().getObjectHandler().getPlayer().getPlayerCoins() >= 20)) {
                 haeufigkeit = true;
                 Game.getGame().getObjectHandler().getPlayer().setPlayerCoins( Game.getGame().getObjectHandler().getPlayer().getPlayerCoins() - 20);
-                Game.getGame().getObjectHandler().getPlayer().setCooldownBullet(9-2);
+                Game.getGame().getObjectHandler().getPlayer().setCooldownBullet(9 + haeufigkeitIncrease);
                 Game.getGame().getObjectHandler().getPlayer().getPlayerHealthbar().update();
-
             }
         }, "Schussrate", 100, 400), new MenuOption(() -> {
             //Speichere dass die Option gekauft wurde und ziehe Geld ab
             if(!kosten && (Game.getGame().getObjectHandler().getPlayer().getPlayerCoins() >= 20)) {
                 kosten = true;
                 Game.getGame().getObjectHandler().getPlayer().setPlayerCoins( Game.getGame().getObjectHandler().getPlayer().getPlayerCoins() - 20);
-                Game.getGame().getObjectHandler().getPlayer().setBulletCost(10 - 5);
+                Game.getGame().getObjectHandler().getPlayer().setBulletCost(10 + kostenIncrease);
                 Game.getGame().getObjectHandler().getPlayer().getPlayerHealthbar().update();
             }
         }, "Mutionskosten", 100, 550), new MenuOption(() -> {
             //Verlasse das Menu
             Game.getGame().getSound().stop();
             Game.getGame().setGamestate(Gamestate.INGAME);
-        }, "Exit", 100, 700)
+        }, "Verlassen", 100, 700)
         }, 0);
 
     }
 
+    /**
+     * Updatet das Menu so, dass falls eine Option gekauft wurde "Ausverkauft" steht
+     */
     @Override
     public void updateMenu() {
         if(tempo) {
@@ -108,5 +115,19 @@ public class ShopMenu extends Menu {
         ShopMenu.kosten = kosten;
     }
 
+    public static int getTempoIncrease() {
+        return tempoIncrease;
+    }
 
+    public static int getSchadenIncrease() {
+        return schadenIncrease;
+    }
+
+    public static int getHaeufigkeitIncrease() {
+        return haeufigkeitIncrease;
+    }
+
+    public static int getKostenIncrease() {
+        return kostenIncrease;
+    }
 }

@@ -1,5 +1,11 @@
 package gameDA.savemanager;
 
+/**
+ * Die SaveKey enthalten einen Identifier und ein Startwert.
+ * Der Startwert wird bei der Erstellung von neuen Save Dateien benutzt
+ * Der Identifier wird in der Save Datei zur Identifizierung der gespeicherten
+ * Information benutzt
+ */
 public enum SaveKey {
     LEVEL("Level", "0"),
     HEALTH("Health", "100"),

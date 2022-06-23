@@ -2,8 +2,8 @@ package gameDA.savemanager;
 
 public class Options {
 
-    private boolean music;
-    private boolean autoSave;
+    private boolean music;//Speichert ob Musik an oder aus ist
+    private boolean autoSave;//Speichert ob Autosave an oder aus ist
 
     public Options(boolean music, boolean autoSave) {
         this.music = music;
@@ -11,8 +11,6 @@ public class Options {
     }
 
     //Getter and Setter
-
-
     public boolean isAutoSave() {
         return autoSave;
     }

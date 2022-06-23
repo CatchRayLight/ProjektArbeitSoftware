@@ -51,15 +51,9 @@ public abstract class Menu {
         }
     }
 
-    public int getBackgroundMusic() {
-        return backgroundMusic;
-    }
-
-    public void setBackgroundMusic(int backgroundMusic) {
-        this.backgroundMusic = backgroundMusic;
-    }
-
-
+    /**
+     * Setzt
+     */
     private void nextOption() {
         menuOptions[currentOption].setSelected(false);
         currentOption++;
@@ -97,14 +91,6 @@ public abstract class Menu {
         updateMenu();
     }
 
-    public int getEnterCooldown() {
-        return enterCooldown;
-    }
-
-    public void setEnterCooldown(int enterCooldown) {
-        this.enterCooldown = enterCooldown;
-    }
-
     /**
      * Runs the code associated with the MenuOption currently selected through
      * the execute Method of MenuOption
@@ -123,20 +109,15 @@ public abstract class Menu {
         }
     }
 
+    /**
+     * Updated das Menu an sich
+     */
     public abstract void updateMenu();
-    public int getCurrentOption() {
-        return currentOption;
-    }
 
     public void setCurrentOption(int currentOption) {
         menuOptions[this.currentOption].setSelected(false);
         this.currentOption = currentOption;
     }
-
-    public int getMaxOption() {
-        return maxOption;
-    }
-
 
     public MenuOption[] getMenuOptions() {
         return menuOptions;
@@ -145,5 +126,9 @@ public abstract class Menu {
     public void setMenuOptions(MenuOption[] menuOptions) {
         maxOption = menuOptions.length - 1;
         this.menuOptions = menuOptions;
+    }
+
+    public int getBackgroundMusic() {
+        return backgroundMusic;
     }
 }
