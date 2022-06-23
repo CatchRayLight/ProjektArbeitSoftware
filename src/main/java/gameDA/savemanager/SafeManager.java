@@ -35,14 +35,7 @@ public class SafeManager {
         currentSave.delete();
 
         //Getting Player:
-        Player player = null;
-        for (int i = 0; i < Game.getGame().getObjectHandler().gameObjects.size(); i++) {
-            GameObject tempObj = Game.getGame().getObjectHandler().gameObjects.get(i);
-            if (tempObj.getId() == ObjectID.PLAYER) {
-                player = (Player) tempObj;
-                break;
-            }
-        }
+        Player player = Game.getGame().getObjectHandler().getPlayer();
         //Safe all relevant data
         //Level Player is on
         currentSave.safe(SaveKey.LEVEL, String.valueOf(Game.getGame().getLvLInt()));
@@ -140,7 +133,6 @@ public class SafeManager {
                     //Ask: How to load?
                     //go to last on planet (0,durch 3 teilbar)
                     //immer onplanet 2 also 3 oder 6 (immer 3 oder 6 )
-                    System.out.println("Level to load: " + value);
                     Game.getGame().setLvLInt(Integer.parseInt(value));
                     Game.getGame().setBossLvl(false);
                     Game.getGame().setOnPlanet(true);
@@ -152,7 +144,6 @@ public class SafeManager {
                     }
                     //Set player coordinates
                     break;
-
             }
         }
         Game.getGame().getCamera().setX(0);
@@ -162,7 +153,6 @@ public class SafeManager {
         player.setY(400);
         Game.getGame().getObjectHandler().addObj(player);
         Game.getGame().getObjectHandler().getPlayer().getPlayerHealthbar().update();
-        System.out.println("am loading?");
     }
 
     public void load(ArrayList<String> data) {
@@ -177,8 +167,6 @@ public class SafeManager {
             key = splitData[0];
             value = splitData[1];
             //Exchange currently used Data for the data in the safe file
-            System.out.println("Key:" + key);
-            System.out.println("Value" + value);
             switch(key){
                 case "bulletDmg":
                     if("true".equalsIgnoreCase(value)) {
