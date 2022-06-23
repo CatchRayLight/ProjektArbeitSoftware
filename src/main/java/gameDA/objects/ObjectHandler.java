@@ -8,6 +8,7 @@ import java.util.LinkedList;
 public class ObjectHandler {
 
     public LinkedList<GameObject> gameObjects = new LinkedList<>();
+    //start direction value for every Objekt in the list
     private char direction = 'N';
     private boolean up,down,right,left,space;
     //iterating through every object and run the update method

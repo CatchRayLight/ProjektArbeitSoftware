@@ -153,7 +153,9 @@ public class Game extends Canvas implements Runnable {
         if (gamestate.equals(Gamestate.INGAME)) {
             for (int i = 0; i < objectHandler.gameObjects.size(); i++) {
                 if (objectHandler.gameObjects.get(i).getId() == ObjectID.PLAYER) {
+                    //updating camera to player if in space
                     if(!isOnPlanet())camera.update(objectHandler.gameObjects.get(i));
+                    //updating camera if on planet to fixed value
                     if(isOnPlanet() || getLvLInt() == 2 || getLvLInt() == 5|| getLvLInt() == 8){
                         camera.setX(0);
                         camera.setY(0);
@@ -169,6 +171,7 @@ public class Game extends Canvas implements Runnable {
 
     //Render des gesamten Spielinhaltes
     public void render() {
+        //bilder werden nacheinander geladen
         BufferStrategy bufferStrategy = this.getBufferStrategy();
         if (bufferStrategy == null) {
             this.createBufferStrategy(2);
@@ -265,7 +268,6 @@ public class Game extends Canvas implements Runnable {
         if(getLvLInt() == 2)g.drawImage(backgroundImage[2],0,0,null);
         if(getLvLInt() == 5)g.drawImage(backgroundImage[3],0,0,null);
         if(getLvLInt() == 8)g.drawImage(backgroundImage[4],0,0,null);
-
         if(getLvLInt() == 1||getLvLInt() == 4||getLvLInt() == 7){
             g.drawImage(backgroundImage[0],0,0,null);
         }
@@ -320,7 +322,7 @@ public class Game extends Canvas implements Runnable {
             Game.getGame().getSound().stop();
             Game.getGame().getMenuHandler().setLoadBackground(false);
             setGamestate(Gamestate.INGAME);
-        }, "Spiele", 100, 100), new MenuOption(() -> {
+        }, "Play", 100, 100), new MenuOption(() -> {
             saveMenu.setCurrentOption(0);
             saveMenu.setMenuOptions(menuOptionsSaveMenu1);
             menuHandler.setCurrentMenu(saveMenu);
