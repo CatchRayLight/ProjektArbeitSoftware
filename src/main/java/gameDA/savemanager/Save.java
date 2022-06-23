@@ -24,7 +24,6 @@ public class Save {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     public void safe(SaveKey saveKey, String value) {
