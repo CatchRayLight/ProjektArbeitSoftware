@@ -73,18 +73,18 @@ public class Game extends Canvas implements Runnable {
         backgroundImage[5] = loader.loadImage("/maps/WinnLevel.png");
         //Initialisierungen
         game = this;
-        new GameWindow(SCREEN_HEIGHT, SCREEN_WIDTH, "Space Plugg", loader);
+        new GameWindow(SCREEN_HEIGHT, SCREEN_WIDTH, "Space Mission", loader);//kreiert neue Leinwand
         sound = new Sound();
-        objectHandler = new ObjectHandler();
-        lvLHandler = new LvLHandler();
+        objectHandler = new ObjectHandler(); //initialisiert objectHandler
+        lvLHandler = new LvLHandler(); //initialisiert lvlHandler
         options = new Options(true, true); //Belade options mit Startwerten (falls keine gespeicherten Options verfügbar sind)
         safeManager = new SafeManager(saves);
         options = safeManager.loadOptions(); //Belade Options mit gespeicherten Options
         initMenus(); //Initialisiert alle nötigen Menus und Menuhandler
-        spriteS = new SpriteSheet(spriteSheet);
-        camera = new Camera(0, 0);
-        keyListener = new KeyListener(objectHandler, menuHandler, gamestate);
-        this.addKeyListener(keyListener);
+        spriteS = new SpriteSheet(spriteSheet);//initialisiert Karte mit Bildern ein (konvertet sie in SpriteSheet)
+        camera = new Camera(0, 0);//es wird eine Neue Camera initialisiert
+        keyListener = new KeyListener(objectHandler, menuHandler, gamestate);//Keylistener initialisiert
+        this.addKeyListener(keyListener);//Keylistener auf Canvas zugefügt
         //Starten des Spieles und laden des Levels
         start();
         //setting the Start Level on 1 and declaring onPlanet boolean
@@ -207,43 +207,53 @@ public class Game extends Canvas implements Runnable {
                 if (!isBossLvl()) {
                     if (blue == 255 && green != 255 && red != 255) {
                         if (getLvLInt() == 0) {
+                            //blue
                             objectHandler.addObj(new Player(xAxis * 32, yAxis * 32, ObjectID.PLAYER, spriteS,
                                     objectHandler, isOnPlanet(), camera, 100, 90, 15600, 9,
                                     5, 10, 20, 0));
                         }
                     }
                     if (!isOnPlanet()) {
+                        //green
                         if (green == 255 && blue != 255 && red != 255) {
                             objectHandler.addObj(new SpaceEnemy(xAxis * 32, yAxis * 32, ObjectID.ENEMY, spriteS,
                                     objectHandler, 100, 3 + getLvLInt(), 10, 2 * getLvLInt()));
                         }
+                        //cyan
                         if (green == 255 && blue == 255 && red != 255) {
                             objectHandler.addObj(new LootBox(xAxis * 32, yAxis * 32, ObjectID.LOOTBOX, spriteS, objectHandler));
                         }
                     } else {
+                        //green
                         if (red == 255 && blue == 255 && green != 255) {
                             objectHandler.addObj(new NPC1(xAxis * 32, yAxis * 32, ObjectID.ENTITY, spriteS));
                         }
+                        //cyan
                         if (green == 255 && blue == 255 && red != 255) {
                             objectHandler.addObj(new NPC3(xAxis * 32, yAxis * 32, ObjectID.ENTITY, spriteS));
                         }
+                        //green
                         if (green == 255 && blue != 255 && red != 255) {
                             objectHandler.addObj(new NPC2(xAxis * 32, yAxis * 32, ObjectID.ENTITY, spriteS));
                         }
+                        //white
                         if (red == 255 && green == 255 && blue == 255) {
-                            objectHandler.addObj(new ShopKeeper(xAxis * 32, yAxis * 32, ObjectID.SHOPKEEPER, spriteS));
+                            objectHandler.addObj(new ShopKeeper(xAxis * 32, yAxis * 32, ObjectID.ENTITY, spriteS));
                         }
                     }
+                    //yellow
                     if (red == 255 && green == 255 && blue != 255) {
                         objectHandler.addObj(new EventTeleportLVL(xAxis * 32, yAxis * 32, ObjectID.EVENT, spriteS, objectHandler));
                     }
                 }
+                //white
                 if(isBossLvl() && !isOnPlanet()) {
                     if (red == 255 && green == 255 && blue == 255) {
                         objectHandler.addObj(new SpaceBoss((xAxis * 32) + xBoss[getLvLInt()/3], (yAxis * 32) + yBoss[getLvLInt()/3], ObjectID.SPACEBOSS,
                                     spriteS, objectHandler, 1200, 6 + getLvLInt(), 9 - getLvLInt(), 5 * getLvLInt()));
                     }
                 }
+                //red
                 if (red == 255 && green != 255 && blue != 255) {
                     objectHandler.addObj(new Walls(xAxis * 32, yAxis * 32, ObjectID.BLOCK, spriteS));
                 }

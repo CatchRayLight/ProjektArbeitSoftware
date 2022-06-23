@@ -91,7 +91,6 @@ public class Bullet extends GameObject {
             if (tempObject.getId() == ObjectID.BLOCK) {
                 if(getBounds().intersects(tempObject.getBounds())){
                     if(!Game.getGame().isBossLvl())objectHandler.removeObj(this);
-//                    objectHandler.removeObj(tempObject);
                 }
             }
             if(Game.getGame().isBossLvl() && (y > 900 || x < 0 || x > 1300)){

@@ -5,7 +5,6 @@ import gameDA.objects.GameObject;
 import gameDA.objects.ObjectID;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 public abstract class NPC extends GameObject {
     public NPC(int x, int y, ObjectID id, SpriteSheet spriteSheet) {

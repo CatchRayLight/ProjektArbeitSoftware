@@ -10,12 +10,14 @@ public class ObjectHandler {
     public LinkedList<GameObject> gameObjects = new LinkedList<>();
     private char direction = 'N';
     private boolean up,down,right,left,space;
+    //iterating through every object and run the update method
     public void update(){
         for(int i = 0; i < gameObjects.size(); i++){
             GameObject tempObj = gameObjects.get(i);
             tempObj.update();
         }
     }
+    //iterating through every object and run the render method
     public void render(Graphics g){
         for (int j = 0; j < gameObjects.size(); j++) {
             GameObject tempObj = gameObjects.get(j);
@@ -25,7 +27,7 @@ public class ObjectHandler {
         }
         getPlayer().render(g);
     }
-
+    //iterating through every object and get the player
     public Player getPlayer() {
         Player player = null;
         for (int j = 0; j < gameObjects.size(); j++) {
