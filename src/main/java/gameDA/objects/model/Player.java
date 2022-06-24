@@ -298,7 +298,7 @@ public class Player extends GameObject {
         }
        if((velocityY != 0) || (velocityX != 0)){
            if (!isOnPlanet()) {
-               setFuel(getFuel() - 4);
+               setFuel(getFuel() - 4 - Game.getGame().getLvLInt());
                playerHealthbar.setFuel(getFuel());
            }
        }
