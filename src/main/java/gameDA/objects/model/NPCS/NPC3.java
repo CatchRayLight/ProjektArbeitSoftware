@@ -12,32 +12,32 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class NPC3 extends NPC {
-    private final Animation shopKeeperR;
-    private final Animation shopKeeperL;
-    private final Animation shopKeeperWait;
+    private final Animation NPCR;
+    private final Animation NPCL;
+    private final Animation NPCWAIT;
     private int counter;
     private int cooldown;
     public NPC3(int x, int y, ObjectID id, SpriteSheet spriteSheet) {
         super(x, y, id, spriteSheet);
-        BufferedImage[] shopKeeperRimg = new BufferedImage[2];
-        BufferedImage[] shopKeeperLimg = new BufferedImage[2];
-        BufferedImage[] shopkeeperWaitimg = new BufferedImage[2];
-        shopKeeperRimg[0] = spriteSheet.getImage(3,4,32,32);
-        shopKeeperRimg[1] = spriteSheet.getImage(4,4,32,32);
-        shopKeeperLimg[0] = spriteSheet.getImage(5,4,32,32);
-        shopKeeperLimg[1] = spriteSheet.getImage(6,4,32,32);
-        shopkeeperWaitimg[0] = spriteSheet.getImage(1,4,32,32);
-        shopkeeperWaitimg[1] = spriteSheet.getImage(2,4,32,32);
-        shopKeeperL = new Animation(10,shopKeeperLimg);
-        shopKeeperR = new Animation(10,shopKeeperRimg);
-        shopKeeperWait = new Animation(20,shopkeeperWaitimg);
+        BufferedImage[] NCPRimg = new BufferedImage[2];
+        BufferedImage[] NPCLimg = new BufferedImage[2];
+        BufferedImage[] NPCWaitImg = new BufferedImage[2];
+        NCPRimg[0] = spriteSheet.getImage(3,4,32,32);
+        NCPRimg[1] = spriteSheet.getImage(4,4,32,32);
+        NPCLimg[0] = spriteSheet.getImage(5,4,32,32);
+        NPCLimg[1] = spriteSheet.getImage(6,4,32,32);
+        NPCWaitImg[0] = spriteSheet.getImage(1,4,32,32);
+        NPCWaitImg[1] = spriteSheet.getImage(2,4,32,32);
+        NPCL = new Animation(10,NPCLimg);
+        NPCR = new Animation(10,NCPRimg);
+        NPCWAIT = new Animation(20,NPCWaitImg);
     }
 
     @Override
     public void update() {
-        shopKeeperR.runAnimation();
-        shopKeeperWait.runAnimation();
-        shopKeeperL.runAnimation();
+        NPCR.runAnimation();
+        NPCWAIT.runAnimation();
+        NPCL.runAnimation();
         speak();
     }
 
@@ -52,15 +52,15 @@ public class NPC3 extends NPC {
         if (counter <= 50) {
             x++;
             y++;
-            shopKeeperL.drawAnimation(g, x, y, 0);
+            NPCL.drawAnimation(g, x, y, 0);
         }
         if (counter <= 100 && counter >= 50) {
             x--;
             y--;
-            shopKeeperR.drawAnimation(g, x, y, 0);
+            NPCR.drawAnimation(g, x, y, 0);
         }
         if (counter <= 500 && counter >= 100) {
-            shopKeeperWait.drawAnimation(g, x, y, 0);
+            NPCWAIT.drawAnimation(g, x, y, 0);
         }
         if (counter <= 1000 && counter >= 500) {
             counter = 0;
