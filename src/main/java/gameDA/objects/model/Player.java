@@ -149,24 +149,6 @@ public class Player extends GameObject {
                     g.drawImage(playerSpaceSU, x, y, null);
                 break;
         }
-    /*
-            //Hitbox
-            //top
-        g.setColor(Color.cyan);
-        g.drawRect(x, y-unitMove, 32, 5);
-        //right
-        g.setColor(Color.blue);
-        g.drawRect(x+unitMove+27, y, 5, 32);
-        //left
-        g.setColor(Color.orange);
-        g.drawRect(x-unitMove , y, 5, 32);
-        //bot
-        g.setColor(Color.pink);
-        g.drawRect(x, y+27+ unitMove, 32, 5);
-
-        g.setColor(Color.red);
-        g.drawRect(x,y,32,32);
-    */
     }
     @Override
     public Rectangle getBounds() {

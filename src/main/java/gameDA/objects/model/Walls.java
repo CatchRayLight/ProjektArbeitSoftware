@@ -25,24 +25,6 @@ public class Walls extends GameObject {
         if(!Game.getGame().isOnPlanet() && !Game.getGame().isBossLvl()) {
             g.drawImage(sprite,x,y,null);
         }
-    /*
-        //Hitbox
-        //top
-        g.setColor(Color.cyan);
-        g.drawRect(x, y-5, 32, 5);
-        //right
-        g.setColor(Color.blue);
-        g.drawRect(x+27+5, y, 5, 32);
-        //left
-        g.setColor(Color.orange);
-        g.drawRect(x-5 , y, 5, 32);
-        //bot
-        g.setColor(Color.pink);
-        g.drawRect(x, y+27+5, 32, 5);
-
-        g.setColor(Color.red);
-        g.drawRect(x,y,32,32);
-    */
     }
 
     @Override

@@ -73,7 +73,7 @@ public class Game extends Canvas implements Runnable {
         backgroundImage[5] = loader.loadImage("/maps/WinnLevel.png");
         //Initialisierungen
         game = this;
-        new GameWindow(SCREEN_HEIGHT, SCREEN_WIDTH, "Space Mission", loader);//kreiert neue Leinwand
+        new GameWindow(SCREEN_HEIGHT, SCREEN_WIDTH, "Space Pokal", loader);//kreiert neue Leinwand
         sound = new Sound();
         objectHandler = new ObjectHandler(); //initialisiert objectHandler
         lvLHandler = new LvLHandler(); //initialisiert lvlHandler
