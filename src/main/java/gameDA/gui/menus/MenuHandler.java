@@ -201,6 +201,10 @@ public class MenuHandler {
         this.loadBackground = loadBackground;
     }
 
+    public boolean isLoadBackground() {
+        return loadBackground;
+    }
+
     public boolean isUp() {
         return up;
     }

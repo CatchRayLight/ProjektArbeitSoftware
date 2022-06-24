@@ -40,7 +40,7 @@ public class EventTeleportLVL extends GameObject {
                         tempObject.setX(getBounds().x+37);
                     }
                     if(!((Player) tempObject).isOnPlanet()) {
-                        String[][] sampleDialogue = new String[][]{{"Text"}, {"Text", "line 2", "line 3"}};
+                        String[][] sampleDialogue = new String[][]{{"Oh mein Gott, da ist einer der bösen Aliens","Jetzt kann ich mir ein Teil meines Pokales schnappen"}};
                         Game.getGame().getMenuHandler().setCurrentMenu(new DialogueMenu(sampleDialogue));
                         lvLHandler.nextLvL(objectHandler);
                     }

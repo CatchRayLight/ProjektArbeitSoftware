@@ -69,8 +69,15 @@ public class SpaceBoss extends GameObject {
                             player.setPlayerCoins(player.getPlayerCoins() + 30);
                             player.getPlayerHealthbar().update();
                             //if won
+
+                            String[][] sampleDialogue = new String[][]{{"Endlich sind ich und mein Pokal wieder vereint!", "Jetzt kann ich beruhigt wieder meine Getränke tornadon."}};
+                            if(Game.getGame().getLvLInt() == 2) {
+                                sampleDialogue = new String[][]{{"Ein Teil meines Pokales hab ich jetzt endlich wieder. Nur noch 2 weitere"}};
+                            }
+                            if(Game.getGame().getLvLInt() == 5) {
+                                sampleDialogue = new String[][]{{"Noch ein Teil und mein Pokal ist wieder komplett. Warte nur du Alien, dich krieg ich auch noch!"}};
+                            }
                             Game.getGame().setGamestate(Gamestate.INMENU);
-                            String[][] sampleDialogue = new String[][]{{"Text"}, {"Text", "line 2", "line 3"}};
                             Game.getGame().getMenuHandler().setCurrentMenu(new DialogueMenu(sampleDialogue));
                             lvLHandler.nextLvL(objectHandler);
                         }

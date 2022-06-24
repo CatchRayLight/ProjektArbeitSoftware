@@ -77,6 +77,7 @@ public class DialogueMenu extends Menu {
     public void render(Graphics g) {
         //render Gameobjects
         Game.getGame().getObjectHandler().render(g);
+
         //Rendere die dialog box und den Text
         if(getMenuOptions()[0].isSelected()) {
             g.drawImage(backgroundNext,-7,-39,null);
@@ -85,6 +86,7 @@ public class DialogueMenu extends Menu {
         }
 
         g.setColor(Color.BLUE);
+        g.setFont(new Font("Gloucester MT Extra Condensed",Font.BOLD,32));
         for(int i = 0; i <dialogueText[currentDialoguePosition].length; i++) {
             g.drawString(dialogueText[currentDialoguePosition][i],positionX+30,positionY+70 + linewidth * i);
         }

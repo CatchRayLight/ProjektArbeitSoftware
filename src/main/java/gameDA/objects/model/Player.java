@@ -271,7 +271,7 @@ public class Player extends GameObject {
     public Healthbar getPlayerHealthbar(){
         return playerHealthbar;
     }
-    public void motionCancelCollision(int offset, ObjectID objectID) {
+    private void motionCancelCollision(int offset, ObjectID objectID) {
         for (int i = 0; i < objectHandler.gameObjects.size(); i++) {
             GameObject tempObject = objectHandler.gameObjects.get(i);
             if (tempObject.getId() == objectID) {

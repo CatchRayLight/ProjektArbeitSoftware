@@ -320,8 +320,23 @@ public class Game extends Canvas implements Runnable {
 
         menuOptionsStartmenu = new MenuOption[]{new MenuOption(() -> {
             Game.getGame().getSound().stop();
-            Game.getGame().getMenuHandler().setLoadBackground(false);
-            setGamestate(Gamestate.INGAME);
+            if(getLvLInt() == 0 && Game.getGame().getMenuHandler().isLoadBackground()) {
+                String[][] dialogue = new String[][]{
+                        {"Du befandest dich in einer unbekannten Galaxie über einem unbekannten Planeten.",
+                        "Nur du und dein Lieblingspokal für den dritten Platz im Tornadon ",
+                        "den du damals in der 6. Klasse erhalten hast."},
+                        {"Allerdings als du gerade zum Landen ansetzen wolltest sind plötzlich 3 gemeine Aliens aufgetaucht.",
+                        "Diese entrissen dir deinen geliebten Pokal und teilten ihn unter sich auf.",
+                        "Bevor du sie verfolgen konntest sind diese drei Aliens dir schon entflohen."},
+                        {"Niedergeschlagen, aber motiviert dir deinen Pokal zurück zu holen bist du schließlich ",
+                        "auf dem Planeten gelandet."}
+                };
+                menuHandler.setCurrentMenu(new DialogueMenu(dialogue));
+                Game.getGame().getMenuHandler().setLoadBackground(false);
+            } else {
+                Game.getGame().getMenuHandler().setLoadBackground(false);
+                setGamestate(Gamestate.INGAME);
+            }
         }, "Play", 100, 100), new MenuOption(() -> {
             saveMenu.setCurrentOption(0);
             saveMenu.setMenuOptions(menuOptionsSaveMenu1);
