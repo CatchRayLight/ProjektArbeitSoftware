@@ -33,10 +33,8 @@ public class MenuOption {
         //Rendere den Text und je nach dem ob es selektiert ist einen unterschiedlichen Knopf
         if(selected) {
             g.drawImage(selectedButton, positionX,positionY,400,96,null);
-            //g.drawRect(positionX,positionY,400,96);
         } else {
             g.drawImage(unselectedButton, positionX,positionY,400,96,null);
-            //g.drawRect(positionX,positionY,400,96);
         }
         g.setColor(Color.BLUE);
         g.drawString(text,positionX+30,positionY+70);

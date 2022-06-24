@@ -79,7 +79,6 @@ public class Player extends GameObject {
         viewIMG = loader.loadImage("/textures/viewtest.png");
         couldownCounter = 0;
     }
-
     @Override
     public void update() {
         x += velocityX;
@@ -268,9 +267,11 @@ public class Player extends GameObject {
     public void setCooldownBullet(int cooldownBullet) {
         this.cooldownBullet = cooldownBullet;
     }
+    //bekommt die Spieler Lebensbar
     public Healthbar getPlayerHealthbar(){
         return playerHealthbar;
     }
+    //Vermeidet Kollsion durch abfrage des anderen Objectes des parameters
     private void motionCancelCollision(int offset, ObjectID objectID) {
         for (int i = 0; i < objectHandler.gameObjects.size(); i++) {
             GameObject tempObject = objectHandler.gameObjects.get(i);
@@ -295,6 +296,7 @@ public class Player extends GameObject {
             }
         }
     }
+    //hierdurch wird der Spieler bewegt, der  Keylistener hört Tastatur und diese Methode agiert dadurch und bestimmt velX velY
    private void playerMovement(){
        if(!(Game.gamestate.equals(Gamestate.INGAME))){
            velocityX = 0;
@@ -319,6 +321,7 @@ public class Player extends GameObject {
            }
        }
     }
+    //Diese Methode kreiert eine instance einer Bullet und gibt die werte die die Kugel haben soll mit
    private void playerShooting(){
        if(!onPlanet) {
            couldownCounter++;

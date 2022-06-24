@@ -58,7 +58,6 @@ public class ShopKeeper extends NPC {
                 Game.getGame().getMenuHandler().setCurrentMenu(new DialogueMenu(sampleDialogue, () -> {
                     Game.getGame().getMenuHandler().setCurrentMenu(new ShopMenu());
                 }));
-
                 cooldown = 0;
             }
         }

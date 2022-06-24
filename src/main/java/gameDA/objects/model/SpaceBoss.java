@@ -87,7 +87,6 @@ public class SpaceBoss extends GameObject {
             }
         }
     }
-
     @Override
     public void render(Graphics g) {
         if(Game.getGame().isBossLvl()) {
@@ -153,6 +152,8 @@ public class SpaceBoss extends GameObject {
     public void setBulletDmg(int bulletDmg) {
         this.bulletDmg = bulletDmg;
     }
+
+    //lässt den Spaceboss random im angegebenen bound schießen
     private void bulletShooting(int offset){
         counter++;
         if(counter > bulletCooldown) {

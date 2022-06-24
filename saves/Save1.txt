@@ -1,9 +1,31 @@
+<<<<<<< Updated upstream
 Level:3
 Money:30
 Health:84
 Ammunition:90
 fuel:13412
 bulletSpeed:false
+=======
+<<<<<<< Updated upstream
+Level:0
+Health:100
+=======
+Level:6
+Money:58
+Health:68
+>>>>>>> Stashed changes
+Ammunition:100
+fuel:10476
+bulletSpeed:true
+>>>>>>> Stashed changes
 cooldownBullet:false
 bulletCost:false
+<<<<<<< Updated upstream
 bulletDmg:false
+<<<<<<< Updated upstream
+=======
+Money:0
+=======
+bulletDmg:true
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes

@@ -104,10 +104,10 @@ public class MenuHandler {
             if (xx <= Game.SCREEN_WIDTH) xx = 4 * Game.SCREEN_WIDTH;
             animation.drawAnimation(g, -140, 170, 0);
 
-            //Rendern des Titels: "Cool Game"
+            //Rendern des Titels: "Space Mission"
             g.setColor(Color.GREEN);
             g.setFont(new Font("Gloucester MT Extra Condensed",Font.BOLD,128));
-            g.drawString("Cool Game", Game.SCREEN_WIDTH / 2 - 20, Game.SCREEN_HEIGHT / 2 - 100);
+            g.drawString("Space Mission", Game.SCREEN_WIDTH / 2 - 20, Game.SCREEN_HEIGHT / 2 - 100);
             g.setFont(new Font("Gloucester MT Extra Condensed",Font.BOLD,30));
         } else {
             //Rendere keinen Hintergrund

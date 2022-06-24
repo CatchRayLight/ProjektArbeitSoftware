@@ -10,7 +10,9 @@ public abstract class NPC extends GameObject {
     public NPC(int x, int y, ObjectID id, SpriteSheet spriteSheet) {
         super(x, y, id, spriteSheet);
     }
+    //bewegung der Objekte
     protected abstract void walk(Graphics g);
+    //die fähigkeit bei kollision zu agieren
     protected abstract void speak();
 
     @Override

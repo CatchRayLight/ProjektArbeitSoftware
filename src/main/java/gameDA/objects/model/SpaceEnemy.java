@@ -91,6 +91,7 @@ public class SpaceEnemy extends GameObject{
 
      */
     }
+    //durch abfrage der Kanten Rechts, Links,Unten,Oben und ob sie kollidieren mit dem Spieler, wird eine instanz der Bullet gemacht mit angegebener Richtung
     private void bulletShooting() {
         coolDownCounter++;
         for (int i = 0; i < objectHandler.gameObjects.size(); i++) {
